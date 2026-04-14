@@ -11,7 +11,7 @@ const sponsors = {
     { name: 'Category Sponsor', tier: 'category', placeholder: true },
   ],
   supporting: [
-    { name: 'Supporting Sponsor', tier: 'supporting', placeholder: true },
+    { name: 'Allen Signs', tier: 'supporting', logo: '/images/sponsors/allen-signs.png' },
     { name: 'Supporting Sponsor', tier: 'supporting', placeholder: true },
     { name: 'Supporting Sponsor', tier: 'supporting', placeholder: true },
   ],
@@ -100,9 +100,20 @@ export default function Sponsors() {
             Supporting Sponsors
           </p>
           <div className="flex flex-wrap gap-6 items-center justify-center">
-            {sponsors.supporting.map((sponsor, idx) => (
-              <PlaceholderLogo key={idx} size="sm" />
-            ))}
+            {sponsors.supporting.map((sponsor, idx) =>
+              'logo' in sponsor && sponsor.logo ? (
+                <div key={idx} className="h-12 w-28 flex items-center justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+              ) : (
+                <PlaceholderLogo key={idx} size="sm" />
+              )
+            )}
           </div>
         </div>
 
@@ -134,7 +145,7 @@ export default function Sponsors() {
                 View Sponsorship Packages
               </Link>
               <a
-                href="mailto:hello@lincolnshiremarketing.co.uk"
+                href="mailto:tom@lincolnshiremarketing.co.uk"
                 className="btn-outline-white text-center"
               >
                 Enquire Now

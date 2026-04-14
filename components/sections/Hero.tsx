@@ -4,6 +4,7 @@
  * Background: when /images/event-dinner.jpg exists it becomes a subtle
  * atmospheric layer beneath the brand-blue gradient. The gradient is fully
  * opaque if the image is absent, so the section looks great either way.
+ * Right panel: YouTube video embed (video ID HUvo9waiGeY).
  */
 
 export default function Hero() {
@@ -42,7 +43,7 @@ export default function Hero() {
       <div className="container-wide relative z-10 pt-28 pb-20 md:pt-36 md:pb-28">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-          {/* Text */}
+          {/* Left — text */}
           <div>
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-navy-900/60 border border-sky-400/30
@@ -62,7 +63,7 @@ export default function Hero() {
             <p className="text-lg md:text-xl text-gray-200 leading-relaxed mb-4 max-w-lg">
               Recognising exceptional business growth across Lincolnshire.
             </p>
-            <p className="text-base text-gray-400 leading-relaxed mb-10 max-w-lg">
+            <p className="text-base text-gray-300 leading-relaxed mb-10 max-w-lg">
               Open to all Lincolnshire businesses, from sole traders and start-ups to
               established employers and professional services firms. Free to enter.
               Independently judged. Black-tie awards dinner, September 2026.
@@ -84,65 +85,29 @@ export default function Hero() {
             {/* Stats row */}
             <div className="mt-12 flex flex-wrap gap-x-8 gap-y-4">
               {[
-                ['15',         'Award Categories'],
-                ['Free',       'To Enter'],
-                ['3 Judges',   'Per Entry'],
-                ['Black Tie',  'Awards Dinner'],
+                ['15',        'Award Categories'],
+                ['Free',      'To Enter'],
+                ['3 Judges',  'Per Entry'],
+                ['Black Tie', 'Awards Dinner'],
               ].map(([val, label]) => (
                 <div key={label}>
                   <div className="text-sky-400 font-bold text-lg leading-none">{val}</div>
-                  <div className="text-gray-400 text-xs mt-1 font-medium">{label}</div>
+                  <div className="text-gray-300 text-xs mt-1 font-medium">{label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Right — award imagery panel (gold kept for award/premium context) */}
-          <div className="hidden lg:flex items-center justify-center" aria-hidden="true">
-            <div className="relative">
-              {/* Glow — gold for award context */}
-              <div className="absolute inset-0 rounded-full bg-gold-500/10 blur-3xl scale-150" />
-
-              {/* Main circle */}
-              <div
-                className="relative w-72 h-72 rounded-full border border-gold-500/25
-                            flex items-center justify-center overflow-hidden"
-                style={{
-                  background: 'radial-gradient(circle, rgba(20,88,186,0.3) 0%, rgba(7,29,82,0.6) 70%)',
-                }}
-              >
-                {/* Winner photo when available */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/award-winner-1.jpg"
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover opacity-50 rounded-full"
-                />
-
-                {/* Trophy SVG overlay — gold kept for award imagery */}
-                <div className="relative z-10 flex flex-col items-center gap-3">
-                  <svg viewBox="0 0 80 90" fill="none" className="w-28 h-28 opacity-90" aria-hidden="true">
-                    <path d="M18 8h44l-6 42c-1.5 10-8 16-16 16s-14.5-6-16-16L18 8z"
-                          fill="rgba(201,168,76,0.2)" stroke="#c9a84c" strokeWidth="2" />
-                    <path d="M18 16c-10 0-16 8-12 18l4 6" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" fill="none" />
-                    <path d="M62 16c10 0 16 8 12 18l-4 6" stroke="#c9a84c" strokeWidth="2" strokeLinecap="round" fill="none" />
-                    <rect x="36" y="66" width="8" height="12" rx="2" fill="#c9a84c" opacity="0.8" />
-                    <rect x="22" y="78" width="36" height="7" rx="1.5" fill="#c9a84c" />
-                    <path d="M40 24l2.5 7.5 8 0-6.5 4.7 2.5 7.5L40 39.2l-6.5 4.5 2.5-7.5-6.5-4.7 8 0z"
-                          fill="#c9a84c" opacity="0.7" />
-                  </svg>
-                </div>
-              </div>
-
-              {/* Badges — gold for premium award context */}
-              <div className="absolute -top-3 -right-4 bg-gold-500 text-navy-950 font-bold text-xs
-                              px-3 py-1.5 rounded-sm shadow-lg">
-                Sept 2026
-              </div>
-              <div className="absolute -bottom-3 -left-4 bg-navy-800 border border-gold-500/40 text-gold-300
-                              font-semibold text-xs px-3 py-1.5 rounded-sm shadow-lg">
-                3rd Annual Event
-              </div>
+          {/* Right — YouTube video */}
+          <div className="hidden lg:block">
+            <div className="relative rounded-lg overflow-hidden shadow-2xl border border-white/10 aspect-video">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/HUvo9waiGeY?rel=0&modestbranding=1"
+                title="Lincolnshire Marketing Awards 2026"
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
@@ -151,9 +116,9 @@ export default function Hero() {
       {/* Scroll indicator */}
       <div
         aria-hidden="true"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70"
       >
-        <span className="text-gray-300 text-xs tracking-widest uppercase">Scroll</span>
+        <span className="text-white text-xs tracking-widest uppercase">Scroll</span>
         <div className="w-px h-10 bg-gradient-to-b from-sky-400/80 to-transparent" />
       </div>
     </section>

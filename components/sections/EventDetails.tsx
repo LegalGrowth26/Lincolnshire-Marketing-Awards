@@ -102,10 +102,10 @@ export default function EventDetails() {
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="text-sky-400 flex-shrink-0" aria-hidden="true">{icon}</div>
-                    <span className="text-gray-500 text-xs uppercase tracking-wide font-medium">{label}</span>
+                    <span className="text-gray-400 text-xs uppercase tracking-wide font-medium">{label}</span>
                   </div>
                   <div className="text-white font-bold text-sm mb-0.5">{value}</div>
-                  <div className="text-gray-500 text-xs">{note}</div>
+                  <div className="text-gray-400 text-xs">{note}</div>
                 </div>
               ))}
             </div>
@@ -125,8 +125,8 @@ export default function EventDetails() {
                   },
                   {
                     time: '7:30pm',
-                    event: 'Guests Seated and Welcome',
-                    desc: 'Guests take their seats for a warm welcome from the host. The award ceremony begins immediately after.',
+                    event: 'Guests Seated, Welcome and Awards Start',
+                    desc: 'Guests take their seats for a warm welcome from the host. The award ceremony begins immediately after the welcome.',
                   },
                   {
                     time: '8:30pm',

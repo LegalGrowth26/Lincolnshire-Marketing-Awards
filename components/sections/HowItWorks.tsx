@@ -52,7 +52,7 @@ export default function HowItWorks() {
           <h2 id="how-it-works-heading" className="section-title-white mb-5">
             How It Works
           </h2>
-          <p className="text-gray-400 text-base md:text-lg leading-relaxed">
+          <p className="text-gray-300 text-base md:text-lg leading-relaxed">
             From entry to awards night in six simple steps. The process is designed to be
             straightforward, fair, and friction-free.
           </p>
@@ -77,7 +77,7 @@ export default function HowItWorks() {
               </div>
 
               <h3 className="text-white font-semibold text-base mb-3">{title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">{body}</p>
+              <p className="text-gray-300 text-sm leading-relaxed mb-4">{body}</p>
 
               {/* Note badge */}
               <div className="inline-flex items-center gap-1.5 bg-navy-900/60 border border-navy-600
