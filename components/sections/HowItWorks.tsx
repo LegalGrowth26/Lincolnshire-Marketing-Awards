@@ -42,9 +42,16 @@ export default function HowItWorks() {
     <section
       id="how-it-works"
       aria-labelledby="how-it-works-heading"
-      className="section-py bg-navy-900"
+      className="section-py bg-navy-900 relative"
+      style={{
+        backgroundImage: "url('/images/bg-how-it-works.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
-      <div className="container-wide">
+      {/* Dark overlay over photo */}
+      <div className="absolute inset-0 bg-navy-950/82" aria-hidden="true" />
+      <div className="container-wide relative z-10">
 
         {/* Header */}
         <div className="max-w-2xl mx-auto text-center mb-16">

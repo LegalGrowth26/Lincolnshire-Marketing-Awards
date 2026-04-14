@@ -64,13 +64,25 @@ const details = [
 
 export default function EventDetails() {
   return (
-    <section id="event" aria-labelledby="event-heading" className="section-py bg-navy-900 relative overflow-hidden">
+    <section
+      id="event"
+      aria-labelledby="event-heading"
+      className="section-py bg-navy-900 relative overflow-hidden"
+      style={{
+        backgroundImage: "url('/images/bg-event-details.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {/* Dark overlay over photo */}
+      <div className="absolute inset-0 bg-navy-950/85" aria-hidden="true" />
+
       {/* Pattern */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.07) 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(40,200,255,0.05) 1px, transparent 0)',
           backgroundSize: '32px 32px',
         }}
       />
