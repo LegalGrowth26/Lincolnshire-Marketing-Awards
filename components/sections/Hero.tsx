@@ -34,7 +34,6 @@ export default function Hero() {
       />
 
       <div className="container-wide relative z-10 pt-28 pb-20 md:pt-36 md:pb-28">
-        <div className="max-w-3xl">
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-navy-900/60 border border-sky-400/30
@@ -45,16 +44,16 @@ export default function Hero() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[1.1] mb-6">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[1.05] mb-6 max-w-4xl">
             Lincolnshire
             <span className="block text-sky-400">Marketing</span>
             Awards
           </h1>
 
-          <p className="text-lg md:text-xl text-gray-200 leading-relaxed mb-4 max-w-xl">
+          <p className="text-lg md:text-xl text-gray-200 leading-relaxed mb-4 max-w-2xl">
             Recognising exceptional business growth across Lincolnshire.
           </p>
-          <p className="text-base text-gray-300 leading-relaxed mb-10 max-w-xl">
+          <p className="text-base text-gray-300 leading-relaxed mb-10 max-w-2xl">
             Open to all Lincolnshire businesses, from sole traders and start-ups to
             established employers and professional services firms. Free to enter.
             Independently judged. Black-tie awards dinner, September 2026.
@@ -74,7 +73,7 @@ export default function Hero() {
           </div>
 
           {/* Stats row */}
-          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-4">
+          <div className="mt-12 flex flex-wrap gap-x-10 gap-y-4">
             {[
               ['15',        'Award Categories'],
               ['Free',      'To Enter'],
@@ -88,7 +87,6 @@ export default function Hero() {
             ))}
           </div>
 
-        </div>
       </div>
 
       {/* Scroll indicator */}
