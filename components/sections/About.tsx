@@ -1,8 +1,8 @@
 const stats = [
-  { value: '15',     label: 'Award Categories' },
-  { value: 'Free',   label: 'To Enter' },
-  { value: '3',      label: 'Judges Per Entry' },
-  { value: 'Sept',   label: '2026 Awards Night' },
+  { value: '15',   label: 'Award Categories' },
+  { value: 'Free', label: 'To Enter' },
+  { value: '3',    label: 'Judges Per Entry' },
+  { value: '3rd',  label: 'Annual Event' },
 ]
 
 export default function About() {
@@ -28,15 +28,16 @@ export default function About() {
                 professional services firms — that have demonstrated genuine, measurable growth.
               </p>
               <p>
-                What makes these awards different? They&apos;re <strong className="text-navy-900 font-semibold">free to enter</strong>,
-                rigorously <strong className="text-navy-900 font-semibold">independently judged</strong>,
-                and focused entirely on substance over spectacle. Every entry is assessed on its
-                merits alone — no pay-to-win, no favouritism.
+                Organised by <strong className="text-navy-900 font-semibold">Lincolnshire Marketing</strong>,
+                these awards are open to <em>all</em> Lincolnshire businesses — not just those
+                in marketing. With 15 categories spanning growth, leadership, people, community,
+                and brand, there is an award for every ambitious business in the county.
               </p>
               <p>
-                The culmination is a prestigious black-tie awards dinner, bringing together
-                Lincolnshire&apos;s business community for an evening of recognition, celebration,
-                and connection.
+                What makes them different? They&apos;re <strong className="text-navy-900 font-semibold">free to enter</strong>,
+                rigorously <strong className="text-navy-900 font-semibold">independently judged</strong>,
+                and focused entirely on substance over spectacle. Every entry is assessed purely
+                on merit — three independent judges, no organiser influence, no exceptions.
               </p>
             </div>
 

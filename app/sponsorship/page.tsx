@@ -98,8 +98,8 @@ const whySponsor = [
     body: 'As a category sponsor, your brand name is attached to an award — mentioned at every stage from entry through to winner announcement.',
   },
   {
-    title: 'Face Time on the Night',
-    body: 'Sponsors have the opportunity to present awards and address 200+ guests. Few marketing opportunities offer this level of direct engagement.',
+    title: 'Presence on the Night',
+    body: 'Sponsors have the opportunity to present awards and address 200+ business guests directly. There are very few situations that offer this level of in-room engagement with local decision-makers.',
   },
   {
     title: 'Year-Round Visibility',
@@ -159,17 +159,24 @@ export default function SponsorshipPage() {
                   Align Your Brand With<br />
                   <span className="text-gold-400">Lincolnshire Excellence</span>
                 </h1>
-                <p className="text-gray-300 text-lg leading-relaxed mb-8 max-w-lg">
+                <p className="text-gray-300 text-lg leading-relaxed mb-4 max-w-lg">
                   Sponsoring the Lincolnshire Marketing Awards places your brand at the heart
-                  of the county&apos;s most credible business recognition event — reaching
+                  of the county&apos;s most credible business recognition event — in front of
                   200+ business leaders across an entire award season.
+                </p>
+                <p className="text-gray-400 text-sm mb-8 max-w-lg">
+                  Category sponsorships are limited to one sponsor per award. Once confirmed,
+                  your package is secured for the full 2026 season.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a href="#packages" className="btn-gold-lg">
                     View Packages
                   </a>
-                  <a href="mailto:hello@lincolnshiremarketing.co.uk" className="btn-outline-white">
-                    Enquire Now
+                  <a
+                    href="mailto:hello@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%20%E2%80%94%20Lincolnshire%20Marketing%20Awards%202026"
+                    className="btn-outline-white"
+                  >
+                    Enquire About Sponsorship
                   </a>
                 </div>
               </div>
@@ -231,8 +238,8 @@ export default function SponsorshipPage() {
                 Sponsorship Packages
               </h2>
               <p className="section-body">
-                Choose the package that best fits your marketing objectives. All packages can be
-                tailored — contact us to discuss bespoke arrangements.
+                Choose the package that best fits your business objectives and budget. All packages
+                can be tailored — contact us to discuss bespoke arrangements.
               </p>
             </div>
 
@@ -249,7 +256,7 @@ export default function SponsorshipPage() {
                   {pkg.highlight && (
                     <div className="bg-gold-500 text-navy-900 text-[10px] font-bold uppercase
                                     tracking-widest text-center py-1.5 px-4">
-                      Most Popular
+                      Maximum Exposure
                     </div>
                   )}
                   <div className={`h-1 ${pkg.highlight ? 'bg-gold-500' : 'bg-navy-900'}`} aria-hidden="true" />
@@ -298,37 +305,53 @@ export default function SponsorshipPage() {
         <section aria-labelledby="prev-sponsors-heading" className="section-py bg-white">
           <div className="container-wide">
             <div className="max-w-2xl mx-auto text-center mb-12">
-              <span className="section-label">Previous Sponsors</span>
+              <span className="section-label">Track Record</span>
               <h2 id="prev-sponsors-heading" className="section-title mb-5">
-                Past Sponsors & Partners
+                Trusted by Lincolnshire Businesses Since 2024
               </h2>
               <p className="section-body">
-                We&apos;re grateful to the businesses that have supported the Lincolnshire Marketing Awards
-                since our inaugural event in 2024.
+                Sponsors from our 2024 and 2025 events aligned their brands with an independently
+                judged, credible awards platform — and reached a highly targeted Lincolnshire
+                business audience.
               </p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 items-center justify-items-center mb-12">
-              {previousSponsors.map((sponsor, idx) => (
-                <div
-                  key={idx}
-                  className="h-16 w-36 bg-gray-100 border-2 border-dashed border-gray-200 rounded-sm
-                             flex items-center justify-center text-gray-400 text-xs text-center px-3"
-                  aria-label={`Sponsor from ${sponsor.year} — to be confirmed`}
-                >
-                  {sponsor.year}
-                </div>
-              ))}
+            {/* Placeholder — replace with actual sponsor logos when confirmed */}
+            <div className="bg-gray-50 border border-gray-200 rounded-sm p-10 text-center mb-10">
+              <p className="text-gray-500 text-sm font-medium mb-1">
+                Previous sponsor logos displayed here
+              </p>
+              <p className="text-gray-400 text-xs">
+                Logos will be listed once 2026 sponsorship is confirmed.
+                Sponsors from previous years available on request.
+              </p>
             </div>
 
-            <div className="text-center">
-              <p className="text-gray-500 text-sm mb-1">Interested in sponsoring the 2026 awards?</p>
-              <a
-                href="mailto:hello@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%20—%20Lincolnshire%20Marketing%20Awards%202026"
-                className="text-gold-500 hover:text-gold-400 font-semibold text-sm underline underline-offset-2"
-              >
-                Contact us today to discuss options →
-              </a>
+            {/* Testimonial-style trust signals */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  stat: '2',
+                  label: 'Successful Events',
+                  note: 'Inaugural 2024 · 2025 — now entering year 3',
+                },
+                {
+                  stat: '200+',
+                  label: 'Guests Per Event',
+                  note: 'Business owners, directors, and decision-makers',
+                },
+                {
+                  stat: '100%',
+                  label: 'Lincolnshire Audience',
+                  note: 'Every guest, entrant, and follower is locally relevant',
+                },
+              ].map(({ stat, label, note }) => (
+                <div key={label} className="bg-navy-900 rounded-sm p-6 text-center">
+                  <div className="text-gold-400 font-bold text-3xl mb-1">{stat}</div>
+                  <div className="text-white font-semibold text-sm mb-1">{label}</div>
+                  <div className="text-gray-400 text-xs">{note}</div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -344,20 +367,25 @@ export default function SponsorshipPage() {
             }}
           />
           <div className="container-wide relative z-10 text-center">
-            <span className="section-label">Get Started</span>
+            <span className="section-label">Secure Your Place</span>
             <h2 className="section-title-white mb-5 max-w-2xl mx-auto">
-              Ready to Become a Sponsor?
+              Sponsorship Packages Are Available Now
             </h2>
-            <p className="text-gray-400 max-w-xl mx-auto mb-10 leading-relaxed">
-              Sponsorship packages for 2026 are available now. Contact us to discuss the right
-              package for your business — or to put together something bespoke.
+            <p className="text-gray-400 max-w-xl mx-auto mb-3 leading-relaxed">
+              Packages are offered on a first-come basis. Category sponsorships in particular are
+              limited — there is one sponsor per award category. Once confirmed, your package
+              is locked in for the full 2026 event season.
+            </p>
+            <p className="text-gray-500 text-sm max-w-lg mx-auto mb-10">
+              Contact us to discuss the package that fits your objectives, or to explore a
+              bespoke arrangement.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="mailto:hello@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%20—%20Lincolnshire%20Marketing%20Awards%202026"
                 className="btn-gold-lg"
               >
-                Get In Touch
+                Enquire About Sponsorship
               </a>
               <Link href="/" className="btn-outline-white">
                 Back to Main Site

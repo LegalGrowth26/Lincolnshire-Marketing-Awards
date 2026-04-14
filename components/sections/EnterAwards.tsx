@@ -10,7 +10,7 @@ const uploadGuidance = [
 
 export default function EnterAwards() {
   return (
-    <section id="enter" aria-labelledby="enter-heading" className="section-py bg-navy-900">
+    <section id="enter" aria-labelledby="enter-heading" className="section-py bg-navy-900 relative overflow-hidden">
       {/* Background pattern */}
       <div
         aria-hidden="true"
@@ -28,23 +28,24 @@ export default function EnterAwards() {
           <div>
             <span className="section-label">Enter the Awards</span>
             <h2 id="enter-heading" className="section-title-white mb-6">
-              Ready to Enter?
+              Enter the 2026 Awards
             </h2>
             <div className="w-12 h-0.5 bg-gold-500 mb-8" aria-hidden="true" />
 
             <div className="space-y-5 text-gray-300 leading-relaxed mb-8">
               <p>
-                Entering the Lincolnshire Marketing Awards is completely free. Complete the form
-                to the right, select your category (or categories), and tell us your story.
+                Entry is completely free. Select your category, complete the submission form,
+                and give the judges a clear, evidence-backed picture of what your business
+                has achieved.
               </p>
               <p>
-                Entries should be submitted by <strong className="text-white">late July 2026</strong>.
-                You may enter up to <strong className="text-white">3 categories</strong>.
-                Each category requires a separate submission.
+                Entries close <strong className="text-white">late July 2026</strong>.
+                You may enter up to <strong className="text-white">3 categories</strong> — each
+                requires a separate submission tailored to that category&apos;s criteria.
               </p>
               <p>
-                The strongest entries combine a compelling narrative with concrete evidence.
-                Use the guidelines below to give your entry the best possible chance.
+                The strongest entries are specific, structured, and evidence-led. Use the tips
+                below to give your submission the best possible chance of making the shortlist.
               </p>
             </div>
 

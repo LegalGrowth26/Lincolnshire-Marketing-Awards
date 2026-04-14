@@ -32,8 +32,8 @@ const pillars = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
       </svg>
     ),
-    title: 'Organisers Cannot Influence Results',
-    body: 'The organising team plays no role in scoring or outcome decisions. Winners are determined purely by the independent judging panel.',
+    title: 'Zero Organiser Influence on Results',
+    body: 'The organising team has no role in scoring or outcome decisions. Winners are determined entirely by the independent judging panel — not by us.',
   },
   {
     icon: (
@@ -68,8 +68,9 @@ export default function Judging() {
             <span className="text-gold-500">Rigorously Fair.</span>
           </h2>
           <p className="section-body">
-            The integrity of these awards matters to us deeply. Here&apos;s exactly how we ensure
-            every entry gets a fair, unbiased assessment.
+            Every entry is scored by an independent panel of experienced business professionals.
+            The organising team has no involvement in scoring or results — ever.
+            Here is exactly how we guarantee it.
           </p>
         </div>
 
@@ -108,11 +109,12 @@ export default function Judging() {
           <div className="relative z-10">
             <span className="section-label">Join the Panel</span>
             <h3 className="section-title-white mb-4">
-              Interested in Becoming a Judge?
+              Apply to Join the 2026 Judging Panel
             </h3>
             <p className="text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
-              We&apos;re looking for experienced business professionals to join the 2026 judging panel.
-              Full briefing provided. Conflict checks in place. Make a real difference to Lincolnshire business.
+              We are recruiting experienced, credible business professionals for the 2026 judging panel.
+              Full briefing and scoring criteria provided. Conflict of interest checks in place.
+              Applications are reviewed on a rolling basis.
             </p>
             <a href="#judge" className="btn-gold-lg">
               Apply to Be a Judge

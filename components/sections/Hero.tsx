@@ -83,7 +83,7 @@ export default function Hero() {
                             rounded-sm px-4 py-2 mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-gold-400 animate-pulse" aria-hidden="true" />
               <span className="text-gold-300 text-xs font-semibold tracking-widest uppercase">
-                Lincolnshire · 2026
+                Business Growth Awards · Lincolnshire · 2026
               </span>
             </div>
 
@@ -97,8 +97,9 @@ export default function Hero() {
               Recognising exceptional business growth across Lincolnshire.
             </p>
             <p className="text-base text-gray-400 leading-relaxed mb-10 max-w-lg">
-              Free to enter. Independently judged. A prestigious black-tie awards dinner
-              celebrating the businesses driving our county forward.
+              Open to all Lincolnshire businesses — from sole traders and start-ups to established
+              employers and professional services firms. Free to enter. Independently judged.
+              Black-tie awards dinner, September 2026.
             </p>
 
             {/* CTAs */}
@@ -119,7 +120,7 @@ export default function Hero() {
               {[
                 ['15', 'Award Categories'],
                 ['Free', 'To Enter'],
-                ['Independent', 'Judging Panel'],
+                ['3', 'Judges Per Entry'],
                 ['Black Tie', 'Awards Dinner'],
               ].map(([val, label]) => (
                 <div key={label}>
@@ -152,7 +153,7 @@ export default function Hero() {
               {/* Orbiting badge — bottom left */}
               <div className="absolute -bottom-3 -left-3 bg-navy-800 border border-gold-500/40 text-gold-300
                               font-semibold text-xs px-3 py-1.5 rounded-sm shadow-lg">
-                Max 3 categories
+                3rd Annual Event
               </div>
             </div>
           </div>

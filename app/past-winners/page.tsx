@@ -6,7 +6,7 @@ import Footer from '@/components/layout/Footer'
 export const metadata: Metadata = {
   title: 'Past Winners',
   description:
-    'Discover the past winners and highly commended businesses from the Lincolnshire Marketing Awards 2024 and 2025.',
+    'The independently judged winners and highly commended businesses from the Lincolnshire Marketing Awards 2024 and 2025 — the county\'s premier business growth awards.',
 }
 
 interface Winner {
@@ -82,7 +82,7 @@ const pastWinners: YearData[] = [
   },
   {
     year: 2024,
-    venue: 'Lincolnshire',
+    venue: 'Inaugural Lincolnshire Marketing Conference & Awards — Lincolnshire',
     winners: [
       {
         category: 'Innovative Marketing Award',
@@ -139,14 +139,14 @@ function WinnerCard({ winner }: { winner: Winner }) {
     <div className="bg-white border border-gray-100 rounded-sm shadow-sm hover:shadow-md
                     hover:border-gold-200 transition-all duration-200 overflow-hidden">
       <div className="h-1 bg-gold-500" aria-hidden="true" />
-      <div className="p-5">
-        <h4 className="text-xs font-semibold text-gold-600 uppercase tracking-wide mb-3">
+      <div className="p-5 md:p-6">
+        <h4 className="text-[11px] font-bold text-gold-600 uppercase tracking-wide mb-4 leading-snug">
           {winner.category}
         </h4>
 
         <div className="flex items-start gap-3 mb-3">
           <div
-            className="flex-shrink-0 w-7 h-7 bg-gold-500 rounded-sm flex items-center justify-center"
+            className="flex-shrink-0 w-8 h-8 bg-gold-500 rounded-sm flex items-center justify-center"
             aria-hidden="true"
           >
             <svg className="w-4 h-4 text-navy-900" fill="currentColor" viewBox="0 0 20 20">
@@ -162,12 +162,12 @@ function WinnerCard({ winner }: { winner: Winner }) {
         </div>
 
         {hcList.length > 0 && (
-          <div className="border-t border-gray-100 pt-3">
-            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-1.5">
+          <div className="border-t border-gray-100 pt-3 mt-3">
+            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">
               Highly Commended
             </div>
             {hcList.map((hc) => (
-              <div key={hc} className="text-gray-500 text-xs leading-relaxed">
+              <div key={hc} className="text-gray-500 text-xs leading-relaxed py-0.5">
                 {hc}
               </div>
             ))}
@@ -213,10 +213,52 @@ export default function PastWinnersPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-5">
               Past Winners
             </h1>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-              Celebrating three years of outstanding Lincolnshire businesses. These are the
-              winners and highly commended businesses who have set the standard.
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed mb-6">
+              The Lincolnshire Marketing Awards has recognised outstanding Lincolnshire businesses
+              since its inaugural event in 2024. These are the winners and highly commended
+              businesses that set the standard.
             </p>
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-3">
+              {[
+                ['2 Events', 'Completed'],
+                ['Independent', 'Judging Panel'],
+                ['Black Tie', 'Awards Dinner'],
+              ].map(([val, label]) => (
+                <div key={label} className="text-center">
+                  <div className="text-gold-400 font-bold text-base leading-none">{val}</div>
+                  <div className="text-gray-500 text-xs mt-1">{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Credibility strip */}
+        <div className="bg-navy-900 border-b border-navy-800">
+          <div className="container-wide py-8">
+            <div className="grid sm:grid-cols-3 gap-6 text-center divide-y sm:divide-y-0 sm:divide-x divide-navy-700">
+              <div className="py-4 sm:py-0">
+                <p className="text-white font-semibold text-sm mb-1">Independently Judged</p>
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  Every winner was selected by an independent panel — three judges per entry,
+                  with no organiser influence on outcomes.
+                </p>
+              </div>
+              <div className="py-4 sm:py-0 sm:px-6">
+                <p className="text-white font-semibold text-sm mb-1">Open to All Businesses</p>
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  Winners include sole traders, charities, sports clubs, professional services
+                  firms, and growing SMEs — from across Lincolnshire.
+                </p>
+              </div>
+              <div className="py-4 sm:py-0">
+                <p className="text-white font-semibold text-sm mb-1">Merit Only</p>
+                <p className="text-gray-400 text-xs leading-relaxed">
+                  No pay-to-win. No membership required. Winners are determined entirely by
+                  the quality of their submission and supporting evidence.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -276,14 +318,18 @@ export default function PastWinnersPage() {
               <div className="relative z-10">
                 <div className="text-gold-400 text-5xl font-bold mb-2">2026</div>
                 <h3 className="text-white font-bold text-2xl mb-4">
-                  Could Your Name Be on This Page?
+                  Could Your Business Be on This Page?
                 </h3>
-                <p className="text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
-                  The 2026 awards are open for entries from early May. Free to enter, independently
-                  judged, and celebrated at a prestigious black-tie dinner in September.
+                <p className="text-gray-400 max-w-xl mx-auto mb-3 leading-relaxed">
+                  Entries for the 2026 awards open in early May. Free to enter, independently
+                  judged, and celebrated at a black-tie dinner in September 2026.
+                </p>
+                <p className="text-gray-500 text-sm max-w-lg mx-auto mb-8">
+                  These awards are open to all Lincolnshire businesses — no entry fees,
+                  no prior relationship with the organiser required.
                 </p>
                 <Link href="/#enter" className="btn-gold-lg">
-                  Enter the 2026 Awards
+                  Enter the 2026 Awards — Free
                 </Link>
               </div>
             </div>

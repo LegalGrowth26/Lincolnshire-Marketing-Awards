@@ -207,8 +207,10 @@ export default function Categories() {
             15 Categories. One for Every Business.
           </h2>
           <p className="section-body">
-            Whether you&apos;re a one-person business or a growing employer, there&apos;s an award
-            that reflects what you&apos;ve achieved. You may enter up to 3 categories.
+            These are not just marketing awards. They recognise every dimension of business growth —
+            revenue, leadership, people, brand, community impact, and more. Whether you&apos;re a
+            sole trader, a growing employer, or an established professional services firm,
+            there is a category for you. Enter up to 3.
           </p>
         </div>
 

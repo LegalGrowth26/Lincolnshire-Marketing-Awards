@@ -72,15 +72,20 @@ export default function FAQs() {
               Everything you need to know about entering, judging, and attending the
               Lincolnshire Marketing Awards 2026.
             </p>
-            <p className="text-gray-500 text-sm leading-relaxed mb-8">
-              Can&apos;t find what you&apos;re looking for? We&apos;re happy to help.
+            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+              Can&apos;t find what you&apos;re looking for? Get in touch — we&apos;re happy to help.
             </p>
             <a
               href="mailto:hello@lincolnshiremarketing.co.uk"
               className="btn-outline-navy text-xs py-3"
             >
-              Email Us a Question
+              Ask Us Directly
             </a>
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <a href="#enter" className="btn-gold text-xs py-3 w-full text-center">
+                Enter the Awards — Free
+              </a>
+            </div>
           </div>
 
           {/* Right — Accordion */}
