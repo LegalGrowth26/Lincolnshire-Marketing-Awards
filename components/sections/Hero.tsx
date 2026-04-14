@@ -1,8 +1,9 @@
 /**
  * Hero section.
  *
- * Full-screen YouTube background video (HUvo9waiGeY) with a very dark overlay.
- * Falls back to the navy gradient if the iframe fails or is blocked.
+ * Background: when /images/event-dinner.jpg exists it becomes a subtle
+ * atmospheric layer beneath the brand-blue gradient. The gradient is fully
+ * opaque if the image is absent, so the section looks great either way.
  */
 
 export default function Hero() {
@@ -10,33 +11,24 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Lincolnshire Marketing Awards 2026 hero"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-navy-950"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+      style={{
+        backgroundImage: [
+          'linear-gradient(140deg, rgba(7,29,82,0.97) 0%, rgba(10,45,110,0.90) 45%, rgba(13,58,132,0.88) 100%)',
+          "url('/images/event-dinner.jpg')",
+        ].join(', '),
+        backgroundSize:     'cover, cover',
+        backgroundPosition: 'center, center',
+        backgroundRepeat:   'no-repeat, no-repeat',
+      }}
     >
-      {/* Full-cover YouTube background video */}
-      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/HUvo9waiGeY?autoplay=1&mute=1&loop=1&controls=0&rel=0&modestbranding=1&playlist=HUvo9waiGeY&playsinline=1&disablekb=1"
-          title=""
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          style={{
-            width: 'max(100vw, calc(100vh * 16 / 9))',
-            height: 'max(100vh, calc(100vw * 9 / 16))',
-            border: 'none',
-          }}
-          allow="autoplay; encrypted-media"
-        />
-      </div>
-
-      {/* Very dark overlay */}
-      <div className="absolute inset-0 bg-navy-950/93" aria-hidden="true" />
-
       {/* Subtle dot pattern */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 1px 1px, rgba(40,200,255,0.07) 1px, transparent 0)',
+            'radial-gradient(circle at 1px 1px, rgba(40,200,255,0.08) 1px, transparent 0)',
           backgroundSize: '36px 36px',
         }}
       />
@@ -115,3 +107,4 @@ export default function Hero() {
     </section>
   )
 }
+
