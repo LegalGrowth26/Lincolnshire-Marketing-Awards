@@ -82,7 +82,7 @@
 
   /* ── Gradient overlays ── */
   .hero-overlay {
-    background: linear-gradient(135deg, #060e22 0%, #0d1b3e 55%, #162558 100%);
+    background: linear-gradient(135deg, #071d52 0%, #0a2d6e 55%, #0d3a84 100%);
   }
 
   /* ── Category card top bar ── */
@@ -106,5 +106,5 @@
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #0d1b3e; border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: #0a2d6e; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #c9a84c; }

@@ -17,8 +17,8 @@ const details = [
       </svg>
     ),
     label: 'Venue',
-    value: 'Lincolnshire',
-    note: 'Venue to be confirmed',
+    value: 'DoubleTree by Hilton',
+    note: 'Brayford Waterfront, Lincoln',
   },
   {
     icon: (
@@ -27,8 +27,8 @@ const details = [
       </svg>
     ),
     label: 'Arrival',
-    value: 'From 6:30pm',
-    note: 'Drinks reception from 6:30pm',
+    value: 'From 7:00pm',
+    note: 'Drinks reception from 7:00pm',
   },
   {
     icon: (
@@ -88,8 +88,8 @@ export default function EventDetails() {
 
             <p className="text-gray-300 leading-relaxed mb-10">
               The Lincolnshire Marketing Awards 2026 culminates in a prestigious black-tie
-              dinner — an evening of celebration, recognition, and connection for the best
-              businesses in Lincolnshire. Full venue and date details will be announced soon.
+              dinner at the DoubleTree by Hilton on the Brayford in Lincoln. An evening of
+              celebration, recognition, and connection for the best businesses in Lincolnshire.
             </p>
 
             {/* Details grid */}
@@ -119,29 +119,24 @@ export default function EventDetails() {
               <ol className="space-y-5">
                 {[
                   {
-                    time: '6:30pm',
-                    event: 'Arrival & Drinks Reception',
-                    desc: 'Welcome drinks and canapés. A chance to connect with other finalists and guests before the evening begins.',
+                    time: '7:00pm',
+                    event: 'Arrival and Drinks Reception',
+                    desc: 'Welcome drinks and canapes. A chance to connect with other finalists and guests before the evening begins.',
                   },
                   {
                     time: '7:30pm',
-                    event: 'Be Seated & Welcome',
-                    desc: 'Guests take their seats for a warm welcome from the host and organisers.',
+                    event: 'Guests Seated and Welcome',
+                    desc: 'Guests take their seats for a warm welcome from the host. The award ceremony begins immediately after.',
                   },
                   {
-                    time: '8:00pm',
+                    time: '8:30pm',
                     event: 'Dinner Served',
-                    desc: 'A three-course dinner in elegant surroundings.',
+                    desc: 'A three-course dinner in the elegant surroundings of the DoubleTree by Hilton, Lincoln.',
                   },
                   {
-                    time: '9:00pm',
-                    event: 'Awards Ceremony',
-                    desc: 'The moment everyone is waiting for. All 15 award categories presented, with winners revealed live on the night.',
-                  },
-                  {
-                    time: 'Late',
-                    event: 'Networking & Celebration',
-                    desc: 'An open bar and live entertainment to round off a memorable evening.',
+                    time: '9:30pm',
+                    event: 'Celebrations and Entertainment',
+                    desc: 'Dancing, entertainment, and an opportunity to celebrate with fellow finalists, winners, and guests.',
                   },
                 ].map(({ time, event, desc }) => (
                   <li key={time} className="flex gap-4">
@@ -156,13 +151,13 @@ export default function EventDetails() {
 
               <div className="mt-8 pt-6 border-t border-navy-700">
                 <p className="text-gray-400 text-sm text-center">
-                  Venue, exact date, and ticketing details to be announced.
+                  Exact date and ticketing details to be announced. Priority for shortlisted businesses.
                 </p>
                 <a
-                  href="mailto:hello@lincolnshiremarketing.co.uk"
+                  href="mailto:tom@lincolnshiremarketing.co.uk"
                   className="block text-center text-gold-400 hover:text-gold-300 text-sm font-medium mt-2 underline underline-offset-2"
                 >
-                  Register your interest →
+                  Register your interest
                 </a>
               </div>
             </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Logo from '@/components/ui/Logo'
 
 const navLinks = [
   { label: 'About',      href: '/#about' },
@@ -13,11 +14,11 @@ const navLinks = [
 ]
 
 export default function Header() {
-  const [scrolled, setScrolled]   = useState(false)
-  const [menuOpen, setMenuOpen]   = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -28,29 +29,27 @@ export default function Header() {
     <header
       role="banner"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-navy-900 shadow-lg' : 'bg-navy-900/95 backdrop-blur-sm'
+        scrolled
+          ? 'bg-navy-900 shadow-lg'
+          : 'bg-navy-600'
       }`}
     >
+      {/* Gold top accent line */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600"
+      />
+
       <div className="container-wide">
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-3 group"
-            aria-label="Lincolnshire Marketing Awards — home"
+            className="flex items-center group flex-shrink-0"
+            aria-label="Lincolnshire Marketing Awards home"
           >
-            <div className="flex-shrink-0 w-9 h-9 bg-gold-500 rounded-sm flex items-center justify-center">
-              <span className="text-navy-900 font-bold text-sm tracking-tight">LMA</span>
-            </div>
-            <div className="hidden sm:block">
-              <span className="block text-white font-semibold text-sm leading-tight tracking-wide">
-                Lincolnshire Marketing Awards
-              </span>
-              <span className="block text-gold-400 text-xs font-medium tracking-widest uppercase">
-                2026
-              </span>
-            </div>
+            <Logo variant="white" width={180} className="transition-opacity duration-150 group-hover:opacity-90" />
           </Link>
 
           {/* Desktop Nav */}
@@ -59,7 +58,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="px-3.5 py-2 text-gray-300 hover:text-gold-400 text-sm font-medium
+                className="px-3.5 py-2 text-white/80 hover:text-white text-sm font-medium
                            transition-colors duration-150 rounded-sm"
               >
                 {link.label}
@@ -67,14 +66,14 @@ export default function Header() {
             ))}
             <Link
               href="/past-winners"
-              className="px-3.5 py-2 text-gray-300 hover:text-gold-400 text-sm font-medium
+              className="px-3.5 py-2 text-white/80 hover:text-white text-sm font-medium
                          transition-colors duration-150 rounded-sm"
             >
               Past Winners
             </Link>
             <Link
               href="/sponsorship"
-              className="px-3.5 py-2 text-gray-300 hover:text-gold-400 text-sm font-medium
+              className="px-3.5 py-2 text-white/80 hover:text-white text-sm font-medium
                          transition-colors duration-150 rounded-sm"
             >
               Sponsorship
@@ -93,7 +92,7 @@ export default function Header() {
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="lg:hidden p-2 text-white hover:text-gold-400 transition-colors"
+            className="lg:hidden p-2 text-white hover:text-gold-300 transition-colors"
             onClick={() => setMenuOpen((o) => !o)}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -112,7 +111,7 @@ export default function Header() {
         id="mobile-menu"
         role="navigation"
         aria-label="Mobile navigation"
-        className={`lg:hidden bg-navy-950 border-t border-navy-800 transition-all duration-300 overflow-hidden ${
+        className={`lg:hidden bg-navy-900 border-t border-navy-800 transition-all duration-300 overflow-hidden ${
           menuOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
@@ -122,7 +121,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={closeMenu}
-              className="px-4 py-3 text-gray-300 hover:text-gold-400 hover:bg-navy-800
+              className="px-4 py-3 text-gray-300 hover:text-white hover:bg-navy-800
                          text-sm font-medium rounded-sm transition-colors"
             >
               {link.label}
@@ -131,7 +130,7 @@ export default function Header() {
           <Link
             href="/past-winners"
             onClick={closeMenu}
-            className="px-4 py-3 text-gray-300 hover:text-gold-400 hover:bg-navy-800
+            className="px-4 py-3 text-gray-300 hover:text-white hover:bg-navy-800
                        text-sm font-medium rounded-sm transition-colors"
           >
             Past Winners
@@ -139,14 +138,14 @@ export default function Header() {
           <Link
             href="/sponsorship"
             onClick={closeMenu}
-            className="px-4 py-3 text-gray-300 hover:text-gold-400 hover:bg-navy-800
+            className="px-4 py-3 text-gray-300 hover:text-white hover:bg-navy-800
                        text-sm font-medium rounded-sm transition-colors"
           >
             Sponsorship
           </Link>
-          <div className="pt-2 border-t border-navy-800 mt-2">
+          <div className="pt-3 border-t border-navy-800 mt-2">
             <a href="/#enter" onClick={closeMenu} className="btn-gold w-full text-center text-xs py-3">
-              Enter the Awards
+              Enter the Awards, Free
             </a>
           </div>
         </div>

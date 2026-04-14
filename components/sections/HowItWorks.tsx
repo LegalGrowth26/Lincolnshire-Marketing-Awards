@@ -8,7 +8,7 @@ const steps = [
   {
     num: '02',
     title: 'Prepare Your Entry',
-    body: 'Write a compelling submission of up to 1,000 words, backed by evidence — figures, testimonials, case studies. Show, don\'t just tell.',
+    body: 'Write a compelling submission of up to 1,000 words, backed by evidence: figures, testimonials, case studies. Show, don\'t just tell.',
     note: 'Written submission + supporting docs',
   },
   {

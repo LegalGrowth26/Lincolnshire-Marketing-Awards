@@ -6,7 +6,7 @@ const reasons = [
       </svg>
     ),
     title: 'Zero Cost to Enter',
-    body: 'Entry is entirely free — no membership fees, no submission charges. The awards exist to recognise genuine achievement, not to be a revenue stream.',
+    body: 'Entry is entirely free. No membership fees, no submission charges. The awards exist to recognise genuine achievement, not to be a revenue stream.',
   },
   {
     icon: (
@@ -24,7 +24,7 @@ const reasons = [
       </svg>
     ),
     title: 'Build Trust With Clients',
-    body: 'An independent award tells prospective clients something you could never say yourself — that your business has been assessed and found to be among the best in Lincolnshire.',
+    body: 'An independent award tells prospective clients something you could never say yourself: that your business has been assessed and found to be among the best in Lincolnshire.',
   },
   {
     icon: (
@@ -42,7 +42,7 @@ const reasons = [
       </svg>
     ),
     title: 'Recognise Your People',
-    body: 'Being shortlisted is a powerful motivator for the team behind your results. It gives your people something concrete to be proud of — and share.',
+    body: 'Being shortlisted is a powerful motivator for the team behind your results. It gives your people something concrete to be proud of, and to share.',
   },
   {
     icon: (
@@ -67,7 +67,7 @@ export default function WhyEnter() {
             Why Your Business Should Enter
           </h2>
           <p className="section-body">
-            Entry is free. The return — in credibility, profile, and recognition — can be
+            Entry is free. The return in credibility, profile, and recognition can be
             transformational. Here is what being shortlisted or winning can do for your business.
           </p>
         </div>

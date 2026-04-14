@@ -24,12 +24,12 @@ export default function About() {
               <p>
                 The Lincolnshire Marketing Awards is an annual celebration of outstanding business
                 achievement across our county. Now in its third year, the awards recognise businesses
-                of every size — from sole traders and start-ups to established employers and
-                professional services firms — that have demonstrated genuine, measurable growth.
+                of every size, from sole traders and start-ups to established employers and
+                professional services firms, that have demonstrated genuine, measurable growth.
               </p>
               <p>
                 Organised by <strong className="text-navy-900 font-semibold">Lincolnshire Marketing</strong>,
-                these awards are open to <em>all</em> Lincolnshire businesses — not just those
+                these awards are open to <em>all</em> Lincolnshire businesses, not just those
                 in marketing. With 15 categories spanning growth, leadership, people, community,
                 and brand, there is an award for every ambitious business in the county.
               </p>
@@ -37,7 +37,7 @@ export default function About() {
                 What makes them different? They&apos;re <strong className="text-navy-900 font-semibold">free to enter</strong>,
                 rigorously <strong className="text-navy-900 font-semibold">independently judged</strong>,
                 and focused entirely on substance over spectacle. Every entry is assessed purely
-                on merit — three independent judges, no organiser influence, no exceptions.
+                on merit: three independent judges, no organiser influence, no exceptions.
               </p>
             </div>
 
@@ -72,12 +72,12 @@ export default function About() {
               />
               <p className="text-gray-300 text-sm leading-relaxed italic pl-4">
                 &ldquo;These awards exist to shine a light on the businesses that are quietly
-                doing exceptional work across Lincolnshire — and to give them the recognition
+                doing exceptional work across Lincolnshire, and to give them the recognition
                 they deserve.&rdquo;
               </p>
               <footer className="mt-3 pl-4">
                 <cite className="not-italic text-gold-400 text-xs font-semibold tracking-wide not-italic">
-                  Tom Stansfield — Lincolnshire Marketing
+                  Tom Stansfield, Lincolnshire Marketing
                 </cite>
               </footer>
             </blockquote>

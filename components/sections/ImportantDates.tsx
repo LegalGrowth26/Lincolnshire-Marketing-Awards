@@ -53,7 +53,7 @@ export default function ImportantDates() {
             Important Dates for 2026
           </h2>
           <p className="section-body">
-            Mark your diary. The entry window is limited — don&apos;t miss your chance to be
+            Mark your diary. The entry window is limited. Don&apos;t miss your chance to be
             recognised at Lincolnshire&apos;s premier business awards.
           </p>
         </div>

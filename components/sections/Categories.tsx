@@ -11,7 +11,7 @@ const categories: Category[] = [
   {
     id: 1,
     name: 'Business Growth Award',
-    description: 'Recognises businesses that have achieved significant, measurable growth over the past 12 months — in revenue, customers, team, or market share.',
+    description: 'Recognises businesses that have achieved significant, measurable growth over the past 12 months, in revenue, customers, team, or market share.',
     whoShouldEnter: ['Any Lincolnshire-based business of any size', 'Businesses with clear growth evidence from the past year'],
     judgesLookFor: ['Revenue or customer growth figures', 'Strategic plan behind the growth', 'Sustainability of growth achieved'],
   },
@@ -25,7 +25,7 @@ const categories: Category[] = [
   {
     id: 3,
     name: 'Scale-Up Business of the Year',
-    description: 'For businesses that have successfully scaled beyond their initial operating model — expanding teams, geographies, or product lines.',
+    description: 'For businesses that have successfully scaled beyond their initial operating model, expanding teams, geographies, or product lines.',
     whoShouldEnter: ['Businesses that have meaningfully expanded headcount or revenue', 'Businesses operating a scalable model'],
     judgesLookFor: ['Evidence of scaling operations', 'Repeatable, sustainable processes', 'Leadership through growth'],
   },
@@ -39,7 +39,7 @@ const categories: Category[] = [
   {
     id: 5,
     name: 'Entrepreneur of the Year',
-    description: 'Recognises the individual behind the growth — the visionary driving their business and the wider Lincolnshire economy forward.',
+    description: 'Recognises the individual behind the growth: the visionary driving their business and the wider Lincolnshire economy forward.',
     whoShouldEnter: ['Business owners, founders, and directors', 'Individuals with a clear impact in the last 12 months'],
     judgesLookFor: ['Personal leadership and vision', 'Commercial achievement', 'Wider community or industry contribution'],
   },
@@ -53,7 +53,7 @@ const categories: Category[] = [
   {
     id: 7,
     name: 'Rising Star Award',
-    description: 'Celebrating the next generation of Lincolnshire business talent — individuals or businesses showing exceptional early promise.',
+    description: 'Celebrating the next generation of Lincolnshire business talent, individuals or businesses showing exceptional early promise.',
     whoShouldEnter: ['Individuals under 35 in a business leadership role', 'Early-stage businesses in their first growth phase'],
     judgesLookFor: ['Ambition and drive', 'Early measurable impact', 'Future potential and trajectory'],
   },
@@ -74,14 +74,14 @@ const categories: Category[] = [
   {
     id: 10,
     name: 'Best Use of Social Media for Growth',
-    description: 'For businesses that have harnessed social media as a genuine driver of commercial growth — not just likes, but real business results.',
+    description: 'For businesses that have harnessed social media as a genuine driver of commercial growth, not just likes but real business results.',
     whoShouldEnter: ['Any Lincolnshire business using social media to drive commercial outcomes', 'Businesses with clear before/after analytics to share'],
     judgesLookFor: ['Platform strategy and content approach', 'Engagement and follower growth', 'Conversion or commercial impact from social'],
   },
   {
     id: 11,
     name: 'Brand Growth Award',
-    description: 'For businesses that have significantly invested in and grown their brand — resulting in stronger recognition, positioning, or market standing.',
+    description: 'For businesses that have significantly invested in and grown their brand, resulting in stronger recognition, positioning, or market standing.',
     whoShouldEnter: ['Any business that has undertaken a rebrand or brand development programme', 'Businesses with measurable brand awareness growth'],
     judgesLookFor: ['Brand strategy and rationale', 'Visual identity and consistency', 'Evidence of improved market positioning'],
   },
@@ -110,7 +110,7 @@ const categories: Category[] = [
     id: 15,
     name: 'Business Recognition Award',
     description: 'A special peer-nominated recognition for businesses or individuals making an outstanding contribution to the Lincolnshire business community.',
-    whoShouldEnter: ['Nominated by clients, peers, or the public — not self-nominated', 'Anyone who has made a significant contribution to Lincolnshire business'],
+    whoShouldEnter: ['Nominated by clients, peers, or the public (not self-nominated)', 'Anyone who has made a significant contribution to Lincolnshire business'],
     judgesLookFor: ['Peer and community nomination strength', 'Contribution beyond commercial success', 'Positive influence on others'],
     nominationOnly: true,
   },
@@ -207,7 +207,7 @@ export default function Categories() {
             15 Categories. One for Every Business.
           </h2>
           <p className="section-body">
-            These are not just marketing awards. They recognise every dimension of business growth —
+            These are not just marketing awards. They recognise every dimension of business growth:
             revenue, leadership, people, brand, community impact, and more. Whether you&apos;re a
             sole trader, a growing employer, or an established professional services firm,
             there is a category for you. Enter up to 3.
@@ -223,7 +223,7 @@ export default function Categories() {
 
         <div className="text-center mt-12">
           <a href="#enter" className="btn-gold-lg">
-            Enter the Awards — Free
+            Enter the Awards, Free
           </a>
           <p className="text-gray-400 text-sm mt-3">Max 3 categories per entrant · All entries reviewed independently</p>
         </div>

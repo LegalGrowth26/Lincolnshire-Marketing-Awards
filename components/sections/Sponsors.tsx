@@ -27,7 +27,7 @@ function PlaceholderLogo({ size = 'md' }: { size?: 'lg' | 'md' | 'sm' }) {
     <div
       className={`${sizeClasses[size]} bg-gray-100 border-2 border-dashed border-gray-200 rounded-sm
                   flex items-center justify-center text-gray-400 text-xs font-medium`}
-      aria-label="Sponsor logo — to be announced"
+      aria-label="Sponsor logo, to be announced"
     >
       Your Logo Here
     </div>
@@ -47,7 +47,7 @@ export default function Sponsors() {
           </h2>
           <p className="section-body">
             The Lincolnshire Marketing Awards is made possible by the generous support of our
-            sponsors — Lincolnshire businesses who believe in recognising excellence.
+            sponsors. Lincolnshire businesses who believe in recognising excellence.
           </p>
         </div>
 

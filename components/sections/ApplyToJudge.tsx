@@ -17,7 +17,7 @@ const criteria = [
       </svg>
     ),
     title: 'Impartiality',
-    body: 'You must be able to judge all entries fairly. Any conflict of interest — personal or commercial — must be declared before judging begins.',
+    body: 'You must be able to judge all entries fairly. Any conflict of interest, personal or commercial, must be declared before judging begins.',
   },
   {
     icon: (
@@ -65,7 +65,7 @@ export default function ApplyToJudge() {
             <p className="text-gray-500 leading-relaxed mb-8">
               The quality of the Lincolnshire Marketing Awards depends on the quality of its judges.
               We&apos;re looking for experienced, credible business professionals who want to support
-              and recognise the best in Lincolnshire business — and who can do so with complete
+              and recognise the best in Lincolnshire business, and who can do so with complete
               impartiality.
             </p>
 
@@ -111,11 +111,11 @@ export default function ApplyToJudge() {
             <blockquote className="border-l-4 border-gold-500 pl-5 py-1">
               <p className="text-gray-600 text-sm italic leading-relaxed">
                 &ldquo;Being a judge is a genuinely rewarding experience. You see the very best
-                businesses in Lincolnshire up close — and you play a direct role in recognising
+                businesses in Lincolnshire up close, and you play a direct role in recognising
                 their achievements.&rdquo;
               </p>
               <footer className="mt-2 text-gold-600 text-xs font-semibold">
-                — 2025 Judging Panel Member
+                2025 Judging Panel Member
               </footer>
             </blockquote>
           </div>
@@ -128,7 +128,7 @@ export default function ApplyToJudge() {
                   Judge Application Form
                 </h3>
                 <p className="text-gray-400 text-xs mt-0.5">
-                  Applications for 2026 — reviewed on a rolling basis
+                  Applications for 2026, reviewed on a rolling basis
                 </p>
               </div>
               <div className="ghl-form-wrapper">
@@ -136,7 +136,7 @@ export default function ApplyToJudge() {
                   src="https://link.tomcrm.co.uk/widget/form/DfQrliVzVqp04kSpKbLU"
                   id="inline-DfQrliVzVqp04kSpKbLU"
                   data-form-id="DfQrliVzVqp04kSpKbLU"
-                  title="Apply to Judge — Lincolnshire Marketing Awards 2026"
+                  title="Apply to Judge: Lincolnshire Marketing Awards 2026"
                   style={{ width: '100%', height: '720px', border: 'none', overflow: 'hidden' }}
                   scrolling="no"
                   loading="lazy"
@@ -146,10 +146,10 @@ export default function ApplyToJudge() {
             <p className="text-gray-400 text-xs text-center mt-3">
               Questions?{' '}
               <a
-                href="mailto:hello@lincolnshiremarketing.co.uk"
+                href="mailto:tom@lincolnshiremarketing.co.uk"
                 className="text-gold-500 hover:text-gold-400 underline"
               >
-                hello@lincolnshiremarketing.co.uk
+                tom@lincolnshiremarketing.co.uk
               </a>
             </p>
           </div>

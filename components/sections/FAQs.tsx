@@ -3,7 +3,7 @@ import FAQAccordion from '@/components/ui/FAQAccordion'
 const faqs = [
   {
     question: 'Is it free to enter the Lincolnshire Marketing Awards?',
-    answer: 'Yes — entering the Lincolnshire Marketing Awards is completely free. There is no entry fee, no membership required, and no hidden costs. The awards exist to recognise genuine achievement, not to be a revenue stream.',
+    answer: 'Yes, entering the Lincolnshire Marketing Awards is completely free. There is no entry fee, no membership required, and no hidden costs. The awards exist to recognise genuine achievement, not to be a revenue stream.',
   },
   {
     question: 'How many categories can I enter?',
@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     question: 'How long should my entry be?',
-    answer: 'Entries should be no more than 1,000 words per category. We recommend being concise and evidence-led rather than filling every word. Quality over quantity — judges appreciate clear, specific, substantiated claims.',
+    answer: 'Entries should be no more than 1,000 words per category. We recommend being concise and evidence-led rather than filling every word. Quality over quantity. Judges appreciate clear, specific, substantiated claims.',
   },
   {
     question: 'Who judges the awards?',
@@ -35,15 +35,15 @@ const faqs = [
   },
   {
     question: 'Do I need to attend the awards night to win?',
-    answer: 'Winners are announced at the awards dinner on the night. We strongly encourage finalists to attend — it\'s a fantastic evening and you\'ll want to be there if your name is called. However, winning is not conditional on attendance.',
+    answer: 'Winners are announced at the awards dinner on the night. We strongly encourage finalists to attend. It is a fantastic evening and you will want to be there if your name is called. However, winning is not conditional on attendance.',
   },
   {
     question: 'What is the Business Recognition Award?',
-    answer: 'The Business Recognition Award is a special peer-nominated category. You cannot self-nominate — businesses and individuals are put forward by clients, peers, or the public. It recognises outstanding contributions to the wider Lincolnshire business community.',
+    answer: 'The Business Recognition Award is a special peer-nominated category. You cannot self-nominate. Businesses and individuals are put forward by clients, peers, or the public. It recognises outstanding contributions to the wider Lincolnshire business community.',
   },
   {
     question: 'Can I enter as an individual rather than a business?',
-    answer: 'Certain categories — such as Entrepreneur of the Year and Rising Star Award — are designed to recognise individuals. You can enter these as an individual business owner, director, or emerging talent, even if your business is also entering other categories.',
+    answer: 'Certain categories, such as Entrepreneur of the Year and Rising Star Award, are designed to recognise individuals. You can enter these as an individual business owner, director, or emerging talent, even if your business is also entering other categories.',
   },
   {
     question: 'When will the shortlist be announced?',
@@ -51,7 +51,7 @@ const faqs = [
   },
   {
     question: 'How do I find out about tickets for the awards night?',
-    answer: 'Ticket information will be released following the shortlist announcement in late August. Shortlisted businesses receive priority access. Register your interest by emailing hello@lincolnshiremarketing.co.uk.',
+    answer: 'Ticket information will be released following the shortlist announcement in late August. Shortlisted businesses receive priority access. Register your interest by emailing tom@lincolnshiremarketing.co.uk.',
   },
 ]
 
@@ -73,17 +73,17 @@ export default function FAQs() {
               Lincolnshire Marketing Awards 2026.
             </p>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
-              Can&apos;t find what you&apos;re looking for? Get in touch — we&apos;re happy to help.
+              Can&apos;t find what you&apos;re looking for? Get in touch. We&apos;re happy to help.
             </p>
             <a
-              href="mailto:hello@lincolnshiremarketing.co.uk"
+              href="mailto:tom@lincolnshiremarketing.co.uk"
               className="btn-outline-navy text-xs py-3"
             >
               Ask Us Directly
             </a>
             <div className="mt-6 pt-6 border-t border-gray-100">
               <a href="#enter" className="btn-gold text-xs py-3 w-full text-center">
-                Enter the Awards — Free
+                Enter the Awards, Free
               </a>
             </div>
           </div>

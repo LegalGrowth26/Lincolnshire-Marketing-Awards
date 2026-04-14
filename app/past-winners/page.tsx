@@ -6,7 +6,7 @@ import Footer from '@/components/layout/Footer'
 export const metadata: Metadata = {
   title: 'Past Winners',
   description:
-    'The independently judged winners and highly commended businesses from the Lincolnshire Marketing Awards 2024 and 2025 — the county\'s premier business growth awards.',
+    'The independently judged winners and highly commended businesses from the Lincolnshire Marketing Awards 2024 and 2025. The county\'s premier business growth awards.',
 }
 
 interface Winner {
@@ -26,7 +26,7 @@ const pastWinners: YearData[] = [
   {
     year: 2025,
     venue: 'Cathedral Ballroom, DoubleTree by Hilton, Lincoln',
-    host: 'Dan Temple — Cobalt Human Solutions',
+    host: 'Dan Temple, Cobalt Human Solutions',
     winners: [
       {
         category: 'Innovative Marketing Award',
@@ -75,14 +75,14 @@ const pastWinners: YearData[] = [
       },
       {
         category: 'Business Recognition Award',
-        winner: 'Laurel Kavanagh (University of Lincoln — Student Enterprise)',
+        winner: 'Laurel Kavanagh (University of Lincoln, Student Enterprise)',
         highlyCommended: 'Rachael Hunt (Lincoln Business Club)',
       },
     ],
   },
   {
     year: 2024,
-    venue: 'Inaugural Lincolnshire Marketing Conference & Awards — Lincolnshire',
+    venue: 'Inaugural Lincolnshire Marketing Conference and Awards, Lincolnshire',
     winners: [
       {
         category: 'Innovative Marketing Award',
@@ -106,7 +106,7 @@ const pastWinners: YearData[] = [
       },
       {
         category: 'Best New Business Award',
-        winner: 'Guardian Angel Carers — Lincoln and Newark',
+        winner: 'Guardian Angel Carers, Lincoln and Newark',
       },
       {
         category: 'Best Family-Owned Business Award',
@@ -186,7 +186,7 @@ export default function PastWinnersPage() {
         {/* Page Hero */}
         <div
           className="relative pt-32 pb-16 md:pt-40 md:pb-20"
-          style={{ background: 'linear-gradient(140deg, #060e22 0%, #0d1b3e 60%, #162558 100%)' }}
+          style={{ background: 'linear-gradient(140deg, #071d52 0%, #0a2d6e 60%, #0d3a84 100%)' }}
         >
           <div
             aria-hidden="true"
@@ -240,7 +240,7 @@ export default function PastWinnersPage() {
               <div className="py-4 sm:py-0">
                 <p className="text-white font-semibold text-sm mb-1">Independently Judged</p>
                 <p className="text-gray-400 text-xs leading-relaxed">
-                  Every winner was selected by an independent panel — three judges per entry,
+                  Every winner was selected by an independent panel. Three judges per entry,
                   with no organiser influence on outcomes.
                 </p>
               </div>
@@ -248,7 +248,7 @@ export default function PastWinnersPage() {
                 <p className="text-white font-semibold text-sm mb-1">Open to All Businesses</p>
                 <p className="text-gray-400 text-xs leading-relaxed">
                   Winners include sole traders, charities, sports clubs, professional services
-                  firms, and growing SMEs — from across Lincolnshire.
+                  firms, and growing SMEs, from across Lincolnshire.
                 </p>
               </div>
               <div className="py-4 sm:py-0">
@@ -325,11 +325,11 @@ export default function PastWinnersPage() {
                   judged, and celebrated at a black-tie dinner in September 2026.
                 </p>
                 <p className="text-gray-500 text-sm max-w-lg mx-auto mb-8">
-                  These awards are open to all Lincolnshire businesses — no entry fees,
+                  These awards are open to all Lincolnshire businesses. No entry fees,
                   no prior relationship with the organiser required.
                 </p>
                 <Link href="/#enter" className="btn-gold-lg">
-                  Enter the 2026 Awards — Free
+                  Enter the 2026 Awards, Free
                 </Link>
               </div>
             </div>

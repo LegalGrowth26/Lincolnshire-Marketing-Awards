@@ -21,7 +21,7 @@ const packages = [
       'Full-page advertisement in the awards programme',
       'Opportunity to present an award on the night',
       'Table of 10 at the awards dinner',
-      'Banner on the awards website — homepage placement',
+      'Banner on the awards website (homepage placement)',
       'Mentions in all pre-event marketing campaigns',
       'First right of refusal for 2027 headline sponsorship',
       'Post-event media coverage inclusion',
@@ -34,7 +34,7 @@ const packages = [
     highlight: false,
     description: 'Own a specific award category. Your brand is associated with the winner and finalists throughout the entire award process.',
     benefits: [
-      'Category named after your business (e.g. "Business Growth Award — sponsored by [Brand]")',
+      'Category named after your business (e.g. "Business Growth Award, sponsored by [Brand]")',
       'Logo on award category materials and event signage',
       'Opportunity to present the category award on the night',
       'Social media feature when category finalists are announced',
@@ -64,7 +64,7 @@ const packages = [
     tier: 'Programme Sponsor',
     price: 'From £500',
     highlight: false,
-    description: 'Brand your business across the awards programme — read by every guest on the night.',
+    description: 'Brand your business across the awards programme, read by every guest on the night.',
     benefits: [
       'Full or half-page advertisement in the awards programme',
       'Logo listing as programme sponsor',
@@ -95,7 +95,7 @@ const whySponsor = [
   },
   {
     title: 'Category Naming Rights',
-    body: 'As a category sponsor, your brand name is attached to an award — mentioned at every stage from entry through to winner announcement.',
+    body: 'As a category sponsor, your brand name is attached to an award and mentioned at every stage from entry through to winner announcement.',
   },
   {
     title: 'Presence on the Night',
@@ -103,7 +103,7 @@ const whySponsor = [
   },
   {
     title: 'Year-Round Visibility',
-    body: 'Sponsorship benefits begin when entries open in May and continue through the post-event coverage. Not just one night — an entire season.',
+    body: 'Sponsorship benefits begin when entries open in May and continue through the post-event coverage. Not just one night but an entire season.',
   },
   {
     title: 'Supporting the Community',
@@ -127,7 +127,7 @@ export default function SponsorshipPage() {
         {/* Page Hero */}
         <div
           className="relative pt-32 pb-16 md:pt-40 md:pb-24"
-          style={{ background: 'linear-gradient(140deg, #060e22 0%, #0d1b3e 60%, #162558 100%)' }}
+          style={{ background: 'linear-gradient(140deg, #071d52 0%, #0a2d6e 60%, #0d3a84 100%)' }}
         >
           <div
             aria-hidden="true"
@@ -161,7 +161,7 @@ export default function SponsorshipPage() {
                 </h1>
                 <p className="text-gray-300 text-lg leading-relaxed mb-4 max-w-lg">
                   Sponsoring the Lincolnshire Marketing Awards places your brand at the heart
-                  of the county&apos;s most credible business recognition event — in front of
+                  of the county&apos;s most credible business recognition event, in front of
                   200+ business leaders across an entire award season.
                 </p>
                 <p className="text-gray-400 text-sm mb-8 max-w-lg">
@@ -173,7 +173,7 @@ export default function SponsorshipPage() {
                     View Packages
                   </a>
                   <a
-                    href="mailto:hello@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%20%E2%80%94%20Lincolnshire%20Marketing%20Awards%202026"
+                    href="mailto:tom@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%3A%20Lincolnshire%20Marketing%20Awards%202026"
                     className="btn-outline-white"
                   >
                     Enquire About Sponsorship
@@ -239,7 +239,7 @@ export default function SponsorshipPage() {
               </h2>
               <p className="section-body">
                 Choose the package that best fits your business objectives and budget. All packages
-                can be tailored — contact us to discuss bespoke arrangements.
+                can be tailored. Contact us to discuss bespoke arrangements.
               </p>
             </div>
 
@@ -284,7 +284,7 @@ export default function SponsorshipPage() {
                     </ul>
 
                     <a
-                      href={`mailto:hello@lincolnshiremarketing.co.uk?subject=${encodeURIComponent(pkg.tier + ' — Lincolnshire Marketing Awards 2026')}`}
+                      href={`mailto:tom@lincolnshiremarketing.co.uk?subject=${encodeURIComponent(pkg.tier + ': Lincolnshire Marketing Awards 2026')}`}
                       className={pkg.highlight ? 'btn-gold w-full justify-center' : 'btn-outline-navy w-full justify-center'}
                     >
                       {pkg.cta}
@@ -311,7 +311,7 @@ export default function SponsorshipPage() {
               </h2>
               <p className="section-body">
                 Sponsors from our 2024 and 2025 events aligned their brands with an independently
-                judged, credible awards platform — and reached a highly targeted Lincolnshire
+                judged, credible awards platform that reached a highly targeted Lincolnshire
                 business audience.
               </p>
             </div>
@@ -333,7 +333,7 @@ export default function SponsorshipPage() {
                 {
                   stat: '2',
                   label: 'Successful Events',
-                  note: 'Inaugural 2024 · 2025 — now entering year 3',
+                  note: 'Inaugural 2024, 2025, now entering year 3',
                 },
                 {
                   stat: '200+',
@@ -373,7 +373,7 @@ export default function SponsorshipPage() {
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto mb-3 leading-relaxed">
               Packages are offered on a first-come basis. Category sponsorships in particular are
-              limited — there is one sponsor per award category. Once confirmed, your package
+              limited. There is one sponsor per award category. Once confirmed, your package
               is locked in for the full 2026 event season.
             </p>
             <p className="text-gray-500 text-sm max-w-lg mx-auto mb-10">
@@ -382,7 +382,7 @@ export default function SponsorshipPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="mailto:hello@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%20—%20Lincolnshire%20Marketing%20Awards%202026"
+                href="mailto:tom@lincolnshiremarketing.co.uk?subject=Sponsorship%20Enquiry%3A%20Lincolnshire%20Marketing%20Awards%202026"
                 className="btn-gold-lg"
               >
                 Enquire About Sponsorship

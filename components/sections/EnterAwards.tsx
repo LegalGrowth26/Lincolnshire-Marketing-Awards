@@ -40,7 +40,7 @@ export default function EnterAwards() {
               </p>
               <p>
                 Entries close <strong className="text-white">late July 2026</strong>.
-                You may enter up to <strong className="text-white">3 categories</strong> — each
+                You may enter up to <strong className="text-white">3 categories</strong>. Each
                 requires a separate submission tailored to that category&apos;s criteria.
               </p>
               <p>
@@ -59,7 +59,7 @@ export default function EnterAwards() {
               </h3>
               <ul className="space-y-2.5">
                 {[
-                  'Be specific — use numbers, percentages, and dates where possible',
+                  'Be specific: use numbers, percentages, and dates where possible',
                   'Focus on the past 12 months of activity',
                   'Explain what you did differently, not just what you achieved',
                   'Include the challenge you faced and how you overcame it',
@@ -121,10 +121,10 @@ export default function EnterAwards() {
             <p className="text-gray-500 text-xs text-center mt-3">
               Having trouble? Email{' '}
               <a
-                href="mailto:hello@lincolnshiremarketing.co.uk"
+                href="mailto:tom@lincolnshiremarketing.co.uk"
                 className="text-gold-400 hover:text-gold-300 underline"
               >
-                hello@lincolnshiremarketing.co.uk
+                tom@lincolnshiremarketing.co.uk
               </a>
             </p>
           </div>

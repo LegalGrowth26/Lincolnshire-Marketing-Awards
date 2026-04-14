@@ -33,7 +33,7 @@ const pillars = [
       </svg>
     ),
     title: 'Zero Organiser Influence on Results',
-    body: 'The organising team has no role in scoring or outcome decisions. Winners are determined entirely by the independent judging panel — not by us.',
+    body: 'The organising team has no role in scoring or outcome decisions. Winners are determined entirely by the independent judging panel, not by us.',
   },
   {
     icon: (
@@ -50,8 +50,8 @@ const pillars = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
       </svg>
     ),
-    title: 'Experienced, Credible Judges',
-    body: 'Judges are recruited for their expertise, sector knowledge, and impartiality. Each brings relevant commercial or professional experience to the panel.',
+    title: 'Specialist Judges for Every Category',
+    body: 'Judges are matched to categories by specialism, not location. A web developer judges the Best Website category; a finance professional judges growth and commercial categories. Judges do not need to be based in Lincolnshire, but they must have genuine expertise in the field they are assessing.',
   },
 ]
 
@@ -69,7 +69,7 @@ export default function Judging() {
           </h2>
           <p className="section-body">
             Every entry is scored by an independent panel of experienced business professionals.
-            The organising team has no involvement in scoring or results — ever.
+            The organising team has no involvement in scoring or results, ever.
             Here is exactly how we guarantee it.
           </p>
         </div>

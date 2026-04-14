@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: '%s | Lincolnshire Marketing Awards 2026',
   },
   description:
-    'Recognising exceptional business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner — September 2026.',
+    'Recognising exceptional business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner. September 2026.',
   keywords: [
     'Lincolnshire Marketing Awards',
     'business awards Lincolnshire',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'Lincolnshire Marketing Awards 2026',
     title: 'Lincolnshire Marketing Awards 2026',
     description:
-      'Recognising exceptional business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner — September 2026.',
+      'Recognising exceptional business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner. September 2026.',
   },
   twitter: {
     card: 'summary_large_image',
