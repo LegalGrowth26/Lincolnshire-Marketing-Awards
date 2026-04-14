@@ -11,9 +11,8 @@ const sponsors = {
     { name: 'Category Sponsor', tier: 'category', placeholder: true },
   ],
   supporting: [
-    { name: 'Allen Signs', tier: 'supporting', logo: '/images/sponsors/allen-signs.png' },
-    { name: 'Supporting Sponsor', tier: 'supporting', placeholder: true },
-    { name: 'Supporting Sponsor', tier: 'supporting', placeholder: true },
+    { name: 'Allen Signs', tier: 'supporting', logo: '/images/sponsors/Allen%20Signs%20Logo.png' },
+    { name: 'TomCRM',      tier: 'supporting', logo: '/images/sponsors/TomCRM%20Logo.webp' },
   ],
 }
 
@@ -104,10 +103,10 @@ export default function Sponsors() {
           <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest mb-6">
             Supporting Sponsors
           </p>
-          <div className="flex flex-wrap gap-6 items-center justify-center">
+          <div className="flex flex-wrap gap-10 items-center justify-center">
             {sponsors.supporting.map((sponsor, idx) =>
               'logo' in sponsor && sponsor.logo ? (
-                <div key={idx} className="h-12 w-28 flex items-center justify-center">
+                <div key={idx} className="h-16 w-44 flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={sponsor.logo}
