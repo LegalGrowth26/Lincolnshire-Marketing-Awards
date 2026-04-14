@@ -28,7 +28,7 @@ export default function Hero() {
       </div>
 
       {/* Very dark overlay */}
-      <div className="absolute inset-0 bg-navy-950/88" aria-hidden="true" />
+      <div className="absolute inset-0 bg-navy-950/93" aria-hidden="true" />
 
       {/* Subtle dot pattern */}
       <div
