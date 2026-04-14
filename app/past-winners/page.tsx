@@ -137,10 +137,10 @@ function WinnerCard({ winner }: { winner: Winner }) {
 
   return (
     <div className="bg-white border border-gray-100 rounded-sm shadow-sm hover:shadow-md
-                    hover:border-gold-200 transition-all duration-200 overflow-hidden">
-      <div className="h-1 bg-gold-500" aria-hidden="true" />
+                    hover:border-sky-200 transition-all duration-200 overflow-hidden">
+      <div className="h-1 bg-sky-400" aria-hidden="true" />
       <div className="p-5 md:p-6">
-        <h4 className="text-[11px] font-bold text-gold-600 uppercase tracking-wide mb-4 leading-snug">
+        <h4 className="text-[11px] font-bold text-sky-600 uppercase tracking-wide mb-4 leading-snug">
           {winner.category}
         </h4>
 
@@ -198,16 +198,16 @@ export default function PastWinnersPage() {
           />
           <div
             aria-hidden="true"
-            className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600"
+            className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600"
           />
           <div className="container-wide relative z-10 text-center">
-            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-gold-400 text-sm mb-6 transition-colors">
+            <Link href="/" className="inline-flex items-center gap-2 text-gray-400 hover:text-sky-400 text-sm mb-6 transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
               </svg>
               Back to Home
             </Link>
-            <span className="block text-gold-400 text-xs font-semibold tracking-[0.18em] uppercase mb-4">
+            <span className="block text-sky-400 text-xs font-semibold tracking-[0.18em] uppercase mb-4">
               Hall of Fame
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-5">
@@ -225,7 +225,7 @@ export default function PastWinnersPage() {
                 ['Black Tie', 'Awards Dinner'],
               ].map(([val, label]) => (
                 <div key={label} className="text-center">
-                  <div className="text-gold-400 font-bold text-base leading-none">{val}</div>
+                  <div className="text-sky-400 font-bold text-base leading-none">{val}</div>
                   <div className="text-gray-500 text-xs mt-1">{label}</div>
                 </div>
               ))}
@@ -273,7 +273,7 @@ export default function PastWinnersPage() {
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-6
                                 border-b-2 border-navy-900">
                   <div>
-                    <div className="text-gold-500 text-5xl font-bold leading-none mb-1">
+                    <div className="text-sky-500 text-5xl font-bold leading-none mb-1">
                       {yearData.year}
                     </div>
                     <h2 className="text-navy-900 font-bold text-xl">
@@ -287,7 +287,7 @@ export default function PastWinnersPage() {
                     )}
                   </div>
                   <div className="flex items-center gap-2 bg-navy-900 text-white px-4 py-2 rounded-sm self-start sm:self-auto">
-                    <svg className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                     <span className="text-sm font-semibold">
@@ -316,7 +316,7 @@ export default function PastWinnersPage() {
                 }}
               />
               <div className="relative z-10">
-                <div className="text-gold-400 text-5xl font-bold mb-2">2026</div>
+                <div className="text-sky-400 text-5xl font-bold mb-2">2026</div>
                 <h3 className="text-white font-bold text-2xl mb-4">
                   Could Your Business Be on This Page?
                 </h3>

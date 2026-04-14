@@ -33,7 +33,7 @@ export default function FAQAccordion({ items }: { items: FAQItem[] }) {
               <span
                 aria-hidden="true"
                 className={`flex-shrink-0 mt-0.5 w-5 h-5 rounded-full border-2
-                            border-gold-500 flex items-center justify-center text-gold-500
+                            border-sky-400 flex items-center justify-center text-sky-400
                             transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`}
               >
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>

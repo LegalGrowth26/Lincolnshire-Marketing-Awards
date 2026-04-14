@@ -84,7 +84,7 @@ export default function EventDetails() {
             <h2 id="event-heading" className="section-title-white mb-6">
               Awards Night 2026
             </h2>
-            <div className="w-12 h-0.5 bg-gold-500 mb-8" aria-hidden="true" />
+            <div className="w-12 h-0.5 bg-sky-400 mb-8" aria-hidden="true" />
 
             <p className="text-gray-300 leading-relaxed mb-10">
               The Lincolnshire Marketing Awards 2026 culminates in a prestigious black-tie
@@ -98,10 +98,10 @@ export default function EventDetails() {
                 <div
                   key={label}
                   className="bg-navy-800/60 border border-navy-700 rounded-sm p-5
-                             hover:border-gold-500/30 transition-all duration-200"
+                             hover:border-sky-400/30 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="text-gold-400 flex-shrink-0" aria-hidden="true">{icon}</div>
+                    <div className="text-sky-400 flex-shrink-0" aria-hidden="true">{icon}</div>
                     <span className="text-gray-500 text-xs uppercase tracking-wide font-medium">{label}</span>
                   </div>
                   <div className="text-white font-bold text-sm mb-0.5">{value}</div>
@@ -140,7 +140,7 @@ export default function EventDetails() {
                   },
                 ].map(({ time, event, desc }) => (
                   <li key={time} className="flex gap-4">
-                    <div className="flex-shrink-0 text-gold-400 font-bold text-xs pt-0.5 w-14">{time}</div>
+                    <div className="flex-shrink-0 text-sky-400 font-bold text-xs pt-0.5 w-14">{time}</div>
                     <div>
                       <div className="text-white font-semibold text-sm mb-1">{event}</div>
                       <div className="text-gray-400 text-xs leading-relaxed">{desc}</div>
@@ -155,7 +155,7 @@ export default function EventDetails() {
                 </p>
                 <a
                   href="mailto:tom@lincolnshiremarketing.co.uk"
-                  className="block text-center text-gold-400 hover:text-gold-300 text-sm font-medium mt-2 underline underline-offset-2"
+                  className="block text-center text-sky-400 hover:text-sky-300 text-sm font-medium mt-2 underline underline-offset-2"
                 >
                   Register your interest
                 </a>

@@ -96,7 +96,7 @@ export default function ApplyToJudge() {
               {expectations.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-sm text-gray-500">
                   <svg
-                    className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5"
+                    className="w-4 h-4 text-sky-400 flex-shrink-0 mt-0.5"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"
@@ -108,13 +108,13 @@ export default function ApplyToJudge() {
               ))}
             </ul>
 
-            <blockquote className="border-l-4 border-gold-500 pl-5 py-1">
+            <blockquote className="border-l-4 border-sky-400 pl-5 py-1">
               <p className="text-gray-600 text-sm italic leading-relaxed">
                 &ldquo;Being a judge is a genuinely rewarding experience. You see the very best
                 businesses in Lincolnshire up close, and you play a direct role in recognising
                 their achievements.&rdquo;
               </p>
-              <footer className="mt-2 text-gold-600 text-xs font-semibold">
+              <footer className="mt-2 text-sky-500 text-xs font-semibold">
                 2025 Judging Panel Member
               </footer>
             </blockquote>
@@ -138,8 +138,6 @@ export default function ApplyToJudge() {
                   data-form-id="DfQrliVzVqp04kSpKbLU"
                   title="Apply to Judge: Lincolnshire Marketing Awards 2026"
                   style={{ width: '100%', height: '720px', border: 'none', overflow: 'hidden' }}
-                  scrolling="no"
-                  loading="lazy"
                 />
               </div>
             </div>
@@ -147,7 +145,7 @@ export default function ApplyToJudge() {
               Questions?{' '}
               <a
                 href="mailto:tom@lincolnshiremarketing.co.uk"
-                className="text-gold-500 hover:text-gold-400 underline"
+                className="text-sky-400 hover:text-sky-300 underline"
               >
                 tom@lincolnshiremarketing.co.uk
               </a>
@@ -155,7 +153,7 @@ export default function ApplyToJudge() {
           </div>
         </div>
       </div>
-      <Script src="https://link.tomcrm.co.uk/js/form_embed.js" strategy="lazyOnload" />
+      <Script src="https://link.tomcrm.co.uk/js/form_embed.js" strategy="afterInteractive" />
     </section>
   )
 }

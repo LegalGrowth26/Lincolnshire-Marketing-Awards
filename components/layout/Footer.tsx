@@ -126,7 +126,7 @@ export default function Footer() {
                   href="https://www.lincolnshiremarketing.co.uk"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gold-400 hover:text-gold-300 underline underline-offset-2"
+                  className="text-sky-400 hover:text-sky-300 underline underline-offset-2"
                 >
                   Lincolnshire Marketing
                 </a>
@@ -146,7 +146,7 @@ export default function Footer() {
             <div className="mt-3">
               <Link
                 href="/sponsorship"
-                className="block text-center text-xs text-gray-500 hover:text-gold-400 transition-colors py-2"
+                className="block text-center text-xs text-gray-500 hover:text-sky-400 transition-colors py-2"
               >
                 Interested in sponsoring? →
               </Link>

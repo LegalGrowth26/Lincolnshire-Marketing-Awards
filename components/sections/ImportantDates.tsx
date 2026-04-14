@@ -71,7 +71,7 @@ export default function ImportantDates() {
               <div key={event.id} className="flex flex-col items-center text-center">
                 {/* Node */}
                 <div
-                  className="relative z-10 w-20 h-20 rounded-full border-4 border-gold-500
+                  className="relative z-10 w-20 h-20 rounded-full border-4 border-sky-400
                               bg-white flex items-center justify-center mb-5 shadow-sm"
                   aria-hidden="true"
                 >
@@ -79,7 +79,7 @@ export default function ImportantDates() {
                 </div>
 
                 {/* Date */}
-                <div className="text-gold-600 font-bold text-xs mb-1.5 tracking-wide">
+                <div className="text-sky-500 font-bold text-xs mb-1.5 tracking-wide">
                   {event.date}
                 </div>
 
@@ -107,7 +107,7 @@ export default function ImportantDates() {
                 {/* Node */}
                 <div
                   className="relative z-10 flex-shrink-0 w-11 h-11 rounded-full border-4
-                              border-gold-500 bg-white flex items-center justify-center shadow-sm"
+                              border-sky-400 bg-white flex items-center justify-center shadow-sm"
                   aria-hidden="true"
                 >
                   <span className="text-lg">{event.icon}</span>
@@ -115,7 +115,7 @@ export default function ImportantDates() {
 
                 {/* Content */}
                 <div className="pb-2">
-                  <div className="text-gold-600 font-bold text-xs mb-1 tracking-wide">
+                  <div className="text-sky-500 font-bold text-xs mb-1 tracking-wide">
                     {event.date}
                   </div>
                   <h3 className="font-bold text-navy-900 text-sm mb-1.5">{event.title}</h3>
@@ -128,7 +128,7 @@ export default function ImportantDates() {
 
         {/* CTA */}
         <div
-          className="bg-gold-50 border border-gold-200 rounded-sm p-6 md:p-8 flex flex-col
+          className="bg-sky-50 border border-sky-200 rounded-sm p-6 md:p-8 flex flex-col
                      sm:flex-row items-center justify-between gap-6"
         >
           <div>

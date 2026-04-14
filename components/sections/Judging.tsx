@@ -65,7 +65,7 @@ export default function Judging() {
           <span className="section-label">Judging &amp; Fairness</span>
           <h2 id="judging-heading" className="section-title mb-5">
             Independently Judged.<br />
-            <span className="text-gold-500">Rigorously Fair.</span>
+            <span className="text-sky-400">Rigorously Fair.</span>
           </h2>
           <p className="section-body">
             Every entry is scored by an independent panel of experienced business professionals.
@@ -79,12 +79,12 @@ export default function Judging() {
           {pillars.map(({ icon, title, body }) => (
             <div
               key={title}
-              className="bg-white border border-gray-100 rounded-sm p-6 hover:border-gold-200
+              className="bg-white border border-gray-100 rounded-sm p-6 hover:border-sky-200
                          hover:shadow-sm transition-all duration-200 group"
             >
               <div
                 className="w-12 h-12 rounded-sm bg-navy-900 flex items-center justify-center
-                            text-gold-400 mb-5 group-hover:bg-gold-500 group-hover:text-navy-900
+                            text-sky-400 mb-5 group-hover:bg-sky-400 group-hover:text-navy-950
                             transition-all duration-200"
                 aria-hidden="true"
               >

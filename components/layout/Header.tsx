@@ -37,7 +37,7 @@ export default function Header() {
       {/* Gold top accent line */}
       <div
         aria-hidden="true"
-        className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600"
+        className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600"
       />
 
       <div className="container-wide">
@@ -92,7 +92,7 @@ export default function Header() {
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="lg:hidden p-2 text-white hover:text-gold-300 transition-colors"
+            className="lg:hidden p-2 text-white hover:text-sky-300 transition-colors"
             onClick={() => setMenuOpen((o) => !o)}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

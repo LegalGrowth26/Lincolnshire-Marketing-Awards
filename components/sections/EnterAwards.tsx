@@ -30,7 +30,7 @@ export default function EnterAwards() {
             <h2 id="enter-heading" className="section-title-white mb-6">
               Enter the 2026 Awards
             </h2>
-            <div className="w-12 h-0.5 bg-gold-500 mb-8" aria-hidden="true" />
+            <div className="w-12 h-0.5 bg-sky-400 mb-8" aria-hidden="true" />
 
             <div className="space-y-5 text-gray-300 leading-relaxed mb-8">
               <p>
@@ -52,7 +52,7 @@ export default function EnterAwards() {
             {/* Tips */}
             <div className="bg-navy-800/60 border border-navy-700 rounded-sm p-6 mb-8">
               <h3 className="text-white font-semibold text-sm mb-4 flex items-center gap-2">
-                <svg className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <svg className="w-4 h-4 text-sky-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path d="M10 1a6 6 0 00-3.815 10.631C7.237 12.5 8 13.723 8 15h4c0-1.277.763-2.5 1.815-3.369A6 6 0 0010 1zm0 14a1 1 0 00-1 1v1a1 1 0 002 0v-1a1 1 0 00-1-1z" />
                 </svg>
                 Entry Writing Tips
@@ -66,7 +66,7 @@ export default function EnterAwards() {
                   'Keep your submission clear, structured, and evidence-backed',
                 ].map((tip) => (
                   <li key={tip} className="flex items-start gap-2 text-sm text-gray-400">
-                    <svg className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <svg className="w-4 h-4 text-sky-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                     </svg>
                     {tip}
@@ -84,7 +84,7 @@ export default function EnterAwards() {
               <ul className="space-y-2">
                 {uploadGuidance.map((item) => (
                   <li key={item} className="flex items-start gap-2 text-sm text-gray-400">
-                    <svg className="w-3.5 h-3.5 text-gold-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <svg className="w-3.5 h-3.5 text-sky-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                       <path d="M9.25 13.25a.75.75 0 001.5 0V4.636l2.955 3.129a.75.75 0 001.09-1.03l-4.25-4.5a.75.75 0 00-1.09 0l-4.25 4.5a.75.75 0 101.09 1.03L9.25 4.636v8.614z" />
                       <path d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
                     </svg>
@@ -98,7 +98,7 @@ export default function EnterAwards() {
           {/* Right — Embedded Form */}
           <div>
             <div className="bg-white rounded-sm overflow-hidden shadow-2xl">
-              <div className="bg-gold-500 px-6 py-4">
+              <div className="bg-sky-400 px-6 py-4">
                 <h3 className="text-navy-900 font-bold text-base">
                   Enter the Lincolnshire Marketing Awards 2026
                 </h3>
@@ -113,8 +113,6 @@ export default function EnterAwards() {
                   data-form-id="V1nrLpBn5eXpl6EDCZdA"
                   title="Enter the Lincolnshire Marketing Awards 2026"
                   style={{ width: '100%', height: '800px', border: 'none', overflow: 'hidden' }}
-                  scrolling="no"
-                  loading="lazy"
                 />
               </div>
             </div>
@@ -122,7 +120,7 @@ export default function EnterAwards() {
               Having trouble? Email{' '}
               <a
                 href="mailto:tom@lincolnshiremarketing.co.uk"
-                className="text-gold-400 hover:text-gold-300 underline"
+                className="text-sky-400 hover:text-sky-300 underline"
               >
                 tom@lincolnshiremarketing.co.uk
               </a>
@@ -130,7 +128,7 @@ export default function EnterAwards() {
           </div>
         </div>
       </div>
-      <Script src="https://link.tomcrm.co.uk/js/form_embed.js" strategy="lazyOnload" />
+      <Script src="https://link.tomcrm.co.uk/js/form_embed.js" strategy="afterInteractive" />
     </section>
   )
 }

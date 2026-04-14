@@ -16,7 +16,7 @@ export default function About() {
             <span className="section-label">About the Awards</span>
             <h2 id="about-heading" className="section-title mb-6">
               Celebrating the Best in<br />
-              <span className="text-gold-500">Lincolnshire Business</span>
+              <span className="text-sky-400">Lincolnshire Business</span>
             </h2>
             <div className="gold-divider mb-8" aria-hidden="true" />
 
@@ -53,9 +53,9 @@ export default function About() {
               {stats.map(({ value, label }) => (
                 <div
                   key={label}
-                  className="card p-6 text-center group hover:border-gold-300 transition-all duration-200"
+                  className="card p-6 text-center group hover:border-sky-200 transition-all duration-200"
                 >
-                  <div className="text-3xl md:text-4xl font-bold text-gold-500 mb-2 group-hover:scale-105
+                  <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-2 group-hover:scale-105
                                   transition-transform duration-200">
                     {value}
                   </div>
@@ -68,7 +68,7 @@ export default function About() {
             <blockquote className="mt-6 bg-navy-900 rounded-sm p-6 relative overflow-hidden">
               <div
                 aria-hidden="true"
-                className="absolute top-0 left-0 w-1 h-full bg-gold-500"
+                className="absolute top-0 left-0 w-1 h-full bg-sky-400"
               />
               <p className="text-gray-300 text-sm leading-relaxed italic pl-4">
                 &ldquo;These awards exist to shine a light on the businesses that are quietly
@@ -76,7 +76,7 @@ export default function About() {
                 they deserve.&rdquo;
               </p>
               <footer className="mt-3 pl-4">
-                <cite className="not-italic text-gold-400 text-xs font-semibold tracking-wide not-italic">
+                <cite className="not-italic text-sky-400 text-xs font-semibold tracking-wide not-italic">
                   Tom Stansfield, Lincolnshire Marketing
                 </cite>
               </footer>

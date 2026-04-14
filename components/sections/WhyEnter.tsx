@@ -77,11 +77,11 @@ export default function WhyEnter() {
           {reasons.map(({ icon, title, body }) => (
             <div
               key={title}
-              className="card p-7 group hover:border-gold-300 transition-all duration-200"
+              className="card p-7 group hover:border-sky-200 transition-all duration-200"
             >
               <div
-                className="w-12 h-12 rounded-sm bg-gold-50 flex items-center justify-center
-                            text-gold-500 mb-5 group-hover:bg-gold-500 group-hover:text-navy-900
+                className="w-12 h-12 rounded-sm bg-sky-50 flex items-center justify-center
+                            text-sky-500 mb-5 group-hover:bg-sky-400 group-hover:text-navy-950
                             transition-all duration-200"
                 aria-hidden="true"
               >

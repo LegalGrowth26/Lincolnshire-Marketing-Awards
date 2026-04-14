@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply font-poppins antialiased text-gray-800;
+    @apply font-poppins antialiased text-charcoal-800;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -28,7 +28,7 @@
 
   /* ── Typography ── */
   .section-label {
-    @apply block text-gold-500 text-xs font-semibold tracking-[0.18em] uppercase mb-3;
+    @apply block text-sky-400 text-xs font-semibold tracking-[0.18em] uppercase mb-3;
   }
 
   .section-title {
@@ -40,22 +40,32 @@
   }
 
   .section-body {
-    @apply text-gray-500 text-base md:text-lg leading-relaxed;
+    @apply text-charcoal-700 text-base md:text-lg leading-relaxed;
   }
 
   /* ── Buttons ── */
   .btn {
     @apply inline-flex items-center justify-center gap-2 font-semibold text-sm tracking-wide
            transition-all duration-200 rounded-sm focus:outline-none focus-visible:ring-2
-           focus-visible:ring-gold-500 focus-visible:ring-offset-2;
+           focus-visible:ring-sky-400 focus-visible:ring-offset-2;
   }
 
+  /* Primary CTA — sky blue */
+  .btn-primary {
+    @apply btn px-7 py-3.5 bg-sky-400 text-navy-950 hover:bg-sky-300 uppercase;
+  }
+
+  .btn-primary-lg {
+    @apply btn px-9 py-4 bg-sky-400 text-navy-950 hover:bg-sky-300 uppercase text-sm;
+  }
+
+  /* Legacy aliases — point to sky now */
   .btn-gold {
-    @apply btn px-7 py-3.5 bg-gold-500 text-navy-900 hover:bg-gold-400 uppercase;
+    @apply btn-primary;
   }
 
   .btn-gold-lg {
-    @apply btn px-9 py-4 bg-gold-500 text-navy-900 hover:bg-gold-400 uppercase text-sm;
+    @apply btn-primary-lg;
   }
 
   .btn-outline-white {
@@ -66,6 +76,11 @@
     @apply btn px-7 py-3.5 border-2 border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white uppercase;
   }
 
+  .btn-outline-sky {
+    @apply btn px-7 py-3.5 border-2 border-sky-400 text-sky-400 hover:bg-sky-400 hover:text-navy-950 uppercase;
+  }
+
+  /* Keep gold outline for genuine premium moments */
   .btn-outline-gold {
     @apply btn px-7 py-3.5 border-2 border-gold-500 text-gold-500 hover:bg-gold-500 hover:text-navy-900 uppercase;
   }
@@ -75,9 +90,9 @@
     @apply bg-white border border-gray-100 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200;
   }
 
-  /* ── Gold divider ── */
+  /* ── Sky divider (replaces gold divider) ── */
   .gold-divider {
-    @apply w-12 h-0.5 bg-gold-500;
+    @apply w-12 h-0.5 bg-sky-400;
   }
 
   /* ── Gradient overlays ── */
@@ -87,7 +102,7 @@
 
   /* ── Category card top bar ── */
   .cat-top-bar {
-    @apply absolute top-0 left-0 right-0 h-1 bg-gold-500 rounded-t-sm;
+    @apply absolute top-0 left-0 right-0 h-1 bg-sky-400 rounded-t-sm;
   }
 }
 
@@ -98,13 +113,13 @@
   min-height: 680px;
 }
 
-/* ── Timeline connector ── */
+/* ── Timeline connector — sky accent ── */
 .timeline-connector {
-  background: linear-gradient(to right, #c9a84c, #e0a13b);
+  background: linear-gradient(to right, #28c8ff, #00aee6);
 }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #0a2d6e; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #c9a84c; }
+::-webkit-scrollbar-thumb:hover { background: #28c8ff; }

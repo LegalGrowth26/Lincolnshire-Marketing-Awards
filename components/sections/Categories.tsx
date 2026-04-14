@@ -120,7 +120,7 @@ function CategoryCard({ cat }: { cat: Category }) {
   return (
     <article
       aria-labelledby={`cat-${cat.id}-heading`}
-      className="relative card p-6 flex flex-col group hover:border-gold-300 transition-all duration-200"
+      className="relative card p-6 flex flex-col group hover:border-sky-200 transition-all duration-200"
     >
       {/* Top accent bar */}
       <div className="cat-top-bar" aria-hidden="true" />
@@ -128,8 +128,8 @@ function CategoryCard({ cat }: { cat: Category }) {
       {/* Header */}
       <div className="flex items-start gap-3 mb-4 pt-2">
         <span
-          className="flex-shrink-0 w-8 h-8 rounded-sm bg-gold-50 flex items-center justify-center
-                     text-gold-600 text-xs font-bold"
+          className="flex-shrink-0 w-8 h-8 rounded-sm bg-sky-50 flex items-center justify-center
+                     text-sky-600 text-xs font-bold"
           aria-hidden="true"
         >
           {String(cat.id).padStart(2, '0')}
@@ -138,7 +138,7 @@ function CategoryCard({ cat }: { cat: Category }) {
           {cat.name}
           {cat.nominationOnly && (
             <span className="ml-2 inline-flex items-center text-[10px] font-semibold uppercase tracking-wide
-                             bg-gold-100 text-gold-700 px-2 py-0.5 rounded-sm align-middle">
+                             bg-sky-100 text-sky-700 px-2 py-0.5 rounded-sm align-middle">
               Nomination
             </span>
           )}
@@ -157,7 +157,7 @@ function CategoryCard({ cat }: { cat: Category }) {
           <ul className="space-y-1">
             {cat.whoShouldEnter.map((item) => (
               <li key={item} className="flex items-start gap-2 text-xs text-gray-500">
-                <svg className="w-3.5 h-3.5 text-gold-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <svg className="w-3.5 h-3.5 text-sky-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
                 </svg>
                 {item}

@@ -62,18 +62,18 @@ export default function Sponsors() {
                 {/* Actual logo */}
               </div>
             ) : (
-              <div className="bg-gold-50 border-2 border-dashed border-gold-200 rounded-sm
+              <div className="bg-sky-50 border-2 border-dashed border-sky-200 rounded-sm
                               px-16 py-8 text-center max-w-sm">
-                <div className="text-gold-500 text-2xl mb-2" aria-hidden="true">★</div>
+                <div className="text-sky-400 text-2xl mb-2" aria-hidden="true">★</div>
                 <p className="text-navy-900 font-bold text-sm mb-1">Headline Sponsor</p>
                 <p className="text-gray-500 text-xs">
                   Premium visibility across all award materials
                 </p>
                 <Link
                   href="/sponsorship"
-                  className="inline-block mt-4 text-gold-600 hover:text-gold-500 text-xs font-semibold underline"
+                  className="inline-block mt-4 text-sky-500 hover:text-sky-400 text-xs font-semibold underline"
                 >
-                  Enquire about headline sponsorship →
+                  Enquire about headline sponsorship
                 </Link>
               </div>
             )}

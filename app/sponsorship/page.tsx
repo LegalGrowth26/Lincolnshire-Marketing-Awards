@@ -139,12 +139,12 @@ export default function SponsorshipPage() {
           />
           <div
             aria-hidden="true"
-            className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-600 via-gold-400 to-gold-600"
+            className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-sky-600 via-sky-400 to-sky-600"
           />
           <div className="container-wide relative z-10">
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-gray-400 hover:text-gold-400 text-sm mb-8 transition-colors"
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-sky-400 text-sm mb-8 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
@@ -157,7 +157,7 @@ export default function SponsorshipPage() {
                 <span className="section-label">Sponsorship 2026</span>
                 <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
                   Align Your Brand With<br />
-                  <span className="text-gold-400">Lincolnshire Excellence</span>
+                  <span className="text-sky-400">Lincolnshire Excellence</span>
                 </h1>
                 <p className="text-gray-300 text-lg leading-relaxed mb-4 max-w-lg">
                   Sponsoring the Lincolnshire Marketing Awards places your brand at the heart
@@ -188,7 +188,7 @@ export default function SponsorshipPage() {
                     key={label}
                     className="bg-navy-800/50 border border-navy-700 rounded-sm p-4 text-center"
                   >
-                    <div className="text-gold-400 font-bold text-2xl leading-none mb-1">{stat}</div>
+                    <div className="text-sky-400 font-bold text-2xl leading-none mb-1">{stat}</div>
                     <div className="text-gray-400 text-xs leading-snug">{label}</div>
                   </div>
                 ))}
@@ -214,10 +214,10 @@ export default function SponsorshipPage() {
               {whySponsor.map(({ title, body }) => (
                 <div
                   key={title}
-                  className="card p-6 hover:border-gold-300 transition-all duration-200 group"
+                  className="card p-6 hover:border-sky-200 transition-all duration-200 group"
                 >
                   <div
-                    className="w-2 h-2 rounded-full bg-gold-500 mb-4 group-hover:w-3 group-hover:h-3
+                    className="w-2 h-2 rounded-full bg-sky-400 mb-4 group-hover:w-3 group-hover:h-3
                                 transition-all duration-200"
                     aria-hidden="true"
                   />
@@ -249,17 +249,17 @@ export default function SponsorshipPage() {
                   key={pkg.tier}
                   className={`relative rounded-sm overflow-hidden border transition-all duration-200 ${
                     pkg.highlight
-                      ? 'border-gold-400 shadow-lg bg-white'
-                      : 'border-gray-200 bg-white hover:border-gold-200 hover:shadow-md'
+                      ? 'border-sky-400 shadow-lg bg-white'
+                      : 'border-gray-200 bg-white hover:border-sky-200 hover:shadow-md'
                   }`}
                 >
                   {pkg.highlight && (
-                    <div className="bg-gold-500 text-navy-900 text-[10px] font-bold uppercase
+                    <div className="bg-sky-400 text-navy-950 text-[10px] font-bold uppercase
                                     tracking-widest text-center py-1.5 px-4">
                       Maximum Exposure
                     </div>
                   )}
-                  <div className={`h-1 ${pkg.highlight ? 'bg-gold-500' : 'bg-navy-900'}`} aria-hidden="true" />
+                  <div className={`h-1 ${pkg.highlight ? 'bg-sky-400' : 'bg-navy-900'}`} aria-hidden="true" />
                   <div className="p-7">
                     <div className="flex items-start justify-between gap-4 mb-4">
                       <div>
@@ -267,7 +267,7 @@ export default function SponsorshipPage() {
                         <p className="text-gray-500 text-sm mt-1 leading-relaxed">{pkg.description}</p>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="text-gold-600 font-bold text-lg leading-none">{pkg.price}</div>
+                        <div className="text-sky-600 font-bold text-lg leading-none">{pkg.price}</div>
                         <div className="text-gray-400 text-xs mt-0.5">+VAT</div>
                       </div>
                     </div>
@@ -275,7 +275,7 @@ export default function SponsorshipPage() {
                     <ul className="space-y-2 mb-7">
                       {pkg.benefits.map((benefit) => (
                         <li key={benefit} className="flex items-start gap-2.5 text-sm text-gray-600">
-                          <svg className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                          <svg className="w-4 h-4 text-sky-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                             <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
                           </svg>
                           {benefit}
@@ -347,7 +347,7 @@ export default function SponsorshipPage() {
                 },
               ].map(({ stat, label, note }) => (
                 <div key={label} className="bg-navy-900 rounded-sm p-6 text-center">
-                  <div className="text-gold-400 font-bold text-3xl mb-1">{stat}</div>
+                  <div className="text-sky-400 font-bold text-3xl mb-1">{stat}</div>
                   <div className="text-white font-semibold text-sm mb-1">{label}</div>
                   <div className="text-gray-400 text-xs">{note}</div>
                 </div>
