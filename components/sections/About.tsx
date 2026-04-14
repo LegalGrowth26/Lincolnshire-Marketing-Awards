@@ -7,7 +7,12 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" aria-labelledby="about-heading" className="section-py bg-white">
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
@@ -16,7 +21,16 @@ export default function About() {
             <span className="section-label">About the Awards</span>
             <h2 id="about-heading" className="section-title mb-6">
               Celebrating the Best in<br />
-              <span className="text-sky-400">Lincolnshire Business</span>
+              <span
+                className="text-sky-400"
+                style={{
+                  background: 'linear-gradient(135deg, #28c8ff, #00aee6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >
+                Lincolnshire Business
+              </span>
             </h2>
             <div className="gold-divider mb-8" aria-hidden="true" />
 
@@ -54,9 +68,16 @@ export default function About() {
                 <div
                   key={label}
                   className="card p-6 text-center group hover:border-sky-200 transition-all duration-200"
+                  style={{ borderBottom: '2px solid rgba(40,200,255,0.15)' }}
                 >
-                  <div className="text-3xl md:text-4xl font-bold text-sky-400 mb-2 group-hover:scale-105
-                                  transition-transform duration-200">
+                  <div
+                    className="text-3xl md:text-4xl font-bold mb-2 group-hover:scale-105 transition-transform duration-200"
+                    style={{
+                      background: 'linear-gradient(135deg, #28c8ff, #00aee6)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}
+                  >
                     {value}
                   </div>
                   <div className="text-sm font-medium text-navy-900">{label}</div>
@@ -65,10 +86,17 @@ export default function About() {
             </div>
 
             {/* Quote block */}
-            <blockquote className="mt-6 bg-navy-900 rounded-sm p-6 relative overflow-hidden">
+            <blockquote
+              className="mt-6 rounded-sm p-6 relative overflow-hidden"
+              style={{
+                background: 'linear-gradient(145deg, #040f2e 0%, #071d52 100%)',
+                boxShadow: '0 0 40px rgba(40,200,255,0.08) inset',
+              }}
+            >
               <div
                 aria-hidden="true"
-                className="absolute top-0 left-0 w-1 h-full bg-sky-400"
+                className="absolute top-0 left-0 w-1 h-full"
+                style={{ background: 'linear-gradient(to bottom, #c9a84c, #28c8ff)' }}
               />
               <p className="text-gray-300 text-sm leading-relaxed italic pl-4">
                 &ldquo;These awards exist to shine a light on the businesses that are quietly

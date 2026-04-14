@@ -36,7 +36,12 @@ function PlaceholderLogo({ size = 'md' }: { size?: 'lg' | 'md' | 'sm' }) {
 
 export default function Sponsors() {
   return (
-    <section id="sponsors" aria-labelledby="sponsors-heading" className="section-py bg-white">
+    <section
+      id="sponsors"
+      aria-labelledby="sponsors-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
 
         {/* Header */}
@@ -118,7 +123,13 @@ export default function Sponsors() {
         </div>
 
         {/* Sponsor CTA */}
-        <div className="bg-navy-900 rounded-sm p-8 md:p-12 relative overflow-hidden">
+        <div
+          className="rounded-sm p-8 md:p-12 relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(145deg, #040f2e 0%, #071d52 40%, #0a2d6e 100%)',
+            boxShadow: '0 0 60px rgba(40,200,255,0.06) inset',
+          }}
+        >
           <div
             aria-hidden="true"
             className="absolute inset-0"

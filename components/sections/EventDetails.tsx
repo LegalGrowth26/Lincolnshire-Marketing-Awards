@@ -109,8 +109,7 @@ export default function EventDetails() {
               {details.map(({ icon, label, value, note }) => (
                 <div
                   key={label}
-                  className="bg-navy-800/60 border border-navy-700 rounded-sm p-5
-                             hover:border-sky-400/30 transition-all duration-200"
+                  className="card-glass p-5 hover:border-sky-400/30 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <div className="text-sky-400 flex-shrink-0" aria-hidden="true">{icon}</div>
@@ -125,7 +124,15 @@ export default function EventDetails() {
 
           {/* Right — What to expect */}
           <div>
-            <div className="bg-navy-800/40 border border-navy-700 rounded-sm p-8">
+            <div
+              className="border rounded-sm p-8"
+              style={{
+                background: 'rgba(4,15,46,0.5)',
+                borderColor: 'rgba(40,200,255,0.1)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+              }}
+            >
               <h3 className="text-white font-bold text-lg mb-6">What to Expect on the Night</h3>
 
               <ol className="space-y-5">

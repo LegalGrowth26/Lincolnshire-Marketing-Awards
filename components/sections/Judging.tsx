@@ -57,7 +57,12 @@ const pillars = [
 
 export default function Judging() {
   return (
-    <section id="judging" aria-labelledby="judging-heading" className="section-py bg-gray-50">
+    <section
+      id="judging"
+      aria-labelledby="judging-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
 
         {/* Header */}
@@ -79,13 +84,14 @@ export default function Judging() {
           {pillars.map(({ icon, title, body }) => (
             <div
               key={title}
-              className="bg-white border border-gray-100 rounded-sm p-6 hover:border-sky-200
-                         hover:shadow-sm transition-all duration-200 group"
+              className="card p-6 group"
             >
               <div
-                className="w-12 h-12 rounded-sm bg-navy-900 flex items-center justify-center
-                            text-sky-400 mb-5 group-hover:bg-sky-400 group-hover:text-navy-950
+                className="w-12 h-12 rounded-sm flex items-center justify-center
+                            text-sky-400 mb-5 border border-sky-400/20
+                            group-hover:bg-sky-400 group-hover:text-navy-950
                             transition-all duration-200"
+                style={{ background: 'linear-gradient(135deg, #040f2e, #071d52)' }}
                 aria-hidden="true"
               >
                 {icon}
@@ -97,7 +103,20 @@ export default function Judging() {
         </div>
 
         {/* Apply to judge CTA */}
-        <div className="bg-navy-900 rounded-sm p-8 md:p-12 text-center relative overflow-hidden">
+        <div
+          className="rounded-sm p-8 md:p-12 text-center relative overflow-hidden"
+          style={{
+            background: 'linear-gradient(145deg, #040f2e 0%, #071d52 40%, #0a2d6e 100%)',
+            boxShadow: '0 0 60px rgba(40,200,255,0.06) inset',
+          }}
+        >
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 600px 300px at 50% 0%, rgba(40,200,255,0.07) 0%, transparent 70%)',
+            }}
+          />
           <div
             aria-hidden="true"
             className="absolute inset-0"

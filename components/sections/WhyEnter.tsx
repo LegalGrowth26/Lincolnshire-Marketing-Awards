@@ -57,7 +57,12 @@ const reasons = [
 
 export default function WhyEnter() {
   return (
-    <section id="why-enter" aria-labelledby="why-enter-heading" className="section-py bg-gray-50">
+    <section
+      id="why-enter"
+      aria-labelledby="why-enter-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
 
         {/* Header */}
@@ -80,14 +85,16 @@ export default function WhyEnter() {
               className="card p-7 group hover:border-sky-200 transition-all duration-200"
             >
               <div
-                className="w-12 h-12 rounded-sm bg-sky-50 flex items-center justify-center
-                            text-sky-500 mb-5 group-hover:bg-sky-400 group-hover:text-navy-950
+                className="w-12 h-12 rounded-sm flex items-center justify-center
+                            text-sky-500 mb-5 border border-sky-400/20
+                            group-hover:bg-sky-400 group-hover:text-navy-950
                             transition-all duration-200"
+                style={{ background: 'linear-gradient(135deg, rgba(40,200,255,0.08), rgba(20,88,186,0.12))' }}
                 aria-hidden="true"
               >
                 {icon}
               </div>
-              <h3 className="font-bold text-navy-900 mb-2 text-base">{title}</h3>
+              <h3 className="font-bold text-navy-900 mb-2 text-base tracking-tight">{title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{body}</p>
             </div>
           ))}

@@ -120,7 +120,7 @@ function CategoryCard({ cat }: { cat: Category }) {
   return (
     <article
       aria-labelledby={`cat-${cat.id}-heading`}
-      className="relative card p-6 flex flex-col group hover:border-sky-200 transition-all duration-200"
+      className="relative card p-6 flex flex-col group"
     >
       {/* Top accent bar */}
       <div className="cat-top-bar" aria-hidden="true" />
@@ -128,8 +128,13 @@ function CategoryCard({ cat }: { cat: Category }) {
       {/* Header */}
       <div className="flex items-start gap-3 mb-4 pt-2">
         <span
-          className="flex-shrink-0 w-8 h-8 rounded-sm bg-sky-50 flex items-center justify-center
-                     text-sky-600 text-xs font-bold"
+          className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center
+                     text-xs font-bold"
+          style={{
+            background: 'linear-gradient(135deg, #040f2e, #0a2d6e)',
+            color: '#28c8ff',
+            boxShadow: '0 0 12px rgba(40,200,255,0.15)',
+          }}
           aria-hidden="true"
         >
           {String(cat.id).padStart(2, '0')}
@@ -149,7 +154,7 @@ function CategoryCard({ cat }: { cat: Category }) {
       <p className="text-sm text-gray-500 leading-relaxed mb-5 flex-1">{cat.description}</p>
 
       {/* Details */}
-      <div className="space-y-4 border-t border-gray-100 pt-4">
+      <div className="space-y-4 border-t border-gray-100/80 pt-4">
         <div>
           <h4 className="text-xs font-semibold text-navy-900 uppercase tracking-wide mb-2">
             Who should enter
@@ -172,7 +177,7 @@ function CategoryCard({ cat }: { cat: Category }) {
           <ul className="space-y-1">
             {cat.judgesLookFor.map((item) => (
               <li key={item} className="flex items-start gap-2 text-xs text-gray-500">
-                <svg className="w-3.5 h-3.5 text-navy-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                <svg className="w-3.5 h-3.5 text-gold-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                 </svg>
                 {item}
@@ -183,7 +188,7 @@ function CategoryCard({ cat }: { cat: Category }) {
       </div>
 
       {/* CTA */}
-      <div className="pt-4 mt-4 border-t border-gray-100">
+      <div className="pt-4 mt-4 border-t border-gray-100/80">
         <a
           href={cat.nominationOnly ? '#enter' : '#enter'}
           className="block w-full text-center btn-outline-navy text-xs py-2.5"
@@ -197,7 +202,12 @@ function CategoryCard({ cat }: { cat: Category }) {
 
 export default function Categories() {
   return (
-    <section id="categories" aria-labelledby="categories-heading" className="section-py bg-white">
+    <section
+      id="categories"
+      aria-labelledby="categories-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
 
         {/* Header */}

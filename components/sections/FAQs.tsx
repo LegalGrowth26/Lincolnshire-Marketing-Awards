@@ -57,7 +57,12 @@ const faqs = [
 
 export default function FAQs() {
   return (
-    <section id="faqs" aria-labelledby="faqs-heading" className="section-py bg-white">
+    <section
+      id="faqs"
+      aria-labelledby="faqs-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
         <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
 

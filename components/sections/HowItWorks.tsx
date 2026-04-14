@@ -70,15 +70,14 @@ export default function HowItWorks() {
           {steps.map(({ num, title, body, note }) => (
             <div
               key={num}
-              className="relative bg-navy-800/60 border border-navy-700 rounded-sm p-7
-                         hover:border-sky-400/40 transition-all duration-200 group"
+              className="card-glass p-7 group relative hover:border-sky-400/40 transition-all duration-200"
             >
               {/* Top accent */}
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-sky-400/0
                               group-hover:bg-sky-400/60 transition-all duration-200 rounded-t-sm" />
 
               {/* Step number */}
-              <div className="text-5xl font-bold text-sky-400/20 leading-none mb-4 select-none"
+              <div className="text-5xl font-bold text-sky-400/15 leading-none mb-4 select-none"
                    aria-hidden="true">
                 {num}
               </div>
@@ -87,8 +86,13 @@ export default function HowItWorks() {
               <p className="text-gray-300 text-sm leading-relaxed mb-4">{body}</p>
 
               {/* Note badge */}
-              <div className="inline-flex items-center gap-1.5 bg-navy-900/60 border border-navy-600
-                              rounded-sm px-3 py-1">
+              <div
+                className="inline-flex items-center gap-1.5 border rounded-sm px-3 py-1"
+                style={{
+                  background: 'rgba(4,15,46,0.6)',
+                  borderColor: 'rgba(40,200,255,0.15)',
+                }}
+              >
                 <svg className="w-3 h-3 text-sky-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clipRule="evenodd" />
                 </svg>

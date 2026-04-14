@@ -43,7 +43,12 @@ const timelineEvents = [
 
 export default function ImportantDates() {
   return (
-    <section id="dates" aria-labelledby="dates-heading" className="section-py bg-white">
+    <section
+      id="dates"
+      aria-labelledby="dates-heading"
+      className="section-py"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
       <div className="container-wide">
 
         {/* Header */}
@@ -71,9 +76,13 @@ export default function ImportantDates() {
               <div key={event.id} className="flex flex-col items-center text-center">
                 {/* Node */}
                 <div
-                  className="relative z-10 w-20 h-20 rounded-full border-4 border-sky-400
-                              bg-white flex items-center justify-center mb-5 shadow-sm"
+                  className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center mb-5"
                   aria-hidden="true"
+                  style={{
+                    background: 'linear-gradient(145deg, #ffffff, #f0f5ff)',
+                    border: '2px solid rgba(40,200,255,0.3)',
+                    boxShadow: '0 0 20px rgba(40,200,255,0.15), 0 4px 12px rgba(10,45,110,0.1)',
+                  }}
                 >
                   <span className="text-2xl">{event.icon}</span>
                 </div>
@@ -106,9 +115,13 @@ export default function ImportantDates() {
               <li key={event.id} className="flex gap-6 pl-1">
                 {/* Node */}
                 <div
-                  className="relative z-10 flex-shrink-0 w-11 h-11 rounded-full border-4
-                              border-sky-400 bg-white flex items-center justify-center shadow-sm"
+                  className="relative z-10 flex-shrink-0 w-11 h-11 rounded-full flex items-center justify-center"
                   aria-hidden="true"
+                  style={{
+                    background: 'linear-gradient(145deg, #ffffff, #f0f5ff)',
+                    border: '2px solid rgba(40,200,255,0.3)',
+                    boxShadow: '0 0 16px rgba(40,200,255,0.15)',
+                  }}
                 >
                   <span className="text-lg">{event.icon}</span>
                 </div>
@@ -128,14 +141,18 @@ export default function ImportantDates() {
 
         {/* CTA */}
         <div
-          className="bg-sky-50 border border-sky-200 rounded-sm p-6 md:p-8 flex flex-col
-                     sm:flex-row items-center justify-between gap-6"
+          className="rounded-sm p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6"
+          style={{
+            background: 'linear-gradient(135deg, #071d52 0%, #0a2d6e 100%)',
+            border: '1px solid rgba(40,200,255,0.15)',
+            boxShadow: '0 8px 32px rgba(7,29,82,0.2)',
+          }}
         >
           <div>
-            <h3 className="font-bold text-navy-900 text-base mb-1">
+            <h3 className="font-bold text-white text-base mb-1">
               Don&apos;t miss the entry deadline
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-300">
               Entries open in early May 2026. Deadline is late July. Be ready.
             </p>
           </div>
