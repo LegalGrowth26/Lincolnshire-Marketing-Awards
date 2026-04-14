@@ -10,11 +10,14 @@ export default function Hero() {
     <section
       id="hero"
       aria-label="Lincolnshire Marketing Awards 2026 hero"
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center"
       style={{
         background: 'linear-gradient(145deg, #040f2e 0%, #071d52 35%, #0a2d6e 65%, #040f2e 100%)',
       }}
     >
+      {/* ── Decorative layer — overflow-hidden scoped here so text is never clipped ── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+
       {/* ── Geometric wireframe shapes ── */}
       <svg
         aria-hidden="true"
@@ -115,13 +118,14 @@ export default function Hero() {
 
       {/* ── Fine dot grid ── */}
       <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 opacity-40"
         style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(40,200,255,0.12) 1px, transparent 0)',
           backgroundSize: '40px 40px',
         }}
       />
+
+      </div>{/* end decorative layer */}
 
       {/* ── Sky accent top line ── */}
       <div
@@ -153,9 +157,10 @@ export default function Hero() {
         </div>
 
         <h1
-          className="font-bold text-white leading-[1.02] mb-7"
+          className="font-bold text-white mb-7"
           style={{
             fontSize: 'clamp(2.8rem, 7vw, 6rem)',
+            lineHeight: 1.2,
             letterSpacing: '-0.02em',
             maxWidth: '14ch',
           }}
@@ -168,6 +173,7 @@ export default function Hero() {
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
+              paddingBottom: '0.1em',   /* extend clip region to capture descenders */
             }}
           >
             Marketing
