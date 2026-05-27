@@ -6,6 +6,7 @@ const SITE_DESCRIPTION =
   'Mission Business returns for its second year. A free, practical event for Lincolnshire and East Midlands business leaders. Defence insight, practical speakers, regional connections. 8 July 2026, Prince William of Gloucester Barracks, Grantham.'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://lincolnshiremarketingawards.co.uk'),
   title: {
     default: SITE_TITLE,
     template: '%s | Mission Business 2026',
@@ -24,6 +25,15 @@ export const metadata: Metadata = {
     'Business Unfinished',
     'free business event',
   ],
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon',        type: 'image/png', sizes: '32x32' },
+    ],
+    apple: [
+      { url: '/apple-icon', type: 'image/png', sizes: '180x180' },
+    ],
+  },
   openGraph: {
     type: 'website',
     locale: 'en_GB',
