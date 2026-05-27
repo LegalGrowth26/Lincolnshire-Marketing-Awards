@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://lincolnshiremarketingawards.co.uk'),
   title: {
     default: 'Lincolnshire Marketing Awards 2026',
     template: '%s | Lincolnshire Marketing Awards 2026',
