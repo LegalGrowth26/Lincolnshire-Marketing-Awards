@@ -1,21 +1,29 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
+const SITE_TITLE = 'Mission Business 2026 — Free business & defence event, Grantham'
+const SITE_DESCRIPTION =
+  'Mission Business returns for its second year. A free, practical event for Lincolnshire and East Midlands business leaders. Defence insight, practical speakers, regional connections. 8 July 2026, Prince William of Gloucester Barracks, Grantham.'
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://lincolnshiremarketingawards.co.uk'),
   title: {
-    default: 'Lincolnshire Marketing Awards 2026',
-    template: '%s | Lincolnshire Marketing Awards 2026',
+    default: SITE_TITLE,
+    template: '%s | Mission Business 2026',
   },
-  description:
-    'Recognising exceptional business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner. September 2026.',
+  description: SITE_DESCRIPTION,
   keywords: [
-    'Lincolnshire Marketing Awards',
-    'business awards Lincolnshire',
-    'SME awards',
-    'business growth award',
-    'Lincolnshire business',
-    'LMA 2026',
+    'Mission Business',
+    'Mission Business 2026',
+    'Lincolnshire business event',
+    'East Midlands business event',
+    'defence business',
+    'business networking Lincolnshire',
+    'Grantham business event',
+    'Prince William of Gloucester Barracks',
+    'Paul Green',
+    'Business Unfinished',
+    'free business event',
   ],
   icons: {
     icon: [
@@ -29,87 +37,31 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    siteName: 'Lincolnshire Marketing Awards 2026',
-    title: 'Lincolnshire Marketing Awards 2026',
-    description:
-      'Recognising exceptional business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner. September 2026.',
+    siteName: 'Mission Business 2026',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Lincolnshire Marketing Awards 2026',
-    description: 'Recognising exceptional business growth across Lincolnshire.',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
   },
   robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" className="scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
           rel="stylesheet"
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@graph': [
-                {
-                  '@type': 'Event',
-                  name: 'Lincolnshire Marketing Awards 2026',
-                  description:
-                    'Recognising exceptional marketing and business growth across Lincolnshire. Free to enter, independently judged, black-tie awards dinner. September 2026.',
-                  startDate: '2026-09',
-                  eventStatus: 'https://schema.org/EventScheduled',
-                  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-                  location: {
-                    '@type': 'Place',
-                    name: 'Lincolnshire',
-                    address: {
-                      '@type': 'PostalAddress',
-                      addressRegion: 'Lincolnshire',
-                      addressCountry: 'GB',
-                    },
-                  },
-                  image: 'https://lincolnshiremarketingawards.co.uk/opengraph-image',
-                  url: 'https://lincolnshiremarketingawards.co.uk',
-                  organizer: {
-                    '@type': 'Organization',
-                    name: 'Lincolnshire Marketing Awards',
-                    url: 'https://lincolnshiremarketingawards.co.uk',
-                  },
-                  isAccessibleForFree: true,
-                  typicalAgeRange: '18-',
-                },
-                {
-                  '@type': 'Organization',
-                  name: 'Lincolnshire Marketing Awards',
-                  url: 'https://lincolnshiremarketingawards.co.uk',
-                  logo: 'https://lincolnshiremarketingawards.co.uk/favicon.svg',
-                  description:
-                    'Annual marketing awards recognising exceptional business growth across Lincolnshire.',
-                  areaServed: {
-                    '@type': 'AdministrativeArea',
-                    name: 'Lincolnshire',
-                  },
-                  contactPoint: {
-                    '@type': 'ContactPoint',
-                    email: 'hello@legalgrowth.co.uk',
-                    contactType: 'customer service',
-                  },
-                },
-              ],
-            }),
-          }}
-        />
+        <meta name="theme-color" content="#050505" />
       </head>
-      <body className="font-poppins bg-white text-gray-800 antialiased">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }
