@@ -6,8 +6,8 @@ const details = [
       </svg>
     ),
     label: 'Date',
-    value: 'September 2026',
-    note: 'Exact date to be confirmed',
+    value: '10 September 2026',
+    note: 'Doors open from 7:00pm',
   },
   {
     icon: (

@@ -193,7 +193,7 @@ export default function Hero() {
         >
           Open to all Lincolnshire businesses, from sole traders and start-ups to
           established employers and professional services firms. Free to enter.
-          Independently judged. Black-tie awards dinner, September 2026.
+          Independently judged. Black-tie awards dinner, 10 September 2026.
         </p>
 
         {/* CTAs */}

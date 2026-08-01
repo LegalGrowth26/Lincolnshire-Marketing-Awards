@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 
 export const size        = { width: 1200, height: 630 }
 export const contentType = 'image/png'
-export const alt         = 'Lincolnshire Marketing Awards 2026 — Free to enter, independently judged, black-tie awards dinner, September 2026.'
+export const alt         = 'Lincolnshire Marketing Awards 2026 — Free to enter, independently judged, black-tie awards dinner, 10 September 2026.'
 
 export default function OgImage() {
   return new ImageResponse(
@@ -129,7 +129,7 @@ export default function OgImage() {
               ['Free', 'To Enter'],
               ['15', 'Award Categories'],
               ['3 Judges', 'Per Entry'],
-              ['Black Tie', 'September 2026'],
+              ['Black Tie', '10 September 2026'],
             ].map(([val, label]) => (
               <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span

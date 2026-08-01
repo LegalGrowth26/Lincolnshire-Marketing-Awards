@@ -322,7 +322,7 @@ export default function PastWinnersPage() {
                 </h3>
                 <p className="text-gray-400 max-w-xl mx-auto mb-3 leading-relaxed">
                   Entries for the 2026 awards open in early May. Free to enter, independently
-                  judged, and celebrated at a black-tie dinner in September 2026.
+                  judged, and celebrated at a black-tie dinner in 10 September 2026.
                 </p>
                 <p className="text-gray-500 text-sm max-w-lg mx-auto mb-8">
                   These awards are open to all Lincolnshire businesses. No entry fees,

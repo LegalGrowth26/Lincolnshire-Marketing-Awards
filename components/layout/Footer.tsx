@@ -33,7 +33,7 @@ export default function Footer() {
             </div>
             <p className="text-sm leading-relaxed text-gray-400 mb-6">
               Recognising exceptional business growth across Lincolnshire. Free to enter,
-              independently judged, black-tie awards dinner. September 2026.
+              independently judged, black-tie awards dinner. 10 September 2026.
             </p>
             {/* Social */}
             <div className="flex items-center gap-3">
@@ -176,7 +176,7 @@ export default function Footer() {
             <span className="text-navy-700">·</span>
             <span>Independently judged</span>
             <span className="text-navy-700">·</span>
-            <span>September 2026</span>
+            <span>10 September 2026</span>
           </div>
         </div>
       </div>

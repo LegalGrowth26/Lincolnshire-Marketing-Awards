@@ -33,7 +33,7 @@ const steps = [
     num: '06',
     title: 'Awards Night',
     body: 'Join us for a prestigious black-tie dinner. Winners are revealed on the night. Celebrate with Lincolnshire\'s best businesses.',
-    note: 'September 2026 · Black Tie',
+    note: '10 September 2026 · Black Tie',
   },
 ]
 

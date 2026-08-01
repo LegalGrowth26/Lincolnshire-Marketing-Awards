@@ -33,9 +33,9 @@ const timelineEvents = [
   },
   {
     id: 5,
-    date: 'September 2026',
+    date: '10 September 2026',
     title: 'Awards Night',
-    description: 'A prestigious black-tie dinner. Winners revealed on the night. Venue and exact date announced soon.',
+    description: 'A prestigious black-tie dinner at the DoubleTree by Hilton, Lincoln. Winners revealed on the night.',
     icon: '🏆',
     status: 'upcoming',
   },
