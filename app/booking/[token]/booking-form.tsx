@@ -119,12 +119,12 @@ export default function BookingForm({
   return (
     <div>
       <div className="flex items-center justify-between gap-4 mb-8">
-        <p className="text-sm text-neutral-500">
+        <p className="text-sm text-gray-500">
           {named} of {seats} {seats === 1 ? 'seat' : 'seats'} named
         </p>
-        <div className="h-2 flex-1 max-w-xs bg-neutral-200 rounded-full overflow-hidden">
+        <div className="h-2 flex-1 max-w-xs bg-navy-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-neutral-900 transition-all"
+            className="h-full timeline-connector transition-all"
             style={{ width: `${(named / seats) * 100}%` }}
           />
         </div>
@@ -132,12 +132,12 @@ export default function BookingForm({
 
       <div className="space-y-5">
         {rows.map((row, i) => (
-          <section key={row.seat_number} className="border border-neutral-200 rounded-xl p-6">
+          <section key={row.seat_number} className="card p-6">
             <div className="flex items-baseline justify-between">
-              <h2 className="font-bold text-lg">
+              <h2 className="font-bold text-lg text-navy-900 tracking-tight">
                 Seat {row.seat_number}
                 {row.seat_number === 1 && (
-                  <span className="ml-2 text-xs font-semibold uppercase tracking-wider text-neutral-400">
+                  <span className="ml-2 text-xs font-bold uppercase tracking-wider text-gold-500">
                     You
                   </span>
                 )}
@@ -146,29 +146,31 @@ export default function BookingForm({
 
             <div className="grid sm:grid-cols-2 gap-4 mt-5">
               <label className="block">
-                <span className="text-sm font-semibold">Full name</span>
+                <span className="text-sm font-semibold text-navy-900">Full name</span>
                 <input
                   value={row.full_name}
                   onChange={(e) => update(i, { full_name: e.target.value })}
-                  className="mt-2 w-full border border-neutral-300 rounded-md px-3 py-2"
+                  className="mt-2 w-full border border-navy-200 bg-white rounded-sm px-3 py-2
+                             focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30"
                   placeholder="First and last name"
                 />
               </label>
               <label className="block">
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-semibold text-navy-900">
                   Company or job title{' '}
-                  <span className="font-normal text-neutral-400">optional</span>
+                  <span className="font-normal text-gray-400">optional</span>
                 </span>
                 <input
                   value={row.company}
                   onChange={(e) => update(i, { company: e.target.value })}
-                  className="mt-2 w-full border border-neutral-300 rounded-md px-3 py-2"
+                  className="mt-2 w-full border border-navy-200 bg-white rounded-sm px-3 py-2
+                             focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30"
                 />
               </label>
             </div>
 
             <fieldset className="mt-5">
-              <legend className="text-sm font-semibold">Dietary requirements</legend>
+              <legend className="text-sm font-semibold text-navy-900">Dietary requirements</legend>
               <div className="flex flex-wrap gap-2 mt-3">
                 {options.map((o) => {
                   const on = row.dietary_tags.includes(o.slug)
@@ -180,8 +182,8 @@ export default function BookingForm({
                       aria-pressed={on}
                       className={`px-3 py-1.5 rounded-full text-sm border transition ${
                         on
-                          ? 'bg-neutral-900 text-white border-neutral-900'
-                          : 'bg-white text-neutral-700 border-neutral-300 hover:border-neutral-500'
+                          ? 'bg-navy-900 text-white border-navy-900'
+                          : 'bg-white text-charcoal-700 border-navy-200 hover:border-sky-400'
                       }`}
                     >
                       {o.label}
@@ -193,27 +195,29 @@ export default function BookingForm({
 
             <div className="grid sm:grid-cols-2 gap-4 mt-5">
               <label className="block">
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-semibold text-navy-900">
                   Anything else the kitchen needs to know
                 </span>
                 <textarea
                   value={row.dietary_notes}
                   onChange={(e) => update(i, { dietary_notes: e.target.value })}
                   rows={2}
-                  className="mt-2 w-full border border-neutral-300 rounded-md px-3 py-2"
+                  className="mt-2 w-full border border-navy-200 bg-white rounded-sm px-3 py-2
+                             focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30"
                   placeholder="Severity of an allergy, other requirements"
                 />
               </label>
               <label className="block">
-                <span className="text-sm font-semibold">
+                <span className="text-sm font-semibold text-navy-900">
                   Access or seating notes{' '}
-                  <span className="font-normal text-neutral-400">optional</span>
+                  <span className="font-normal text-gray-400">optional</span>
                 </span>
                 <textarea
                   value={row.accessibility_notes}
                   onChange={(e) => update(i, { accessibility_notes: e.target.value })}
                   rows={2}
-                  className="mt-2 w-full border border-neutral-300 rounded-md px-3 py-2"
+                  className="mt-2 w-full border border-navy-200 bg-white rounded-sm px-3 py-2
+                             focus:outline-none focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30"
                   placeholder="Step free access, hearing loop, anything else"
                 />
               </label>
@@ -223,12 +227,12 @@ export default function BookingForm({
       </div>
 
       {error && (
-        <p className="mt-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded-md p-4">
+        <p className="mt-6 text-sm text-red-700 bg-red-50 border border-red-200 rounded-sm p-4">
           {error}
         </p>
       )}
       {message && (
-        <p className="mt-6 text-sm text-green-800 bg-green-50 border border-green-200 rounded-md p-4">
+        <p className="mt-6 text-sm text-green-800 bg-green-50 border border-green-200 rounded-sm p-4">
           {message}
         </p>
       )}
@@ -237,11 +241,11 @@ export default function BookingForm({
         <button
           onClick={save}
           disabled={saving}
-          className="bg-neutral-950 text-white px-7 py-3 rounded-md font-semibold disabled:opacity-50"
+          className="btn-gold disabled:opacity-50 disabled:pointer-events-none"
         >
           {saving ? 'Saving' : 'Save guest details'}
         </button>
-        <p className="text-sm text-neutral-500">
+        <p className="text-sm text-gray-500">
           You can save now and come back to this link any time before the event.
         </p>
       </div>

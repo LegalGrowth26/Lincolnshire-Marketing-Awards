@@ -26,11 +26,17 @@ const DEFAULTS: Settings = {
 }
 
 export async function getSettings(): Promise<Settings> {
-  const { data, error } = await db().from('settings').select('key, value')
-  if (error || !data) return { ...DEFAULTS }
-  const out: Record<string, unknown> = { ...DEFAULTS }
-  for (const row of data) out[row.key] = row.value
-  return out as Settings
+  // Must never throw: public pages fall back to DEFAULTS when the database
+  // is unreachable or the Supabase env vars are missing.
+  try {
+    const { data, error } = await db().from('settings').select('key, value')
+    if (error || !data) return { ...DEFAULTS }
+    const out: Record<string, unknown> = { ...DEFAULTS }
+    for (const row of data) out[row.key] = row.value
+    return out as Settings
+  } catch {
+    return { ...DEFAULTS }
+  }
 }
 
 export async function setSetting(key: string, value: unknown) {

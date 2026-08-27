@@ -5,12 +5,8 @@ import Link from 'next/link'
 import Logo from '@/components/ui/Logo'
 
 const navLinks = [
-  { label: 'About',      href: '/#about' },
-  { label: 'Categories', href: '/#categories' },
-  { label: 'Dates',      href: '/#dates' },
-  { label: 'Judging',    href: '/#judging' },
-  { label: 'Sponsors',   href: '/#sponsors' },
-  { label: 'FAQs',       href: '/#faqs' },
+  { label: 'Shortlist', href: '/#shortlist' },
+  { label: 'Tickets',   href: '/tickets' },
 ]
 
 export default function Header() {
@@ -65,13 +61,6 @@ export default function Header() {
               </a>
             ))}
             <Link
-              href="/past-winners"
-              className="px-3.5 py-2 text-white/80 hover:text-white text-sm font-medium
-                         transition-colors duration-150 rounded-sm"
-            >
-              Past Winners
-            </Link>
-            <Link
               href="/sponsorship"
               className="px-3.5 py-2 text-white/80 hover:text-white text-sm font-medium
                          transition-colors duration-150 rounded-sm"
@@ -83,7 +72,7 @@ export default function Header() {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <a href="/tickets" className="btn-gold text-xs py-2.5 px-5">
-              Book Tickets
+              Book Your Tickets
             </a>
           </div>
 
@@ -127,14 +116,6 @@ export default function Header() {
               {link.label}
             </a>
           ))}
-          <Link
-            href="/past-winners"
-            onClick={closeMenu}
-            className="px-4 py-3 text-gray-300 hover:text-white hover:bg-navy-800
-                       text-sm font-medium rounded-sm transition-colors"
-          >
-            Past Winners
-          </Link>
           <Link
             href="/sponsorship"
             onClick={closeMenu}

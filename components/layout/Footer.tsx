@@ -2,20 +2,12 @@ import Link from 'next/link'
 import Logo from '@/components/ui/Logo'
 
 const quickLinks = [
-  { label: 'About the Awards',  href: '/#about' },
-  { label: 'Award Categories',  href: '/#categories' },
-  { label: 'How It Works',      href: '/#how-it-works' },
-  { label: 'Important Dates',   href: '/#dates' },
-  { label: 'Judging & Fairness',href: '/#judging' },
-  { label: 'Tickets',           href: '/tickets' },
+  { label: 'The 2026 Shortlist', href: '/#shortlist' },
+  { label: 'Book Your Tickets',  href: '/tickets' },
 ]
 
 const extraLinks = [
-  { label: 'Sponsorship',   href: '/sponsorship' },
-  { label: 'Past Winners',  href: '/past-winners' },
-  { label: 'Sponsors',      href: '/#sponsors' },
-  { label: 'Event Details', href: '/#event' },
-  { label: 'FAQs',          href: '/#faqs' },
+  { label: 'Sponsorship', href: '/sponsorship' },
 ]
 
 export default function Footer() {
@@ -171,9 +163,9 @@ export default function Footer() {
             .
           </p>
           <div className="flex items-center gap-4 text-xs text-gray-500">
-            <span>Free to enter</span>
-            <span className="text-navy-700">·</span>
             <span>Independently judged</span>
+            <span className="text-navy-700">·</span>
+            <span>Winners revealed on the night</span>
             <span className="text-navy-700">·</span>
             <span>10 September 2026</span>
           </div>

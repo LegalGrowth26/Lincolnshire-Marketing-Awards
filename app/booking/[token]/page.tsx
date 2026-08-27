@@ -38,30 +38,42 @@ export default async function BookingPage({
   ])
 
   return (
-    <main className="bg-white text-neutral-900 min-h-screen">
-      <header className="bg-neutral-950 text-white">
-        <div className="max-w-3xl mx-auto px-6 py-10">
-          <p className="uppercase tracking-[0.2em] text-xs text-white/50 font-semibold">
-            Your booking
-          </p>
-          <h1 className="text-3xl md:text-4xl font-bold mt-4">Who is coming with you?</h1>
-          <p className="mt-4 text-white/70 leading-relaxed">
+    <main
+      className="min-h-screen"
+      style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
+    >
+      <header className="hero-overlay text-white relative overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-40 pointer-events-none"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(40,200,255,0.12) 1px, transparent 0)',
+            backgroundSize: '40px 40px',
+          }}
+        />
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+          <span className="section-label">Your booking</span>
+          <h1 className="section-title-white text-3xl md:text-4xl">Who is coming with you?</h1>
+          <p className="mt-4 text-gray-300 leading-relaxed">
             {ticketLabel(order.ticket_type as TicketType)} confirmed, {order.seats}{' '}
             {order.seats === 1 ? 'seat' : 'seats'}. Add each guest below along with anything
             the kitchen needs to know.
           </p>
-          <div className="mt-8 grid sm:grid-cols-3 gap-4 border-t border-white/15 pt-6 text-sm">
+          <div
+            className="mt-8 grid sm:grid-cols-3 gap-4 pt-6 text-sm"
+            style={{ borderTop: '1px solid rgba(40,200,255,0.1)' }}
+          >
             <div>
-              <p className="text-white/40">Date</p>
-              <p className="font-semibold mt-1">{formatEventDate(settings.event_date)}</p>
+              <p className="text-gray-400 text-xs uppercase tracking-wide font-medium">Date</p>
+              <p className="font-bold mt-1">{formatEventDate(settings.event_date)}</p>
             </div>
             <div>
-              <p className="text-white/40">Venue</p>
-              <p className="font-semibold mt-1">{settings.venue}</p>
+              <p className="text-gray-400 text-xs uppercase tracking-wide font-medium">Venue</p>
+              <p className="font-bold mt-1">{settings.venue}</p>
             </div>
             <div>
-              <p className="text-white/40">Arrival</p>
-              <p className="font-semibold mt-1">
+              <p className="text-gray-400 text-xs uppercase tracking-wide font-medium">Arrival</p>
+              <p className="font-bold mt-1">
                 From {settings.arrival_time}, {settings.dress_code.toLowerCase()}
               </p>
             </div>
@@ -69,7 +81,7 @@ export default async function BookingPage({
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <BookingForm
           token={token}
           seats={order.seats}
