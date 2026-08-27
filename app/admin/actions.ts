@@ -7,7 +7,7 @@ import { sql } from '@/lib/db'
 import { requireAdmin, ADMIN_COOKIE } from '@/lib/auth'
 import { setSetting } from '@/lib/config'
 import { runDailyJobs, type JobReport } from '@/lib/jobs'
-import { refreshOrderCompletion } from '@/lib/orders'
+import { refreshOrderCompletion, syncFromStripe, type StripeSyncResult } from '@/lib/orders'
 
 // ---------------------------------------------------------------------------
 // Session
@@ -243,6 +243,16 @@ export async function updateGuest(
   revalidatePath('/admin')
 }
 
+/** Abandon a details-first checkout that never paid. Only touches 'pending'. */
+export async function cancelPendingOrder(orderId: string) {
+  await requireAdmin()
+  await sql`
+    update orders set status = 'cancelled'
+    where id = ${orderId} and status = 'pending'`
+  revalidatePath('/admin')
+  revalidatePath('/admin/guests')
+}
+
 export async function setOrderStatus(orderId: string, status: 'paid' | 'refunded' | 'cancelled') {
   await requireAdmin()
   await sql`update orders set status = ${status} where id = ${orderId}`
@@ -311,4 +321,22 @@ export async function runJobsNow(): Promise<JobReport> {
   revalidatePath('/admin')
   revalidatePath('/admin/shortlist')
   return report
+}
+
+/** Reconcile Stripe payments on demand, without touching the email jobs. */
+export async function syncStripeNow(): Promise<StripeSyncResult> {
+  await requireAdmin()
+  try {
+    const result = await syncFromStripe()
+    revalidatePath('/admin')
+    revalidatePath('/admin/guests')
+    return result
+  } catch (e) {
+    return {
+      checked: 0,
+      markedPaid: 0,
+      created: 0,
+      error: e instanceof Error ? e.message : String(e),
+    }
+  }
 }

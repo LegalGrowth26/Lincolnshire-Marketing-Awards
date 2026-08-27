@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import type Stripe from 'stripe'
-import { stripe, upsertOrderFromSession } from '@/lib/orders'
+import { stripe, recordPaidSession } from '@/lib/orders'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    await upsertOrderFromSession(session)
+    await recordPaidSession(session)
   } catch (e) {
     console.error('[stripe webhook] failed to record order', session.id, e)
     // 500 tells Stripe to retry, which is what we want if the database was down.

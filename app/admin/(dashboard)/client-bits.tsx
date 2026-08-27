@@ -2,8 +2,9 @@
 
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
-import { runJobsNow, logout } from '../actions'
+import { runJobsNow, syncStripeNow, cancelPendingOrder, logout } from '../actions'
 import type { JobReport } from '@/lib/jobs'
+import type { StripeSyncResult } from '@/lib/orders'
 
 export function RunJobsButton() {
   const [pending, start] = useTransition()
@@ -34,6 +35,16 @@ export function RunJobsButton() {
             </button>
           </div>
           <ul className="mt-3 space-y-1 text-neutral-600">
+            <li className="flex justify-between gap-3">
+              <span>Stripe sync</span>
+              <span className="tabular-nums">
+                {report.stripeSync.error ? (
+                  <span className="text-red-700">error</span>
+                ) : (
+                  `${report.stripeSync.markedPaid + report.stripeSync.created} recorded`
+                )}
+              </span>
+            </li>
             <Line label="Invites" r={report.invites} />
             <Line label="Booking reminders" r={report.reminders} />
             <Line label="Detail chases" r={report.chases} />
@@ -42,6 +53,81 @@ export function RunJobsButton() {
         </div>
       )}
     </div>
+  )
+}
+
+export function SyncStripeButton() {
+  const [pending, start] = useTransition()
+  const [result, setResult] = useState<StripeSyncResult | null>(null)
+  const router = useRouter()
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() =>
+          start(async () => {
+            const r = await syncStripeNow()
+            setResult(r)
+            router.refresh()
+          })
+        }
+        disabled={pending}
+        className="text-sm font-semibold border border-neutral-300 rounded-md px-4 py-2
+                   hover:bg-neutral-50 disabled:opacity-50"
+      >
+        {pending ? 'Syncing' : 'Sync from Stripe'}
+      </button>
+      {result && (
+        <div className="absolute right-0 mt-2 w-72 bg-white border border-neutral-200 rounded-lg shadow-lg p-4 text-sm z-20">
+          <div className="flex items-start justify-between">
+            <p className="font-bold">Stripe sync complete</p>
+            <button onClick={() => setResult(null)} className="text-neutral-400">
+              Close
+            </button>
+          </div>
+          {result.error ? (
+            <p className="mt-3 text-red-700">{result.error}</p>
+          ) : (
+            <ul className="mt-3 space-y-1 text-neutral-600">
+              <li className="flex justify-between gap-3">
+                <span>Paid sessions checked</span>
+                <span className="tabular-nums">{result.checked}</span>
+              </li>
+              <li className="flex justify-between gap-3">
+                <span>Pending orders marked paid</span>
+                <span className="tabular-nums">{result.markedPaid}</span>
+              </li>
+              <li className="flex justify-between gap-3">
+                <span>Orders created</span>
+                <span className="tabular-nums">{result.created}</span>
+              </li>
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function CancelPendingButton({ orderId }: { orderId: string }) {
+  const [pending, start] = useTransition()
+  const router = useRouter()
+
+  return (
+    <button
+      onClick={() => {
+        if (!window.confirm('Cancel this pending order? The buyer has not paid.')) return
+        start(async () => {
+          await cancelPendingOrder(orderId)
+          router.refresh()
+        })
+      }}
+      disabled={pending}
+      className="text-xs font-semibold text-red-700 border border-red-200 rounded-md
+                 px-2.5 py-1 hover:bg-red-50 disabled:opacity-50"
+    >
+      {pending ? 'Cancelling' : 'Cancel'}
+    </button>
   )
 }
 

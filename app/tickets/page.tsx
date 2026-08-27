@@ -1,6 +1,6 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { getSettings, formatEventDate, ticketUrls } from '@/lib/config'
+import { getSettings, formatEventDate } from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
 export const metadata = {
@@ -11,7 +11,6 @@ export const metadata = {
 
 export default async function TicketsPage() {
   const settings = await getSettings()
-  const urls = ticketUrls()
 
   return (
     <>
@@ -62,7 +61,7 @@ export default async function TicketsPage() {
               <TicketCard
                 title="Single ticket"
                 blurb="One seat at a shared table with other Lincolnshire businesses."
-                href={urls.single}
+                href="/book?type=single"
                 cta="Book a single ticket"
                 points={[
                   'One seat, drinks reception on arrival',
@@ -74,7 +73,7 @@ export default async function TicketsPage() {
               <TicketCard
                 title="Table of 8"
                 blurb="Your own table. The right choice if you are bringing the team or clients."
-                href={urls.table8}
+                href="/book?type=table8"
                 cta="Book a table of 8"
                 featured
                 points={[
@@ -93,7 +92,7 @@ export default async function TicketsPage() {
               <div className="gold-divider mt-4 mb-6" aria-hidden="true" />
               <ol className="space-y-3 text-charcoal-700 list-decimal pl-5 leading-7">
                 <li>
-                  You pay through Stripe and come straight back here to a private booking page.
+                  You choose your tickets, add your details, and pay securely through Stripe.
                 </li>
                 <li>
                   You add the name of everyone sitting with you, plus any dietary requirements or

@@ -15,6 +15,8 @@ export function stripe(): Stripe {
 
 export type TicketType = 'single' | 'table8'
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 export const ticketLabel = (t: TicketType) =>
   t === 'table8' ? 'Table of 8' : 'Single ticket'
 
@@ -66,6 +68,107 @@ export async function resolveSeats(
 
   // Unmapped. Record it as a single seat rather than losing the sale, and alert.
   return { ticketType: 'single', seats: 1, priceId, mapped: false }
+}
+
+/**
+ * Details-first flow: the order already exists as 'pending' and the Stripe
+ * session carries its id in client_reference_id. Mark it paid and send the
+ * confirmation emails (deduped on order id). Idempotent — a repeat call finds
+ * the order already paid and the emails already claimed. Returns null when
+ * the session carries no usable reference or it matches no pending or paid
+ * order, so the caller can fall back to creating the order from the session.
+ */
+export async function markOrderPaidFromSession(session: Stripe.Checkout.Session) {
+  const orderId = session.client_reference_id
+  if (!orderId || !UUID.test(orderId)) return null
+
+  const updated = await sql`
+    update orders set
+      status = 'paid',
+      paid_at = ${new Date().toISOString()},
+      stripe_session_id = ${session.id},
+      stripe_payment_intent =
+        ${typeof session.payment_intent === 'string' ? session.payment_intent : null},
+      amount_total = ${session.amount_total ?? null},
+      buyer_name = coalesce(nullif(buyer_name, ''), ${session.customer_details?.name ?? null}),
+      buyer_phone = coalesce(nullif(buyer_phone, ''), ${session.customer_details?.phone ?? null})
+    where id = ${orderId} and status = 'pending'
+    returning id, details_token, buyer_email, seats, ticket_type`
+
+  let order = updated[0] ?? null
+  if (!order) {
+    const existing = await sql`
+      select id, details_token, buyer_email, seats, ticket_type, status
+      from orders where id = ${orderId}`
+    if (!existing[0] || existing[0].status !== 'paid') return null
+    // Already marked by the webhook, the return redirect, or the sync — the
+    // emails below are deduped on order id, so re-running them is safe.
+    order = existing[0]
+  }
+
+  await sendOrderEmails(order.id)
+  return { order, created: false }
+}
+
+/**
+ * Single entry point for a paid checkout session from any source (webhook,
+ * return redirect, daily sync): a client_reference_id matching one of our
+ * orders marks it paid, anything else creates the order from the session.
+ */
+export async function recordPaidSession(session: Stripe.Checkout.Session) {
+  const marked = await markOrderPaidFromSession(session)
+  if (marked) return marked
+  return upsertOrderFromSession(session)
+}
+
+export type StripeSyncResult = {
+  checked: number
+  markedPaid: number
+  created: number
+  error?: string
+}
+
+/**
+ * Reconcile Stripe against the orders table: paid Checkout Sessions from the
+ * last 90 days, newest first. Sessions already recorded are skipped by
+ * stripe_session_id; the rest are matched to a pending order via
+ * client_reference_id or created outright. Idempotent, so it is safe on the
+ * daily cron and the dashboard button.
+ */
+export async function syncFromStripe(): Promise<StripeSyncResult> {
+  const out: StripeSyncResult = { checked: 0, markedPaid: 0, created: 0 }
+  const since = Math.floor(Date.now() / 1000) - 90 * 86_400
+  let startingAfter: string | undefined
+
+  for (let page = 0; page < 5; page++) {
+    const batch = await stripe().checkout.sessions.list({
+      limit: 100,
+      created: { gte: since },
+      ...(startingAfter ? { starting_after: startingAfter } : {}),
+    })
+
+    for (const session of batch.data) {
+      if (session.payment_status !== 'paid') continue
+      out.checked++
+
+      const seen = await sql`select id from orders where stripe_session_id = ${session.id}`
+      if (seen[0]) continue
+
+      const full = await stripe().checkout.sessions.retrieve(session.id, {
+        expand: ['line_items'],
+      })
+      const marked = await markOrderPaidFromSession(full)
+      if (marked) out.markedPaid++
+      else {
+        await upsertOrderFromSession(full)
+        out.created++
+      }
+    }
+
+    if (!batch.has_more || batch.data.length === 0) break
+    startingAfter = batch.data[batch.data.length - 1].id
+  }
+  return out
 }
 
 /**

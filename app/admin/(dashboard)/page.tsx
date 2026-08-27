@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import { sql } from '@/lib/db'
 import { getSettings, poundsFromPence, formatEventDate, daysUntil } from '@/lib/config'
-import { RunJobsButton, CopyButton, LogoutButton } from './client-bits'
+import {
+  RunJobsButton,
+  SyncStripeButton,
+  CancelPendingButton,
+  CopyButton,
+  LogoutButton,
+} from './client-bits'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -13,13 +19,14 @@ export default async function Dashboard() {
   // throwing; keep the dashboard rendering (with fallbacks) the same way.
   const safe = <T,>(p: Promise<T[]>): Promise<T[] | null> => p.catch(() => null)
 
-  const [seatSummary, completion, dietary, notes, shortlist, recentOrders, recentEmails] =
+  const [seatSummary, completion, dietary, notes, shortlist, pendingOrders, recentOrders, recentEmails] =
     await Promise.all([
       safe(sql`select * from v_seat_summary`),
       safe(sql`select * from v_guest_completion`),
       safe(sql`select * from v_dietary_counts`),
       safe(sql`select * from v_dietary_notes`),
       safe(sql`select * from v_shortlist_status where is_shortlisted = true`),
+      safe(sql`select * from v_pending_orders`),
       safe(sql`
         select id, buyer_name, buyer_email, seats, ticket_type, amount_total,
                created_at, details_completed_at, status
@@ -90,6 +97,7 @@ export default async function Dashboard() {
               Automation off
             </span>
           )}
+          <SyncStripeButton />
           <RunJobsButton />
           <LogoutButton />
         </div>
@@ -141,6 +149,37 @@ export default async function Dashboard() {
           tone="green"
         />
       </section>
+
+      {/* Awaiting payment */}
+      <Panel
+        title="Awaiting payment"
+        subtitle="Started checkout but have not paid. NOT counted in seats sold, revenue, capacity or dietaries — every total on this page filters on paid orders only."
+      >
+        {(pendingOrders ?? []).length === 0 ? (
+          <Empty>Nobody is mid-checkout right now.</Empty>
+        ) : (
+          <ul className="divide-y divide-neutral-100">
+            {(pendingOrders ?? []).map((p) => (
+              <li key={p.id} className="py-3 flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-semibold">
+                    {p.buyer_name || p.buyer_email}
+                    {p.buyer_name && (
+                      <span className="font-normal text-neutral-500"> &middot; {p.buyer_email}</span>
+                    )}
+                  </p>
+                  <p className="text-sm text-neutral-500">
+                    {p.ticket_type === 'table8' ? 'Table of 8' : 'Single ticket'} &middot;{' '}
+                    {p.seats} {p.seats === 1 ? 'seat' : 'seats'} &middot; started{' '}
+                    {ago(p.checkout_started_at ?? p.created_at)}
+                  </p>
+                </div>
+                <CancelPendingButton orderId={p.id} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </Panel>
 
       {/* Dietaries */}
       <section className="grid lg:grid-cols-2 gap-6">
@@ -354,6 +393,18 @@ export default async function Dashboard() {
 }
 
 // ---------------------------------------------------------------------------
+
+function ago(value: string | Date | null | undefined) {
+  if (!value) return 'just now'
+  const ms = Date.now() - new Date(value).getTime()
+  const mins = Math.floor(ms / 60_000)
+  if (mins < 1) return 'just now'
+  if (mins < 60) return `${mins} ${mins === 1 ? 'minute' : 'minutes'} ago`
+  const hours = Math.floor(mins / 60)
+  if (hours < 24) return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`
+  const days = Math.floor(hours / 24)
+  return `${days} ${days === 1 ? 'day' : 'days'} ago`
+}
 
 function Card({
   label,

@@ -9,11 +9,12 @@ import {
   type Settings,
 } from './config'
 import { sendTemplate } from './email'
-import { firstName } from './orders'
+import { firstName, syncFromStripe, type StripeSyncResult } from './orders'
 
 export type JobReport = {
   ranAt: string
   automationEnabled: boolean
+  stripeSync: StripeSyncResult
   invites: TaskResult
   reminders: TaskResult
   chases: TaskResult
@@ -33,10 +34,19 @@ export async function runDailyJobs(force = false): Promise<JobReport> {
   const report: JobReport = {
     ranAt: new Date().toISOString(),
     automationEnabled: settings.automation_enabled,
+    stripeSync: { checked: 0, markedPaid: 0, created: 0 },
     invites: empty(),
     reminders: empty(),
     chases: empty(),
     plan: empty(),
+  }
+
+  // Reconcile payments before the automation gate: this records money, not
+  // email, so it runs even while the email master switch is off.
+  try {
+    report.stripeSync = await syncFromStripe()
+  } catch (e) {
+    report.stripeSync.error = e instanceof Error ? e.message : String(e)
   }
 
   if (!settings.automation_enabled && !force) return report
