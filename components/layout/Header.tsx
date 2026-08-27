@@ -82,8 +82,8 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <a href="/#enter" className="btn-gold text-xs py-2.5 px-5">
-              Enter Now
+            <a href="/tickets" className="btn-gold text-xs py-2.5 px-5">
+              Book Tickets
             </a>
           </div>
 
@@ -144,8 +144,8 @@ export default function Header() {
             Sponsorship
           </Link>
           <div className="pt-3 border-t border-navy-800 mt-2">
-            <a href="/#enter" onClick={closeMenu} className="btn-gold w-full text-center text-xs py-3">
-              Enter the Awards, Free
+            <a href="/tickets" onClick={closeMenu} className="btn-gold w-full text-center text-xs py-3">
+              Book Your Tickets
             </a>
           </div>
         </div>

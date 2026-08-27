@@ -328,8 +328,8 @@ export default function PastWinnersPage() {
                   These awards are open to all Lincolnshire businesses. No entry fees,
                   no prior relationship with the organiser required.
                 </p>
-                <Link href="/#enter" className="btn-gold-lg">
-                  Enter the 2026 Awards, Free
+                <Link href="/tickets" className="btn-gold-lg">
+                  Book Your Tickets
                 </Link>
               </div>
             </div>

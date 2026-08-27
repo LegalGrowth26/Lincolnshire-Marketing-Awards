@@ -7,8 +7,7 @@ const quickLinks = [
   { label: 'How It Works',      href: '/#how-it-works' },
   { label: 'Important Dates',   href: '/#dates' },
   { label: 'Judging & Fairness',href: '/#judging' },
-  { label: 'Enter the Awards',  href: '/#enter' },
-  { label: 'Apply to Judge',    href: '/#judge' },
+  { label: 'Tickets',           href: '/tickets' },
 ]
 
 const extraLinks = [
@@ -140,8 +139,8 @@ export default function Footer() {
                 </a>
               </p>
             </address>
-            <a href="/#enter" className="btn-outline-gold text-xs py-2.5 px-5 block text-center">
-              Enter the Awards
+            <a href="/tickets" className="btn-outline-gold text-xs py-2.5 px-5 block text-center">
+              Book Your Tickets
             </a>
             <div className="mt-3">
               <Link
