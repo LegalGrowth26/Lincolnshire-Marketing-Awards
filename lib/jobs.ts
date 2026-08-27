@@ -1,5 +1,5 @@
 import 'server-only'
-import { db } from './supabase'
+import { sql } from './db'
 import {
   getSettings,
   siteUrl,
@@ -116,13 +116,11 @@ function bestCompany(rows: Groupable[]) {
 
 async function sendInvites(s: Settings): Promise<TaskResult> {
   const out = empty()
-  const supabase = db()
 
-  const { data: rows } = await supabase
-    .from('v_shortlist_status')
-    .select('id, company_name, contact_name, email, category_title')
-    .eq('is_shortlisted', true)
-    .eq('invite_state', 'armed')
+  const rows = await sql`
+    select id, company_name, contact_name, email, category_title
+    from v_shortlist_status
+    where is_shortlisted = true and invite_state = 'armed'`
 
   for (const [email, group] of groupByPerson(rows ?? [])) {
     const titles = group.map((g) => g.category_title)
@@ -147,10 +145,10 @@ async function sendInvites(s: Settings): Promise<TaskResult> {
 
     if (res.ok) {
       // Mark every one of their nominations invited, not just the first.
-      await supabase
-        .from('shortlist')
-        .update({ invite_state: 'invited', invited_at: new Date().toISOString() })
-        .in('id', group.map((g) => g.id))
+      await sql`
+        update shortlist
+        set invite_state = 'invited', invited_at = ${new Date().toISOString()}
+        where id = any(${group.map((g) => g.id)}::uuid[])`
     }
   }
   return out
@@ -165,16 +163,13 @@ async function sendBookingReminders(s: Settings): Promise<TaskResult> {
   const left = daysUntil(s.event_date)
   if (left <= 0) return out // event has been and gone
 
-  const supabase = db()
   const schedule = s.invite_reminder_days ?? []
 
-  const { data: rows } = await supabase
-    .from('v_shortlist_status')
-    .select(
-      'id, company_name, contact_name, email, category_title, invite_state, invited_at, reminder_count, has_booked',
-    )
-    .eq('is_shortlisted', true)
-    .eq('invite_state', 'invited')
+  const rows = await sql`
+    select id, company_name, contact_name, email, category_title,
+           invite_state, invited_at, reminder_count, has_booked
+    from v_shortlist_status
+    where is_shortlisted = true and invite_state = 'invited'`
 
   for (const [email, group] of groupByPerson(rows ?? [])) {
     // If any one of their nominations has a booking against it, they are coming.
@@ -214,10 +209,10 @@ async function sendBookingReminders(s: Settings): Promise<TaskResult> {
     else out.failed++
 
     if (res.ok && !res.skipped) {
-      await supabase
-        .from('shortlist')
-        .update({ reminder_count: n + 1, last_reminder_at: new Date().toISOString() })
-        .in('id', group.map((g) => g.id))
+      await sql`
+        update shortlist
+        set reminder_count = ${n + 1}, last_reminder_at = ${new Date().toISOString()}
+        where id = any(${group.map((g) => g.id)}::uuid[])`
     }
   }
   return out
@@ -229,14 +224,12 @@ async function sendBookingReminders(s: Settings): Promise<TaskResult> {
 
 async function sendDetailsChases(s: Settings): Promise<TaskResult> {
   const out = empty()
-  const supabase = db()
   const schedule = s.details_chase_days ?? []
 
-  const { data: orders } = await supabase
-    .from('orders')
-    .select('id, buyer_name, buyer_email, seats, created_at, details_chase_count, details_token')
-    .eq('status', 'paid')
-    .is('details_completed_at', null)
+  const orders = await sql`
+    select id, buyer_name, buyer_email, seats, created_at, details_chase_count, details_token
+    from orders
+    where status = 'paid' and details_completed_at is null`
 
   for (const order of orders ?? []) {
     const n = order.details_chase_count ?? 0
@@ -247,10 +240,7 @@ async function sendDetailsChases(s: Settings): Promise<TaskResult> {
     )
     if (elapsed < schedule[n]) continue
 
-    const { data: guests } = await supabase
-      .from('guests')
-      .select('full_name')
-      .eq('order_id', order.id)
+    const guests = await sql`select full_name from guests where order_id = ${order.id}`
     const named = (guests ?? []).filter((g) => (g.full_name ?? '').trim()).length
     const unnamed = Math.max(order.seats - named, 0)
     if (unnamed === 0) continue
@@ -272,13 +262,11 @@ async function sendDetailsChases(s: Settings): Promise<TaskResult> {
     else out.failed++
 
     if (res.ok && !res.skipped) {
-      await supabase
-        .from('orders')
-        .update({
-          details_chase_count: n + 1,
-          last_details_chase_at: new Date().toISOString(),
-        })
-        .eq('id', order.id)
+      await sql`
+        update orders
+        set details_chase_count = ${n + 1},
+            last_details_chase_at = ${new Date().toISOString()}
+        where id = ${order.id}`
     }
   }
   return out
@@ -300,11 +288,8 @@ async function sendEventPlan(s: Settings): Promise<TaskResult> {
   const left = daysUntil(s.event_date)
   if (left !== s.plan_email_days_before) return out
 
-  const supabase = db()
-  const { data: orders } = await supabase
-    .from('orders')
-    .select('id, buyer_name, buyer_email')
-    .eq('status', 'paid')
+  const orders = await sql`
+    select id, buyer_name, buyer_email from orders where status = 'paid'`
 
   for (const order of orders ?? []) {
     const res = await sendTemplate({

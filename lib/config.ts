@@ -1,5 +1,5 @@
 import 'server-only'
-import { db } from './supabase'
+import { sql } from './db'
 
 export type Settings = {
   event_date: string
@@ -27,10 +27,9 @@ const DEFAULTS: Settings = {
 
 export async function getSettings(): Promise<Settings> {
   // Must never throw: public pages fall back to DEFAULTS when the database
-  // is unreachable or the Supabase env vars are missing.
+  // is unreachable or DATABASE_URL is missing.
   try {
-    const { data, error } = await db().from('settings').select('key, value')
-    if (error || !data) return { ...DEFAULTS }
+    const data = await sql`select key, value from settings`
     const out: Record<string, unknown> = { ...DEFAULTS }
     for (const row of data) out[row.key] = row.value
     return out as Settings
@@ -40,9 +39,11 @@ export async function getSettings(): Promise<Settings> {
 }
 
 export async function setSetting(key: string, value: unknown) {
-  return db()
-    .from('settings')
-    .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })
+  return sql`
+    insert into settings (key, value, updated_at)
+    values (${key}, ${JSON.stringify(value)}::jsonb, ${new Date().toISOString()})
+    on conflict (key) do update
+      set value = excluded.value, updated_at = excluded.updated_at`
 }
 
 export const siteUrl = () =>

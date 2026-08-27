@@ -1,6 +1,6 @@
 import 'server-only'
 import Stripe from 'stripe'
-import { db } from './supabase'
+import { sql } from './db'
 import { getSettings, siteUrl, formatEventDate, poundsFromPence } from './config'
 import { sendTemplate, internalRecipient } from './email'
 
@@ -73,15 +73,10 @@ export async function resolveSeats(
  * same session: the unique constraint on stripe_session_id decides the winner.
  */
 export async function upsertOrderFromSession(session: Stripe.Checkout.Session) {
-  const supabase = db()
-
-  const existing = await supabase
-    .from('orders')
-    .select('id, details_token, buyer_email, seats, ticket_type')
-    .eq('stripe_session_id', session.id)
-    .maybeSingle()
-
-  if (existing.data) return { order: existing.data, created: false }
+  const existing = await sql`
+    select id, details_token, buyer_email, seats, ticket_type
+    from orders where stripe_session_id = ${session.id}`
+  if (existing[0]) return { order: existing[0], created: false }
 
   const { ticketType, seats, priceId, mapped } = await resolveSeats(session)
 
@@ -90,45 +85,36 @@ export async function upsertOrderFromSession(session: Stripe.Checkout.Session) {
 
   // Link to the shortlist only when the email matches exactly one row.
   let shortlistId: string | null = null
-  const match = await supabase
-    .from('shortlist')
-    .select('id')
-    .ilike('email', email)
-    .limit(2)
-  if (match.data && match.data.length === 1) shortlistId = match.data[0].id
+  const match = await sql`
+    select id from shortlist where lower(email) = lower(${email}) limit 2`
+  if (match.length === 1) shortlistId = match[0].id
 
-  const insert = await supabase
-    .from('orders')
-    .insert({
-      stripe_session_id: session.id,
-      stripe_payment_intent:
-        typeof session.payment_intent === 'string' ? session.payment_intent : null,
-      stripe_price_id: priceId,
-      ticket_type: ticketType,
-      seats,
-      amount_total: session.amount_total ?? 0,
-      currency: session.currency ?? 'gbp',
-      buyer_name: session.customer_details?.name ?? null,
-      buyer_email: email.toLowerCase(),
-      buyer_phone: session.customer_details?.phone ?? null,
-      shortlist_id: shortlistId,
-      status: 'paid',
-    })
-    .select('id, details_token, buyer_email, seats, ticket_type, buyer_name, amount_total')
-    .single()
-
-  // Lost a race with a concurrent insert. Read the winner and carry on.
-  if (insert.error) {
-    const again = await supabase
-      .from('orders')
-      .select('id, details_token, buyer_email, seats, ticket_type')
-      .eq('stripe_session_id', session.id)
-      .single()
-    if (again.data) return { order: again.data, created: false }
-    throw insert.error
+  let order
+  try {
+    const inserted = await sql`
+      insert into orders (
+        stripe_session_id, stripe_payment_intent, stripe_price_id, ticket_type,
+        seats, amount_total, currency, buyer_name, buyer_email, buyer_phone,
+        shortlist_id, status
+      ) values (
+        ${session.id},
+        ${typeof session.payment_intent === 'string' ? session.payment_intent : null},
+        ${priceId}, ${ticketType}, ${seats}, ${session.amount_total ?? 0},
+        ${session.currency ?? 'gbp'}, ${session.customer_details?.name ?? null},
+        ${email.toLowerCase()}, ${session.customer_details?.phone ?? null},
+        ${shortlistId}, 'paid'
+      )
+      returning id, details_token, buyer_email, seats, ticket_type, buyer_name, amount_total`
+    order = inserted[0]
+  } catch (insertError) {
+    // Lost a race with a concurrent insert on the stripe_session_id unique
+    // constraint. Read the winner and carry on.
+    const again = await sql`
+      select id, details_token, buyer_email, seats, ticket_type
+      from orders where stripe_session_id = ${session.id}`
+    if (again[0]) return { order: again[0], created: false }
+    throw insertError
   }
-
-  const order = insert.data
 
   if (!mapped) {
     await sendTemplate({
@@ -149,17 +135,21 @@ export async function upsertOrderFromSession(session: Stripe.Checkout.Session) {
 
 /** Buyer confirmation plus the internal sale alert. Both deduped on order id. */
 export async function sendOrderEmails(orderId: string) {
-  const supabase = db()
   const settings = await getSettings()
 
-  const { data: order } = await supabase
-    .from('orders')
-    .select('id, buyer_name, buyer_email, seats, ticket_type, amount_total, details_token')
-    .eq('id', orderId)
-    .single()
+  const orders = await sql`
+    select id, buyer_name, buyer_email, seats, ticket_type, amount_total, details_token
+    from orders where id = ${orderId}`
+  const order = orders[0]
   if (!order) return
 
-  const { data: summary } = await supabase.from('v_seat_summary').select('seats_sold').single()
+  let summary: { seats_sold: number } | null = null
+  try {
+    const rows = await sql`select seats_sold from v_seat_summary`
+    summary = rows[0] ?? null
+  } catch {
+    summary = null // fall back below; the sale alert must still go out
+  }
 
   const label = ticketLabel(order.ticket_type as TicketType)
   const bookingUrl = `${siteUrl()}/booking/${order.details_token}`
@@ -208,31 +198,25 @@ export function firstName(name: string | null | undefined) {
  * details_completed_at accordingly. Returns true if it just completed.
  */
 export async function refreshOrderCompletion(orderId: string) {
-  const supabase = db()
-  const { data: order } = await supabase
-    .from('orders')
-    .select('id, seats, details_completed_at, buyer_name, buyer_email')
-    .eq('id', orderId)
-    .single()
+  const orders = await sql`
+    select id, seats, details_completed_at, buyer_name, buyer_email
+    from orders where id = ${orderId}`
+  const order = orders[0]
   if (!order) return { completed: false, justCompleted: false }
 
-  const { data: guests } = await supabase
-    .from('guests')
-    .select('full_name')
-    .eq('order_id', orderId)
+  const guests = await sql`select full_name from guests where order_id = ${orderId}`
 
-  const named = (guests ?? []).filter((g) => (g.full_name ?? '').trim().length > 0).length
+  const named = guests.filter((g) => (g.full_name ?? '').trim().length > 0).length
   const complete = named >= order.seats
 
   if (complete && !order.details_completed_at) {
-    await supabase
-      .from('orders')
-      .update({ details_completed_at: new Date().toISOString() })
-      .eq('id', orderId)
+    await sql`
+      update orders set details_completed_at = ${new Date().toISOString()}
+      where id = ${orderId}`
     return { completed: true, justCompleted: true, unnamed: 0 }
   }
   if (!complete && order.details_completed_at) {
-    await supabase.from('orders').update({ details_completed_at: null }).eq('id', orderId)
+    await sql`update orders set details_completed_at = null where id = ${orderId}`
   }
   return { completed: complete, justCompleted: false, unnamed: order.seats - named }
 }

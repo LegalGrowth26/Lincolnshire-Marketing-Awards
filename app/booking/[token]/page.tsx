@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 import { getSettings, formatEventDate } from '@/lib/config'
 import { ticketLabel, type TicketType } from '@/lib/orders'
 import BookingForm from './booking-form'
@@ -17,23 +17,19 @@ export default async function BookingPage({
   const { token } = await params
   if (!UUID.test(token)) notFound()
 
-  const supabase = db()
-
-  const { data: order } = await supabase
-    .from('orders')
-    .select('id, seats, ticket_type, buyer_name, buyer_company, status, details_completed_at')
-    .eq('details_token', token)
-    .maybeSingle()
+  const found = await sql`
+    select id, seats, ticket_type, buyer_name, buyer_company, status, details_completed_at
+    from orders where details_token = ${token}`
+  const order = found[0] ?? null
 
   if (!order || order.status !== 'paid') notFound()
 
-  const [{ data: guests }, { data: options }, settings] = await Promise.all([
-    supabase
-      .from('guests')
-      .select('seat_number, full_name, company, dietary_tags, dietary_notes, accessibility_notes')
-      .eq('order_id', order.id)
-      .order('seat_number'),
-    supabase.from('dietary_options').select('slug, label').eq('active', true).order('sort_order'),
+  const [guests, options, settings] = await Promise.all([
+    sql`
+      select seat_number, full_name, company, dietary_tags, dietary_notes, accessibility_notes
+      from guests where order_id = ${order.id}
+      order by seat_number`,
+    sql`select slug, label from dietary_options where active = true order by sort_order`,
     getSettings(),
   ])
 

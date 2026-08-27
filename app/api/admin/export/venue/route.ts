@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -10,19 +10,14 @@ export const dynamic = 'force-dynamic'
  * deliberate, do not add columns without checking docs/CONFIDENTIAL.md.
  */
 export async function GET() {
-  const supabase = db()
+  const data = await sql`
+    select g.seat_number, g.full_name, g.company, g.dietary_tags, g.dietary_notes,
+           g.accessibility_notes, o.buyer_name, o.buyer_company, o.status
+    from guests g
+    inner join orders o on o.id = g.order_id
+    order by g.order_id, g.seat_number`
 
-  const { data } = await supabase
-    .from('guests')
-    .select(
-      'seat_number, full_name, company, dietary_tags, dietary_notes, accessibility_notes, orders!inner(buyer_name, buyer_company, status, ticket_type)',
-    )
-    .order('order_id')
-    .order('seat_number')
-
-  const rows = (data ?? []).filter(
-    (g) => (g.orders as unknown as { status: string }).status === 'paid',
-  )
+  const rows = data.filter((g) => g.status === 'paid')
 
   const header = [
     'Table or booking',
@@ -36,10 +31,9 @@ export async function GET() {
 
   const lines = [header.map(csv).join(',')]
   for (const g of rows) {
-    const o = g.orders as unknown as { buyer_name: string; buyer_company: string }
     lines.push(
       [
-        o.buyer_company || o.buyer_name || '',
+        g.buyer_company || g.buyer_name || '',
         String(g.seat_number),
         g.full_name || '',
         g.company || '',

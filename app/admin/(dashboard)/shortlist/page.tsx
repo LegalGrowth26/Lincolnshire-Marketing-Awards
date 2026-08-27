@@ -1,4 +1,4 @@
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 import ShortlistManager from './shortlist-manager'
 import ImportPanel from './import-panel'
 
@@ -6,16 +6,10 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export default async function ShortlistPage() {
-  const supabase = db()
-
-  const [{ data: rows }, { data: categories }, { data: results }] = await Promise.all([
-    supabase
-      .from('v_shortlist_status')
-      .select('*')
-      .order('category_id')
-      .order('company_name'),
-    supabase.from('categories').select('id, title').order('sort_order'),
-    supabase.from('shortlist_results').select('shortlist_id, score, placement'),
+  const [rows, categories, results] = await Promise.all([
+    sql`select * from v_shortlist_status order by category_id, company_name`,
+    sql`select id, title from categories order by sort_order`,
+    sql`select shortlist_id, score, placement from shortlist_results`,
   ])
 
   const resultMap = Object.fromEntries(

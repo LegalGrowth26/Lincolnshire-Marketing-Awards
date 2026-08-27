@@ -53,16 +53,16 @@ export default function Shortlist() {
               </div>
 
               <ul className="flex flex-wrap gap-4" aria-label={`${category} shortlist`}>
-                {entries.map(({ company, contact }) => (
+                {entries.map(({ name, detail }) => (
                   <li
-                    key={`${company}-${contact ?? ''}`}
+                    key={`${name}-${detail ?? ''}`}
                     className="card px-6 py-4 hover:border-sky-200 transition-all duration-200
                                grow sm:grow-0 sm:min-w-[260px]"
                     style={{ borderBottom: '2px solid rgba(40,200,255,0.15)' }}
                   >
-                    <div className="font-semibold text-navy-900 text-sm">{company}</div>
-                    {contact && (
-                      <div className="text-gray-500 text-xs mt-1">{contact}</div>
+                    <div className="font-semibold text-navy-900 text-sm">{name}</div>
+                    {detail && (
+                      <div className="text-gray-500 text-xs mt-1">{detail}</div>
                     )}
                   </li>
                 ))}

@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 import { requireAdmin, ADMIN_COOKIE } from '@/lib/auth'
 import { setSetting } from '@/lib/config'
 import { runDailyJobs, type JobReport } from '@/lib/jobs'
@@ -61,10 +61,8 @@ function matchPlacement(v: string | undefined) {
  */
 export async function importShortlist(rows: ImportRow[]): Promise<ImportReport> {
   await requireAdmin()
-  const supabase = db()
 
-  const { data: categories } = await supabase.from('categories').select('id, slug, title')
-  const cats = categories ?? []
+  const cats = await sql`select id, slug, title from categories`
 
   const batch = crypto.randomUUID()
   const report: ImportReport = {
@@ -102,49 +100,57 @@ export async function importShortlist(rows: ImportRow[]): Promise<ImportReport> 
       continue
     }
 
-    const existing = await supabase
-      .from('shortlist')
-      .select('id')
-      .eq('category_id', cat.id)
-      .ilike('email', email)
-      .maybeSingle()
+    const existing = await sql`
+      select id from shortlist
+      where category_id = ${cat.id} and lower(email) = lower(${email})`
 
-    const payload = {
-      category_id: cat.id,
-      company_name: row.company_name.trim(),
-      contact_name: row.contact_name?.trim() || null,
-      email,
-      phone: row.phone?.trim() || null,
-      import_batch: batch,
-    }
+    const companyName = row.company_name.trim()
+    const contactName = row.contact_name?.trim() || null
+    const phone = row.phone?.trim() || null
 
     let shortlistId: string
-    if (existing.data) {
-      await supabase.from('shortlist').update(payload).eq('id', existing.data.id)
-      shortlistId = existing.data.id
+    if (existing[0]) {
+      await sql`
+        update shortlist
+        set category_id = ${cat.id}, company_name = ${companyName},
+            contact_name = ${contactName}, email = ${email}, phone = ${phone},
+            import_batch = ${batch}
+        where id = ${existing[0].id}`
+      shortlistId = existing[0].id
       report.updated++
     } else {
-      const ins = await supabase.from('shortlist').insert(payload).select('id').single()
-      if (ins.error || !ins.data) {
-        report.skipped.push({ row: i + 2, reason: ins.error?.message ?? 'Insert failed' })
+      let ins: { id: string } | undefined
+      try {
+        const inserted = await sql`
+          insert into shortlist (category_id, company_name, contact_name, email, phone, import_batch)
+          values (${cat.id}, ${companyName}, ${contactName}, ${email}, ${phone}, ${batch})
+          returning id`
+        ins = inserted[0]
+      } catch (e) {
+        report.skipped.push({
+          row: i + 2,
+          reason: e instanceof Error ? e.message : 'Insert failed',
+        })
         continue
       }
-      shortlistId = ins.data.id
+      if (!ins) {
+        report.skipped.push({ row: i + 2, reason: 'Insert failed' })
+        continue
+      }
+      shortlistId = ins.id
       report.created++
     }
 
     const score = row.score !== undefined && row.score !== '' ? Number(row.score) : null
     const placement = matchPlacement(row.placement)
     if (score !== null || placement) {
-      await supabase.from('shortlist_results').upsert(
-        {
-          shortlist_id: shortlistId,
-          score: Number.isFinite(score) ? score : null,
-          placement,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'shortlist_id' },
-      )
+      await sql`
+        insert into shortlist_results (shortlist_id, score, placement, updated_at)
+        values (${shortlistId}, ${Number.isFinite(score) ? score : null}, ${placement},
+                ${new Date().toISOString()})
+        on conflict (shortlist_id) do update
+          set score = excluded.score, placement = excluded.placement,
+              updated_at = excluded.updated_at`
     }
 
     counts.set(cat.title, (counts.get(cat.title) ?? 0) + 1)
@@ -161,7 +167,9 @@ export async function importShortlist(rows: ImportRow[]): Promise<ImportReport> 
 
 export async function setShortlisted(ids: string[], value: boolean) {
   await requireAdmin()
-  await db().from('shortlist').update({ is_shortlisted: value }).in('id', ids)
+  await sql`
+    update shortlist set is_shortlisted = ${value}
+    where id = any(${ids}::uuid[])`
   revalidatePath('/admin/shortlist')
   revalidatePath('/admin')
 }
@@ -169,29 +177,28 @@ export async function setShortlisted(ids: string[], value: boolean) {
 /** Queues the congratulations email. The daily cron does the sending. */
 export async function armInvites(ids: string[]) {
   await requireAdmin()
-  const { count } = await db()
-    .from('shortlist')
-    .update({ invite_state: 'armed' }, { count: 'exact' })
-    .in('id', ids)
-    .eq('is_shortlisted', true)
-    .in('invite_state', ['draft', 'suppressed'])
+  const armed = await sql`
+    update shortlist set invite_state = 'armed'
+    where id = any(${ids}::uuid[])
+      and is_shortlisted = true
+      and invite_state in ('draft', 'suppressed')
+    returning id`
   revalidatePath('/admin/shortlist')
-  return { armed: count ?? 0 }
+  return { armed: armed.length }
 }
 
 export async function suppressInvites(ids: string[]) {
   await requireAdmin()
-  await db()
-    .from('shortlist')
-    .update({ invite_state: 'suppressed' })
-    .in('id', ids)
-    .in('invite_state', ['draft', 'armed'])
+  await sql`
+    update shortlist set invite_state = 'suppressed'
+    where id = any(${ids}::uuid[])
+      and invite_state in ('draft', 'armed')`
   revalidatePath('/admin/shortlist')
 }
 
 export async function deleteShortlistRow(id: string) {
   await requireAdmin()
-  await db().from('shortlist').delete().eq('id', id)
+  await sql`delete from shortlist where id = ${id}`
   revalidatePath('/admin/shortlist')
 }
 
@@ -210,17 +217,25 @@ export async function updateGuest(
   },
 ) {
   await requireAdmin()
-  const supabase = db()
-  const { data: guest } = await supabase
-    .from('guests')
-    .select('order_id')
-    .eq('id', guestId)
-    .single()
+  const guests = await sql`select order_id from guests where id = ${guestId}`
+  const guest = guests[0]
 
-  await supabase
-    .from('guests')
-    .update({ ...patch, updated_at: new Date().toISOString() })
-    .eq('id', guestId)
+  // Only the fields present on the patch are written; the CASE guards keep
+  // absent fields untouched, matching the previous partial-update semantics.
+  await sql`
+    update guests set
+      full_name = case when ${patch.full_name !== undefined}
+        then ${patch.full_name ?? null} else full_name end,
+      company = case when ${patch.company !== undefined}
+        then ${patch.company ?? null} else company end,
+      dietary_tags = case when ${patch.dietary_tags !== undefined}
+        then ${patch.dietary_tags ?? null}::text[] else dietary_tags end,
+      dietary_notes = case when ${patch.dietary_notes !== undefined}
+        then ${patch.dietary_notes ?? null} else dietary_notes end,
+      accessibility_notes = case when ${patch.accessibility_notes !== undefined}
+        then ${patch.accessibility_notes ?? null} else accessibility_notes end,
+      updated_at = ${new Date().toISOString()}
+    where id = ${guestId}`
 
   if (guest?.order_id) await refreshOrderCompletion(guest.order_id)
 
@@ -230,7 +245,7 @@ export async function updateGuest(
 
 export async function setOrderStatus(orderId: string, status: 'paid' | 'refunded' | 'cancelled') {
   await requireAdmin()
-  await db().from('orders').update({ status }).eq('id', orderId)
+  await sql`update orders set status = ${status} where id = ${orderId}`
   revalidatePath('/admin')
   revalidatePath('/admin/guests')
 }
@@ -239,17 +254,21 @@ export async function setOrderStatus(orderId: string, status: 'paid' | 'refunded
 export async function setOrderSeats(orderId: string, seats: number) {
   await requireAdmin()
   if (!Number.isInteger(seats) || seats < 1 || seats > 40) return
-  const supabase = db()
-  await supabase.from('orders').update({ seats }).eq('id', orderId)
+  await sql`update orders set seats = ${seats} where id = ${orderId}`
 
-  const existing = await supabase.from('guests').select('seat_number').eq('order_id', orderId)
-  const have = new Set((existing.data ?? []).map((g) => g.seat_number))
+  const existing = await sql`select seat_number from guests where order_id = ${orderId}`
+  const have = new Set(existing.map((g) => g.seat_number))
   const toAdd = []
   for (let n = 1; n <= seats; n++) {
-    if (!have.has(n)) toAdd.push({ order_id: orderId, seat_number: n, is_buyer: n === 1 })
+    if (!have.has(n)) toAdd.push(n)
   }
-  if (toAdd.length) await supabase.from('guests').insert(toAdd)
-  await supabase.from('guests').delete().eq('order_id', orderId).gt('seat_number', seats)
+  if (toAdd.length) {
+    await sql`
+      insert into guests (order_id, seat_number, is_buyer)
+      select ${orderId}, n, n = 1 from unnest(${toAdd}::int[]) as n`
+  }
+  await sql`
+    delete from guests where order_id = ${orderId} and seat_number > ${seats}`
 
   await refreshOrderCompletion(orderId)
   revalidatePath('/admin')

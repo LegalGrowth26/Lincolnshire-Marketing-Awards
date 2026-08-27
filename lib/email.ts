@@ -1,6 +1,6 @@
 import 'server-only'
 import { Resend } from 'resend'
-import { db } from './supabase'
+import { sql } from './db'
 
 /**
  * CONFIDENTIALITY GUARD
@@ -429,26 +429,21 @@ export async function sendTemplate({
     throw new Error(`Template "${template}" is missing fields: ${missing.join(', ')}`)
   }
 
-  const supabase = db()
-
   // Claim the send first. The unique index on (template, dedupe_key) means a
-  // concurrent or repeated run loses the race and sends nothing.
+  // concurrent or repeated run loses the race and sends nothing. This must
+  // stay a single INSERT that fails on the index — a SELECT-then-INSERT
+  // would reopen the race this guard exists to close.
   let logId: string | null = null
   if (dedupeKey) {
-    const { data: row, error } = await supabase
-      .from('email_log')
-      .insert({
-        template,
-        recipient_email: to.toLowerCase(),
-        shortlist_id: shortlistId ?? null,
-        order_id: orderId ?? null,
-        dedupe_key: dedupeKey,
-        status: 'sent',
-      })
-      .select('id')
-      .single()
-    if (error) return { ok: true, skipped: true }
-    logId = row.id
+    try {
+      const rows = await sql`
+        insert into email_log (template, recipient_email, shortlist_id, order_id, dedupe_key, status)
+        values (${template}, ${to.toLowerCase()}, ${shortlistId ?? null}, ${orderId ?? null}, ${dedupeKey}, 'sent')
+        returning id`
+      logId = rows[0].id
+    } catch {
+      return { ok: true, skipped: true }
+    }
   }
 
   const { subject, html, text } = def.build(data)
@@ -464,31 +459,31 @@ export async function sendTemplate({
     })
     if (res.error) throw new Error(res.error.message)
 
-    if (logId) {
-      await supabase.from('email_log').update({ resend_id: res.data?.id }).eq('id', logId)
-    } else {
-      await supabase.from('email_log').insert({
-        template,
-        recipient_email: to.toLowerCase(),
-        shortlist_id: shortlistId ?? null,
-        order_id: orderId ?? null,
-        resend_id: res.data?.id,
-        status: 'sent',
-      })
+    // Log bookkeeping is best-effort: the send has already happened, so a
+    // failed write here must not turn a successful send into an error.
+    try {
+      if (logId) {
+        await sql`update email_log set resend_id = ${res.data?.id ?? null} where id = ${logId}`
+      } else {
+        await sql`
+          insert into email_log (template, recipient_email, shortlist_id, order_id, resend_id, status)
+          values (${template}, ${to.toLowerCase()}, ${shortlistId ?? null}, ${orderId ?? null}, ${res.data?.id ?? null}, 'sent')`
+      }
+    } catch {
+      // ignore: logging only
     }
     return { ok: true }
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e)
-    // Release the claim so a later run can retry.
-    if (logId) await supabase.from('email_log').delete().eq('id', logId)
-    await supabase.from('email_log').insert({
-      template,
-      recipient_email: to.toLowerCase(),
-      shortlist_id: shortlistId ?? null,
-      order_id: orderId ?? null,
-      status: 'failed',
-      error: message.slice(0, 500),
-    })
+    try {
+      // Release the claim so a later run can retry.
+      if (logId) await sql`delete from email_log where id = ${logId}`
+      await sql`
+        insert into email_log (template, recipient_email, shortlist_id, order_id, status, error)
+        values (${template}, ${to.toLowerCase()}, ${shortlistId ?? null}, ${orderId ?? null}, 'failed', ${message.slice(0, 500)})`
+    } catch {
+      // ignore: logging only
+    }
     return { ok: false, error: message }
   }
 }

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 import { getSettings, formatEventDate } from '@/lib/config'
 import { refreshOrderCompletion, firstName } from '@/lib/orders'
 import { sendTemplate } from '@/lib/email'
@@ -41,12 +41,10 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
   }
 
-  const supabase = db()
-  const { data: order } = await supabase
-    .from('orders')
-    .select('id, seats, buyer_name, buyer_email, details_completed_at, status')
-    .eq('details_token', token)
-    .maybeSingle()
+  const orders = await sql`
+    select id, seats, buyer_name, buyer_email, details_completed_at, status
+    from orders where details_token = ${token}`
+  const order = orders[0] ?? null
 
   if (!order || order.status !== 'paid') {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
@@ -62,8 +60,8 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
   const seats = Array.isArray(body.seats) ? body.seats : []
   if (!seats.length) return NextResponse.json({ error: 'No seats supplied' }, { status: 400 })
 
-  const { data: options } = await supabase.from('dietary_options').select('slug')
-  const validTags = new Set((options ?? []).map((o) => o.slug))
+  const options = await sql`select slug from dietary_options`
+  const validTags = new Set(options.map((o) => o.slug))
 
   const rows = []
   for (const s of seats) {
@@ -88,11 +86,31 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
     })
   }
 
-  const { error } = await supabase
-    .from('guests')
-    .upsert(rows, { onConflict: 'order_id,seat_number' })
-
-  if (error) {
+  try {
+    // One statement for all seats, exactly like the previous bulk upsert:
+    // conflict target (order_id, seat_number) decides insert versus update.
+    await sql`
+      insert into guests (order_id, seat_number, full_name, company, is_buyer,
+                          dietary_tags, dietary_notes, accessibility_notes, updated_at)
+      select (g->>'order_id')::uuid,
+             (g->>'seat_number')::int,
+             g->>'full_name',
+             g->>'company',
+             (g->>'is_buyer')::boolean,
+             array(select jsonb_array_elements_text(g->'dietary_tags')),
+             g->>'dietary_notes',
+             g->>'accessibility_notes',
+             (g->>'updated_at')::timestamptz
+      from jsonb_array_elements(${JSON.stringify(rows)}::jsonb) as g
+      on conflict (order_id, seat_number) do update set
+        full_name = excluded.full_name,
+        company = excluded.company,
+        is_buyer = excluded.is_buyer,
+        dietary_tags = excluded.dietary_tags,
+        dietary_notes = excluded.dietary_notes,
+        accessibility_notes = excluded.accessibility_notes,
+        updated_at = excluded.updated_at`
+  } catch (error) {
     console.error('[booking] save failed', order.id, error)
     return NextResponse.json({ error: 'Could not save' }, { status: 500 })
   }

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 import { stripe, upsertOrderFromSession } from '@/lib/orders'
 import { siteUrl } from '@/lib/config'
 
@@ -19,16 +19,15 @@ export async function GET(req: NextRequest) {
   const base = siteUrl()
   if (!sessionId) return NextResponse.redirect(`${base}/booking/pending`)
 
-  const supabase = db()
-
   for (let i = 0; i < 5; i++) {
-    const { data } = await supabase
-      .from('orders')
-      .select('details_token')
-      .eq('stripe_session_id', sessionId)
-      .maybeSingle()
-    if (data?.details_token) {
-      return NextResponse.redirect(`${base}/booking/${data.details_token}`)
+    try {
+      const rows = await sql`
+        select details_token from orders where stripe_session_id = ${sessionId}`
+      if (rows[0]?.details_token) {
+        return NextResponse.redirect(`${base}/booking/${rows[0].details_token}`)
+      }
+    } catch {
+      // keep polling; the Stripe fallback below still runs
     }
     await sleep(400)
   }

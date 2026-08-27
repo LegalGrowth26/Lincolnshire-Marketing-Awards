@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { db } from '@/lib/supabase'
+import { sql } from '@/lib/db'
 import { getSettings, poundsFromPence, formatEventDate, daysUntil } from '@/lib/config'
 import { RunJobsButton, CopyButton, LogoutButton } from './client-bits'
 
@@ -7,29 +7,29 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export default async function Dashboard() {
-  const supabase = db()
   const settings = await getSettings()
+
+  // The previous data layer surfaced query errors as null data rather than
+  // throwing; keep the dashboard rendering (with fallbacks) the same way.
+  const safe = <T,>(p: Promise<T[]>): Promise<T[] | null> => p.catch(() => null)
 
   const [seatSummary, completion, dietary, notes, shortlist, recentOrders, recentEmails] =
     await Promise.all([
-      supabase.from('v_seat_summary').select('*').single(),
-      supabase.from('v_guest_completion').select('*').single(),
-      supabase.from('v_dietary_counts').select('*'),
-      supabase.from('v_dietary_notes').select('*'),
-      supabase.from('v_shortlist_status').select('*').eq('is_shortlisted', true),
-      supabase
-        .from('orders')
-        .select('id, buyer_name, buyer_email, seats, ticket_type, amount_total, created_at, details_completed_at, status')
-        .order('created_at', { ascending: false })
-        .limit(20),
-      supabase
-        .from('email_log')
-        .select('id, template, recipient_email, status, sent_at, error')
-        .order('sent_at', { ascending: false })
-        .limit(20),
+      safe(sql`select * from v_seat_summary`),
+      safe(sql`select * from v_guest_completion`),
+      safe(sql`select * from v_dietary_counts`),
+      safe(sql`select * from v_dietary_notes`),
+      safe(sql`select * from v_shortlist_status where is_shortlisted = true`),
+      safe(sql`
+        select id, buyer_name, buyer_email, seats, ticket_type, amount_total,
+               created_at, details_completed_at, status
+        from orders order by created_at desc limit 20`),
+      safe(sql`
+        select id, template, recipient_email, status, sent_at, error
+        from email_log order by sent_at desc limit 20`),
     ])
 
-  const s = seatSummary.data ?? {
+  const s = seatSummary?.[0] ?? {
     single_orders: 0,
     table_orders: 0,
     seats_sold: 0,
@@ -37,9 +37,9 @@ export default async function Dashboard() {
     orders_complete: 0,
     orders_outstanding: 0,
   }
-  const c = completion.data ?? { seats_total: 0, seats_named: 0, seats_unnamed: 0 }
-  const diet = (dietary.data ?? []).filter((d) => d.guest_count > 0)
-  const rows = shortlist.data ?? []
+  const c = completion?.[0] ?? { seats_total: 0, seats_named: 0, seats_unnamed: 0 }
+  const diet = (dietary ?? []).filter((d) => d.guest_count > 0)
+  const rows = shortlist ?? []
 
   // Many businesses are shortlisted in more than one category, so the funnel
   // counts people, not nominations. One person gets one invite.
@@ -63,7 +63,7 @@ export default async function Dashboard() {
     byCategory.set(r.category_title, list)
   }
 
-  const venueText = (notes.data ?? [])
+  const venueText = (notes ?? [])
     .map(
       (n) =>
         `${n.full_name || 'Name pending'} (${n.buyer_company || n.buyer_name || 'guest'}): ${
@@ -182,11 +182,11 @@ export default async function Dashboard() {
             </div>
           }
         >
-          {(notes.data ?? []).length === 0 ? (
+          {(notes ?? []).length === 0 ? (
             <Empty>Nothing to pass on yet.</Empty>
           ) : (
             <ul className="divide-y divide-neutral-100 max-h-96 overflow-y-auto">
-              {(notes.data ?? []).map((n) => (
+              {(notes ?? []).map((n) => (
                 <li key={n.guest_id} className="py-3">
                   <p className="font-semibold">
                     {n.full_name || <span className="text-neutral-400">Name pending</span>}
@@ -280,11 +280,11 @@ export default async function Dashboard() {
       {/* Activity */}
       <section className="grid lg:grid-cols-2 gap-6">
         <Panel title="Recent bookings" subtitle="Newest first">
-          {(recentOrders.data ?? []).length === 0 ? (
+          {(recentOrders ?? []).length === 0 ? (
             <Empty>No tickets sold yet.</Empty>
           ) : (
             <ul className="divide-y divide-neutral-100">
-              {(recentOrders.data ?? []).map((o) => (
+              {(recentOrders ?? []).map((o) => (
                 <li key={o.id} className="py-3 flex items-start justify-between gap-4">
                   <div>
                     <p className="font-semibold">
@@ -320,11 +320,11 @@ export default async function Dashboard() {
         </Panel>
 
         <Panel title="Recent email" subtitle="What the automation has sent">
-          {(recentEmails.data ?? []).length === 0 ? (
+          {(recentEmails ?? []).length === 0 ? (
             <Empty>Nothing sent yet.</Empty>
           ) : (
             <ul className="divide-y divide-neutral-100">
-              {(recentEmails.data ?? []).map((e) => (
+              {(recentEmails ?? []).map((e) => (
                 <li key={e.id} className="py-3 flex items-start justify-between gap-4">
                   <div>
                     <p className="font-medium">{e.template.replace(/_/g, ' ')}</p>
