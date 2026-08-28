@@ -24,8 +24,12 @@ export async function GET(req: NextRequest) {
       expand: ['line_items'],
     })
     if (session.payment_status === 'paid') {
-      const { order } = await recordPaidSession(session)
-      return NextResponse.redirect(`${base}/booking/${order.details_token}`)
+      const recorded = await recordPaidSession(session)
+      if (recorded) {
+        return NextResponse.redirect(`${base}/booking/${recorded.order.details_token}`)
+      }
+      // Paid, but not through one of our links and with no matching order —
+      // nothing to record, nothing to show.
     }
   } catch (e) {
     console.error('[stripe return] failed', sessionId, e)

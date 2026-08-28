@@ -21,15 +21,36 @@ export const ticketLabel = (t: TicketType) =>
   t === 'table8' ? 'Table of 8' : 'Single ticket'
 
 /**
- * Work out how many seats a paid session represents.
- * Quantity matters: someone can buy two tables on one link.
+ * The two payment links behind the ticket cards. The tickets are payment
+ * links, not catalogue products, so the plink_ id is the reliable handle for
+ * deciding whether a Stripe session is ours — never the price id.
  */
-export async function resolveSeats(
-  session: Stripe.Checkout.Session,
-): Promise<{ ticketType: TicketType; seats: number; priceId: string | null; mapped: boolean }> {
-  const single = process.env.STRIPE_PRICE_SINGLE
-  const table8 = process.env.STRIPE_PRICE_TABLE8
+function paymentLinks() {
+  return {
+    single: process.env.STRIPE_LINK_SINGLE || null,
+    table8: process.env.STRIPE_LINK_TABLE8 || null,
+  }
+}
 
+/**
+ * Which of our ticket links a session was paid through, or null when the
+ * session is not ours (a different link, or no link at all). Null means skip:
+ * there is deliberately no amount fallback and no unmapped default.
+ */
+export function ticketTypeForSession(session: Stripe.Checkout.Session): TicketType | null {
+  const link =
+    typeof session.payment_link === 'string'
+      ? session.payment_link
+      : session.payment_link?.id ?? null
+  if (!link) return null
+  const links = paymentLinks()
+  if (links.table8 && link === links.table8) return 'table8'
+  if (links.single && link === links.single) return 'single'
+  return null
+}
+
+/** Total quantity across the session's line items — two tables on one payment is quantity 2. */
+async function sessionQuantity(session: Stripe.Checkout.Session): Promise<number> {
   let items = session.line_items?.data
   if (!items) {
     const full = await stripe().checkout.sessions.retrieve(session.id, {
@@ -37,37 +58,8 @@ export async function resolveSeats(
     })
     items = full.line_items?.data
   }
-
-  let seats = 0
-  let sawTable = false
-  let sawSingle = false
-  let priceId: string | null = null
-
-  for (const item of items ?? []) {
-    const id = item.price?.id ?? null
-    const qty = item.quantity ?? 1
-    if (id && table8 && id === table8) {
-      seats += 8 * qty
-      sawTable = true
-      priceId = priceId ?? id
-    } else if (id && single && id === single) {
-      seats += qty
-      sawSingle = true
-      priceId = priceId ?? id
-    }
-  }
-
-  if (seats > 0) {
-    return {
-      ticketType: sawTable && !sawSingle ? 'table8' : sawTable ? 'table8' : 'single',
-      seats,
-      priceId,
-      mapped: true,
-    }
-  }
-
-  // Unmapped. Record it as a single seat rather than losing the sale, and alert.
-  return { ticketType: 'single', seats: 1, priceId, mapped: false }
+  const qty = (items ?? []).reduce((n, item) => n + (item.quantity ?? 1), 0)
+  return Math.max(qty, 1)
 }
 
 /**
@@ -112,13 +104,20 @@ export async function markOrderPaidFromSession(session: Stripe.Checkout.Session)
 
 /**
  * Single entry point for a paid checkout session from any source (webhook,
- * return redirect, daily sync): a client_reference_id matching one of our
- * orders marks it paid, anything else creates the order from the session.
+ * return redirect, daily sync). A session carrying a client_reference_id that
+ * matches one of our orders is always ours, whatever link it was paid
+ * through. Otherwise the session is only processed when it was paid through
+ * one of our two payment links; anything else is skipped silently (returns
+ * null).
  */
 export async function recordPaidSession(session: Stripe.Checkout.Session) {
   const marked = await markOrderPaidFromSession(session)
   if (marked) return marked
-  return upsertOrderFromSession(session)
+
+  const ticketType = ticketTypeForSession(session)
+  if (!ticketType) return null
+
+  return upsertOrderFromSession(session, ticketType)
 }
 
 export type StripeSyncResult = {
@@ -131,11 +130,24 @@ export type StripeSyncResult = {
 /**
  * Reconcile Stripe against the orders table: paid Checkout Sessions from the
  * last 90 days, newest first. Sessions already recorded are skipped by
- * stripe_session_id; the rest are matched to a pending order via
- * client_reference_id or created outright. Idempotent, so it is safe on the
- * daily cron and the dashboard button.
+ * stripe_session_id. A client_reference_id matching one of our orders marks
+ * it paid; otherwise only sessions paid through our two payment links are
+ * created, and everything else is skipped silently. Refuses to run at all
+ * when either link env var is missing — it must never import everything.
+ * Idempotent, so it is safe on the daily cron and the dashboard button.
  */
 export async function syncFromStripe(): Promise<StripeSyncResult> {
+  const links = paymentLinks()
+  if (!links.single || !links.table8) {
+    return {
+      checked: 0,
+      markedPaid: 0,
+      created: 0,
+      error:
+        'STRIPE_LINK_SINGLE and STRIPE_LINK_TABLE8 must both be set. Refusing to import anything until they are.',
+    }
+  }
+
   const out: StripeSyncResult = { checked: 0, markedPaid: 0, created: 0 }
   const since = Math.floor(Date.now() / 1000) - 90 * 86_400
   let startingAfter: string | undefined
@@ -154,15 +166,10 @@ export async function syncFromStripe(): Promise<StripeSyncResult> {
       const seen = await sql`select id from orders where stripe_session_id = ${session.id}`
       if (seen[0]) continue
 
-      const full = await stripe().checkout.sessions.retrieve(session.id, {
-        expand: ['line_items'],
-      })
-      const marked = await markOrderPaidFromSession(full)
-      if (marked) out.markedPaid++
-      else {
-        await upsertOrderFromSession(full)
-        out.created++
-      }
+      const recorded = await recordPaidSession(session)
+      if (!recorded) continue // not ours — skip silently
+      if (recorded.created) out.created++
+      else out.markedPaid++
     }
 
     if (!batch.has_more || batch.data.length === 0) break
@@ -172,16 +179,21 @@ export async function syncFromStripe(): Promise<StripeSyncResult> {
 }
 
 /**
+ * Create an order from a session paid through one of our payment links.
  * Idempotent. Safe to call from the webhook and the return redirect for the
  * same session: the unique constraint on stripe_session_id decides the winner.
  */
-export async function upsertOrderFromSession(session: Stripe.Checkout.Session) {
+export async function upsertOrderFromSession(
+  session: Stripe.Checkout.Session,
+  ticketType: TicketType,
+) {
   const existing = await sql`
     select id, details_token, buyer_email, seats, ticket_type
     from orders where stripe_session_id = ${session.id}`
   if (existing[0]) return { order: existing[0], created: false }
 
-  const { ticketType, seats, priceId, mapped } = await resolveSeats(session)
+  const quantity = await sessionQuantity(session)
+  const seats = (ticketType === 'table8' ? 8 : 1) * quantity
 
   const email = session.customer_details?.email ?? session.customer_email ?? ''
   if (!email) throw new Error(`No buyer email on session ${session.id}`)
@@ -196,13 +208,13 @@ export async function upsertOrderFromSession(session: Stripe.Checkout.Session) {
   try {
     const inserted = await sql`
       insert into orders (
-        stripe_session_id, stripe_payment_intent, stripe_price_id, ticket_type,
+        stripe_session_id, stripe_payment_intent, ticket_type,
         seats, amount_total, currency, buyer_name, buyer_email, buyer_phone,
         shortlist_id, status
       ) values (
         ${session.id},
         ${typeof session.payment_intent === 'string' ? session.payment_intent : null},
-        ${priceId}, ${ticketType}, ${seats}, ${session.amount_total ?? 0},
+        ${ticketType}, ${seats}, ${session.amount_total ?? 0},
         ${session.currency ?? 'gbp'}, ${session.customer_details?.name ?? null},
         ${email.toLowerCase()}, ${session.customer_details?.phone ?? null},
         ${shortlistId}, 'paid'
@@ -217,19 +229,6 @@ export async function upsertOrderFromSession(session: Stripe.Checkout.Session) {
       from orders where stripe_session_id = ${session.id}`
     if (again[0]) return { order: again[0], created: false }
     throw insertError
-  }
-
-  if (!mapped) {
-    await sendTemplate({
-      template: 'internal_unmapped_order',
-      to: internalRecipient(),
-      data: {
-        stripe_session_id: session.id,
-        amount: poundsFromPence(session.amount_total ?? 0),
-      },
-      dedupeKey: `unmapped:${session.id}`,
-      orderId: order.id,
-    })
   }
 
   await sendOrderEmails(order.id)
@@ -285,8 +284,8 @@ export async function sendOrderEmails(orderId: string) {
       buyer_email: order.buyer_email,
       ticket_type_label: label,
       seats: order.seats,
-      amount: poundsFromPence(order.amount_total),
-      seats_sold_total: summary?.seats_sold ?? order.seats,
+      amount: poundsFromPence(Number(order.amount_total ?? 0)),
+      seats_sold_total: Number(summary?.seats_sold ?? order.seats),
     },
   })
 }

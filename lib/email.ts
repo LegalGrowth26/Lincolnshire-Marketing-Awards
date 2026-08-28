@@ -364,27 +364,6 @@ Total seats sold so far: ${d.seats_sold_total}`,
     }),
   },
 
-  internal_unmapped_order: {
-    fields: ['stripe_session_id', 'amount'],
-    build: (d) => ({
-      subject: `Action needed: unmapped ticket sale`,
-      text: `A payment came in that did not match either ticket price id, so it has been recorded as a single seat.
-
-Stripe session: ${d.stripe_session_id}
-Amount: ${d.amount}
-
-Check STRIPE_PRICE_SINGLE and STRIPE_PRICE_TABLE8 in Vercel, then correct the seat count in the admin dashboard.`,
-      html: layout(
-        p(
-          `A payment came in that did not match either ticket price id, so it has been recorded as a single seat.`,
-        ) +
-          p(`Stripe session: <code>${d.stripe_session_id}</code><br>Amount: ${d.amount}`) +
-          p(
-            `Check <code>STRIPE_PRICE_SINGLE</code> and <code>STRIPE_PRICE_TABLE8</code> in Vercel, then correct the seat count in the admin dashboard.`,
-          ),
-      ),
-    }),
-  },
 } satisfies Record<string, Template>
 
 export type TemplateKey = keyof typeof TEMPLATES

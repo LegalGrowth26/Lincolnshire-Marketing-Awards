@@ -30,8 +30,8 @@ Set these on Production and Preview.
 | `SUPABASE_SERVICE_ROLE_KEY` | Same page, service_role key. Secret, server only |
 | `STRIPE_SECRET_KEY` | Stripe, Developers, API keys |
 | `STRIPE_WEBHOOK_SECRET` | Created in step 5 |
-| `STRIPE_PRICE_SINGLE` | Step 4 |
-| `STRIPE_PRICE_TABLE8` | Step 4 |
+| `STRIPE_LINK_SINGLE` | Step 4. `plink_` id of the single-ticket payment link |
+| `STRIPE_LINK_TABLE8` | Step 4. `plink_` id of the table-of-8 payment link |
 | `TICKET_URL_SINGLE` | `https://buy.stripe.com/cNi8wQ3gBdRl0S38pwgA80c` |
 | `TICKET_URL_TABLE8` | `https://buy.stripe.com/4gM4gA4kF5kP58j218gA80d` |
 | `RESEND_API_KEY` | Step 6 |
@@ -41,15 +41,18 @@ Set these on Production and Preview.
 | `ADMIN_SESSION_SECRET` | 32+ random characters. `openssl rand -base64 32` |
 | `CRON_SECRET` | Another 32+ random characters |
 
-## 4. Find your Stripe price IDs
+## 4. Find your payment link IDs
 
-Stripe Dashboard, Product catalogue. Open the product behind each payment link
-and copy the price ID, which starts `price_`. One goes in `STRIPE_PRICE_SINGLE`,
-the other in `STRIPE_PRICE_TABLE8`.
+Stripe Dashboard, Payment links. Open each of the two links and copy its ID,
+which starts `plink_`. One goes in `STRIPE_LINK_SINGLE`, the other in
+`STRIPE_LINK_TABLE8`.
 
-If these are wrong, a table of 8 gets recorded as one seat. You will get an
-"unmapped ticket sale" email if a purchase matches neither, so it fails loudly
-rather than quietly.
+Imports are filtered by these two links: a session paid through the single
+link is 1 seat, through the table link 8 seats per quantity, and anything
+paid through any other link is ignored. A session carrying one of our order
+ids (from the /book flow) is always processed regardless of link. If either
+variable is unset, the Stripe sync refuses to run rather than importing
+everything.
 
 ## 5. Point the payment links back at the site
 

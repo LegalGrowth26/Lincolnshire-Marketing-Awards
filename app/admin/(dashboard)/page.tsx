@@ -36,17 +36,31 @@ export default async function Dashboard() {
         from email_log order by sent_at desc limit 20`),
     ])
 
-  const s = seatSummary?.[0] ?? {
-    single_orders: 0,
-    table_orders: 0,
-    seats_sold: 0,
-    gross_pence: 0,
-    orders_complete: 0,
-    orders_outstanding: 0,
+  // The Neon driver returns bigint (count/sum) as strings, so every number
+  // coming out of a v_ view is coerced here before any arithmetic —
+  // "39" + "0" is "390", not 39.
+  const sRaw = seatSummary?.[0] ?? {}
+  const s = {
+    single_orders: Number(sRaw.single_orders ?? 0),
+    table_orders: Number(sRaw.table_orders ?? 0),
+    seats_sold: Number(sRaw.seats_sold ?? 0),
+    gross_pence: Number(sRaw.gross_pence ?? 0),
+    orders_complete: Number(sRaw.orders_complete ?? 0),
+    orders_outstanding: Number(sRaw.orders_outstanding ?? 0),
   }
-  const c = completion?.[0] ?? { seats_total: 0, seats_named: 0, seats_unnamed: 0 }
-  const diet = (dietary ?? []).filter((d) => d.guest_count > 0)
-  const rows = shortlist ?? []
+  const cRaw = completion?.[0] ?? {}
+  const c = {
+    seats_total: Number(cRaw.seats_total ?? 0),
+    seats_named: Number(cRaw.seats_named ?? 0),
+    seats_unnamed: Number(cRaw.seats_unnamed ?? 0),
+  }
+  const diet = (dietary ?? [])
+    .map((d) => ({ ...d, guest_count: Number(d.guest_count ?? 0) }))
+    .filter((d) => d.guest_count > 0)
+  const rows = (shortlist ?? []).map((r) => ({
+    ...r,
+    seats_booked: Number(r.seats_booked ?? 0),
+  }))
 
   // Many businesses are shortlisted in more than one category, so the funnel
   // counts people, not nominations. One person gets one invite.
