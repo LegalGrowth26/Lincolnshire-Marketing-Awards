@@ -37,6 +37,7 @@ Set these on Production and Preview.
 | `RESEND_API_KEY` | Step 6 |
 | `EMAIL_FROM` | `Lincolnshire Marketing Awards <awards@yourdomain.co.uk>` |
 | `EMAIL_REPLY_TO` | `tom@lincolnshiremarketing.co.uk` |
+| `EMAIL_INTERNAL` | Comma-separated internal alert recipients, e.g. `tom@lincolnshiremarketing.co.uk,charlotte@lincolnshiremarketing.co.uk`. Falls back to `EMAIL_REPLY_TO` |
 | `ADMIN_PASSWORD` | Pick a long one. This is the only lock on the dashboard |
 | `ADMIN_SESSION_SECRET` | 32+ random characters. `openssl rand -base64 32` |
 | `CRON_SECRET` | Another 32+ random characters |

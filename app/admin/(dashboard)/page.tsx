@@ -19,7 +19,7 @@ export default async function Dashboard() {
   // throwing; keep the dashboard rendering (with fallbacks) the same way.
   const safe = <T,>(p: Promise<T[]>): Promise<T[] | null> => p.catch(() => null)
 
-  const [seatSummary, completion, dietary, notes, shortlist, pendingOrders, recentOrders, recentEmails] =
+  const [seatSummary, completion, dietary, notes, shortlist, pendingOrders, unnamedOrders, recentOrders, recentEmails] =
     await Promise.all([
       safe(sql`select * from v_seat_summary`),
       safe(sql`select * from v_guest_completion`),
@@ -27,6 +27,20 @@ export default async function Dashboard() {
       safe(sql`select * from v_dietary_notes`),
       safe(sql`select * from v_shortlist_status where is_shortlisted = true`),
       safe(sql`select * from v_pending_orders`),
+      safe(sql`
+        select o.id, o.buyer_name, o.buyer_company, o.buyer_email, o.seats,
+               o.ticket_type, o.created_at,
+               (o.seats - coalesce(n.named, 0))::int as seats_unnamed
+        from orders o
+        left join lateral (
+          select count(*)::int as named
+          from guests g
+          where g.order_id = o.id
+            and g.full_name is not null
+            and length(trim(g.full_name)) > 0
+        ) n on true
+        where o.status = 'paid' and o.details_completed_at is null
+        order by o.created_at`),
       safe(sql`
         select id, buyer_name, buyer_email, seats, ticket_type, amount_total,
                created_at, details_completed_at, status
@@ -189,6 +203,39 @@ export default async function Dashboard() {
                   </p>
                 </div>
                 <CancelPendingButton orderId={p.id} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </Panel>
+
+      {/* Tables not yet named */}
+      <Panel
+        title="Tables not yet named"
+        subtitle="Paid orders with seats still missing a guest name — the chase list before the venue deadline."
+      >
+        {(unnamedOrders ?? []).length === 0 ? (
+          <Empty>Every paid seat has a name. Nothing to chase.</Empty>
+        ) : (
+          <ul className="divide-y divide-neutral-100">
+            {(unnamedOrders ?? []).map((o) => (
+              <li key={o.id} className="py-3 flex items-start justify-between gap-4">
+                <div>
+                  <p className="font-semibold">
+                    {o.buyer_name || o.buyer_email}
+                    {o.buyer_company && (
+                      <span className="font-normal text-neutral-500"> &middot; {o.buyer_company}</span>
+                    )}
+                  </p>
+                  <p className="text-sm text-neutral-500">
+                    {o.ticket_type === 'table8' ? 'Table of 8' : 'Single ticket'} &middot;{' '}
+                    {Number(o.seats)} {Number(o.seats) === 1 ? 'seat' : 'seats'} &middot;{' '}
+                    {o.buyer_email}
+                  </p>
+                </div>
+                <p className="shrink-0 text-sm font-semibold text-amber-700 tabular-nums">
+                  {Number(o.seats_unnamed)} {Number(o.seats_unnamed) === 1 ? 'seat' : 'seats'} unnamed
+                </p>
               </li>
             ))}
           </ul>

@@ -23,6 +23,19 @@ const FROM = () =>
   'Lincolnshire Marketing Awards <awards@lincolnshiremarketing.co.uk>'
 const REPLY_TO = () => process.env.EMAIL_REPLY_TO || 'tom@lincolnshiremarketing.co.uk'
 
+/**
+ * Internal alert recipients. EMAIL_INTERNAL is a comma-separated list of
+ * addresses (e.g. "tom@…,charlotte@…"); falls back to the reply-to address
+ * when unset. Every internal alert goes to all of them.
+ */
+export function internalRecipients(): string[] {
+  const raw = process.env.EMAIL_INTERNAL || REPLY_TO()
+  return raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+}
+
 type Data = Record<string, string | number>
 
 type Template = {
@@ -340,26 +353,69 @@ Lincolnshire Marketing Awards`,
   internal_sale_alert: {
     fields: [
       'buyer_name',
+      'buyer_company',
       'buyer_email',
+      'buyer_phone',
       'ticket_type_label',
       'seats',
       'amount',
       'seats_sold_total',
+      'guest_list',
     ],
     build: (d) => ({
       subject: `Ticket sale: ${d.ticket_type_label} to ${d.buyer_name}`,
       text: `${d.ticket_type_label} sold.
 
-Buyer: ${d.buyer_name} (${d.buyer_email})
+Buyer: ${d.buyer_name} (${d.buyer_company})
+Email: ${d.buyer_email}
+Phone: ${d.buyer_phone}
 Seats: ${d.seats}
 Amount: ${d.amount}
+
+Who is coming:
+${d.guest_list}
 
 Total seats sold so far: ${d.seats_sold_total}`,
       html: layout(
         p(`<strong>${d.ticket_type_label}</strong> sold.`) +
           p(
-            `Buyer: ${d.buyer_name} (${d.buyer_email})<br>Seats: ${d.seats}<br>Amount: ${d.amount}<br><br>Total seats sold so far: <strong>${d.seats_sold_total}</strong>`,
-          ),
+            `Buyer: ${d.buyer_name} (${d.buyer_company})<br>Email: ${d.buyer_email}<br>Phone: ${d.buyer_phone}<br>Seats: ${d.seats}<br>Amount: ${d.amount}`,
+          ) +
+          p(`<strong>Who is coming:</strong>`) +
+          `<div style="margin:0 0 14px;white-space:pre-line;">${d.guest_list}</div>` +
+          p(`Total seats sold so far: <strong>${d.seats_sold_total}</strong>`),
+      ),
+    }),
+  },
+
+  internal_details_updated: {
+    fields: [
+      'buyer_name',
+      'buyer_company',
+      'buyer_email',
+      'ticket_type_label',
+      'seats',
+      'seats_named',
+      'guest_list',
+    ],
+    build: (d) => ({
+      subject: `Guest details updated: ${d.buyer_name}`,
+      text: `${d.buyer_name} (${d.buyer_company}) has updated the guest details on their ${d.ticket_type_label}.
+
+${d.seats_named} of ${d.seats} seats named.
+
+Who is coming:
+${d.guest_list}
+
+Buyer email: ${d.buyer_email}`,
+      html: layout(
+        p(
+          `<strong>${d.buyer_name}</strong> (${d.buyer_company}) has updated the guest details on their <strong>${d.ticket_type_label}</strong>.`,
+        ) +
+          p(`<strong>${d.seats_named} of ${d.seats}</strong> seats named.`) +
+          p(`<strong>Who is coming:</strong>`) +
+          `<div style="margin:0 0 14px;white-space:pre-line;">${d.guest_list}</div>` +
+          p(`Buyer email: ${d.buyer_email}`),
       ),
     }),
   },
@@ -374,7 +430,8 @@ export type TemplateKey = keyof typeof TEMPLATES
 
 export type SendArgs = {
   template: TemplateKey
-  to: string
+  /** One address, or several (internal alerts go to everyone on EMAIL_INTERNAL). */
+  to: string | string[]
   data: Data
   /** Same key twice means the second send is skipped. */
   dedupeKey?: string
@@ -408,6 +465,10 @@ export async function sendTemplate({
     throw new Error(`Template "${template}" is missing fields: ${missing.join(', ')}`)
   }
 
+  const toList = (Array.isArray(to) ? to : [to]).map((t) => t.trim()).filter(Boolean)
+  if (!toList.length) throw new Error(`Template "${template}" has no recipient`)
+  const recipientLog = toList.join(',').toLowerCase()
+
   // Claim the send first. The unique index on (template, dedupe_key) means a
   // concurrent or repeated run loses the race and sends nothing. This must
   // stay a single INSERT that fails on the index — a SELECT-then-INSERT
@@ -417,7 +478,7 @@ export async function sendTemplate({
     try {
       const rows = await sql`
         insert into email_log (template, recipient_email, shortlist_id, order_id, dedupe_key, status)
-        values (${template}, ${to.toLowerCase()}, ${shortlistId ?? null}, ${orderId ?? null}, ${dedupeKey}, 'sent')
+        values (${template}, ${recipientLog}, ${shortlistId ?? null}, ${orderId ?? null}, ${dedupeKey}, 'sent')
         returning id`
       logId = rows[0].id
     } catch {
@@ -430,7 +491,7 @@ export async function sendTemplate({
   try {
     const res = await mailer().emails.send({
       from: FROM(),
-      to,
+      to: toList,
       replyTo: REPLY_TO(),
       subject,
       html,
@@ -446,7 +507,7 @@ export async function sendTemplate({
       } else {
         await sql`
           insert into email_log (template, recipient_email, shortlist_id, order_id, resend_id, status)
-          values (${template}, ${to.toLowerCase()}, ${shortlistId ?? null}, ${orderId ?? null}, ${res.data?.id ?? null}, 'sent')`
+          values (${template}, ${recipientLog}, ${shortlistId ?? null}, ${orderId ?? null}, ${res.data?.id ?? null}, 'sent')`
       }
     } catch {
       // ignore: logging only
@@ -459,7 +520,7 @@ export async function sendTemplate({
       if (logId) await sql`delete from email_log where id = ${logId}`
       await sql`
         insert into email_log (template, recipient_email, shortlist_id, order_id, status, error)
-        values (${template}, ${to.toLowerCase()}, ${shortlistId ?? null}, ${orderId ?? null}, 'failed', ${message.slice(0, 500)})`
+        values (${template}, ${recipientLog}, ${shortlistId ?? null}, ${orderId ?? null}, 'failed', ${message.slice(0, 500)})`
     } catch {
       // ignore: logging only
     }
@@ -467,4 +528,3 @@ export async function sendTemplate({
   }
 }
 
-export const internalRecipient = () => REPLY_TO()

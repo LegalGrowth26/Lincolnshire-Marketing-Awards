@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { sql } from '@/lib/db'
 import { getSettings, formatEventDate } from '@/lib/config'
-import { refreshOrderCompletion, firstName } from '@/lib/orders'
+import { refreshOrderCompletion, sendDetailsUpdatedAlert, firstName } from '@/lib/orders'
 import { sendTemplate } from '@/lib/email'
 
 export const runtime = 'nodejs'
@@ -116,6 +116,15 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
   }
 
   const result = await refreshOrderCompletion(order.id)
+
+  // Tell the organisers what changed. Deduped on order id + a hash of the
+  // guest details, so re-saving the same data sends nothing. The save has
+  // already succeeded, so an alert failure must not fail the response.
+  try {
+    await sendDetailsUpdatedAlert(order.id)
+  } catch (e) {
+    console.error('[booking] details-updated alert failed', order.id, e)
+  }
 
   if (result.justCompleted) {
     const settings = await getSettings()

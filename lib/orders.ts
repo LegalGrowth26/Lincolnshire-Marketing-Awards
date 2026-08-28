@@ -2,7 +2,8 @@ import 'server-only'
 import Stripe from 'stripe'
 import { sql } from './db'
 import { getSettings, siteUrl, formatEventDate, poundsFromPence } from './config'
-import { sendTemplate, internalRecipient } from './email'
+import { createHash } from 'node:crypto'
+import { sendTemplate, internalRecipients } from './email'
 
 let stripeClient: Stripe | null = null
 export function stripe(): Stripe {
@@ -235,15 +236,49 @@ export async function upsertOrderFromSession(
   return { order, created: true }
 }
 
+type GuestRow = {
+  seat_number: number
+  full_name: string | null
+  company: string | null
+  dietary_tags: string[] | null
+  dietary_notes: string | null
+  accessibility_notes?: string | null
+}
+
+/** One line per seat for the internal alerts. Unnamed seats say so plainly. */
+export function formatGuestLines(guests: GuestRow[]): string {
+  if (!guests.length) return 'No seats registered yet.'
+  return guests
+    .map((g) => {
+      const name = (g.full_name ?? '').trim()
+      if (!name) return `Seat ${g.seat_number}: not yet named`
+      const company = (g.company ?? '').trim()
+      const extras = [(g.dietary_tags ?? []).join(', '), (g.dietary_notes ?? '').trim()]
+        .filter(Boolean)
+        .join(' | ')
+      return (
+        `Seat ${g.seat_number}: ${name}` +
+        (company ? ` (${company})` : '') +
+        (extras ? ` — ${extras}` : '')
+      )
+    })
+    .join('\n')
+}
+
 /** Buyer confirmation plus the internal sale alert. Both deduped on order id. */
 export async function sendOrderEmails(orderId: string) {
   const settings = await getSettings()
 
   const orders = await sql`
-    select id, buyer_name, buyer_email, seats, ticket_type, amount_total, details_token
+    select id, buyer_name, buyer_company, buyer_email, buyer_phone,
+           seats, ticket_type, amount_total, details_token
     from orders where id = ${orderId}`
   const order = orders[0]
   if (!order) return
+
+  const guests: GuestRow[] = await sql`
+    select seat_number, full_name, company, dietary_tags, dietary_notes
+    from guests where order_id = ${orderId} order by seat_number`
 
   let summary: { seats_sold: number } | null = null
   try {
@@ -276,16 +311,70 @@ export async function sendOrderEmails(orderId: string) {
 
   await sendTemplate({
     template: 'internal_sale_alert',
-    to: internalRecipient(),
+    to: internalRecipients(),
     orderId: order.id,
     dedupeKey: `sale:${order.id}`,
     data: {
       buyer_name: order.buyer_name || 'Unknown',
+      buyer_company: order.buyer_company || '—',
       buyer_email: order.buyer_email,
+      buyer_phone: order.buyer_phone || '—',
       ticket_type_label: label,
       seats: order.seats,
       amount: poundsFromPence(Number(order.amount_total ?? 0)),
       seats_sold_total: Number(summary?.seats_sold ?? order.seats),
+      guest_list: formatGuestLines(guests),
+    },
+  })
+}
+
+/**
+ * Internal alert when a buyer changes or completes guest details after their
+ * booking was already paid. Deduped on the order id plus a hash of the guest
+ * details, so an unchanged save sends nothing and a real change sends once.
+ */
+export async function sendDetailsUpdatedAlert(orderId: string) {
+  const orders = await sql`
+    select id, buyer_name, buyer_company, buyer_email, seats, ticket_type
+    from orders where id = ${orderId} and status = 'paid'`
+  const order = orders[0]
+  if (!order) return
+
+  const guests: GuestRow[] = await sql`
+    select seat_number, full_name, company, dietary_tags, dietary_notes, accessibility_notes
+    from guests where order_id = ${orderId} order by seat_number`
+
+  const digest = createHash('sha256')
+    .update(
+      JSON.stringify(
+        guests.map((g) => [
+          g.seat_number,
+          (g.full_name ?? '').trim(),
+          (g.company ?? '').trim(),
+          [...(g.dietary_tags ?? [])].sort(),
+          (g.dietary_notes ?? '').trim(),
+          (g.accessibility_notes ?? '').trim(),
+        ]),
+      ),
+    )
+    .digest('hex')
+    .slice(0, 16)
+
+  const named = guests.filter((g) => (g.full_name ?? '').trim().length > 0).length
+
+  await sendTemplate({
+    template: 'internal_details_updated',
+    to: internalRecipients(),
+    orderId: order.id,
+    dedupeKey: `details:${order.id}:${digest}`,
+    data: {
+      buyer_name: order.buyer_name || order.buyer_email,
+      buyer_company: order.buyer_company || '—',
+      buyer_email: order.buyer_email,
+      ticket_type_label: ticketLabel(order.ticket_type as TicketType),
+      seats: Number(order.seats),
+      seats_named: named,
+      guest_list: formatGuestLines(guests),
     },
   })
 }
