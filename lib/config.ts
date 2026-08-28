@@ -11,6 +11,9 @@ export type Settings = {
   invite_reminder_days: number[]
   details_chase_days: number[]
   plan_email_days_before: number
+  /** Ticket prices in pence, ex VAT. */
+  ticket_price_single: number
+  ticket_price_table8: number
 }
 
 const DEFAULTS: Settings = {
@@ -23,6 +26,8 @@ const DEFAULTS: Settings = {
   invite_reminder_days: [5, 12, 21],
   details_chase_days: [3, 10, 21],
   plan_email_days_before: 7,
+  ticket_price_single: 9900, // £99 + VAT
+  ticket_price_table8: 69900, // £699 + VAT
 }
 
 export async function getSettings(): Promise<Settings> {
@@ -32,6 +37,11 @@ export async function getSettings(): Promise<Settings> {
     const data = await sql`select key, value from settings`
     const out: Record<string, unknown> = { ...DEFAULTS }
     for (const row of data) out[row.key] = row.value
+    // Prices must always be usable numbers; fall back on anything malformed.
+    for (const key of ['ticket_price_single', 'ticket_price_table8'] as const) {
+      const n = Number(out[key])
+      out[key] = Number.isFinite(n) && n > 0 ? n : DEFAULTS[key]
+    }
     return out as Settings
   } catch {
     return { ...DEFAULTS }
@@ -69,6 +79,22 @@ export function poundsFromPence(pence: number) {
   return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(
     (pence || 0) / 100,
   )
+}
+
+/** "£99" for whole pounds, "£87.38" otherwise. For displayed ticket prices. */
+export function priceDisplay(pence: number) {
+  const pounds = (pence || 0) / 100
+  return new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+    minimumFractionDigits: Number.isInteger(pounds) ? 0 : 2,
+    maximumFractionDigits: 2,
+  }).format(pounds)
+}
+
+/** Per-person pence for a table of 8, rounded to the nearest penny. */
+export function tablePerPersonPence(tablePence: number) {
+  return Math.round((tablePence || 0) / 8)
 }
 
 /** Whole days from today (UTC) to the event. Negative once it has passed. */

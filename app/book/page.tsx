@@ -1,7 +1,7 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { sql } from '@/lib/db'
-import { getSettings, formatEventDate } from '@/lib/config'
+import { getSettings, formatEventDate, priceDisplay, tablePerPersonPence } from '@/lib/config'
 import BookForm from './book-form'
 import type { TicketType } from '@/lib/orders'
 
@@ -58,7 +58,15 @@ export default async function BookPage({
           style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
         >
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <BookForm initialType={initialType} options={options} />
+            <BookForm
+              initialType={initialType}
+              options={options}
+              prices={{
+                single: priceDisplay(settings.ticket_price_single),
+                table8: priceDisplay(settings.ticket_price_table8),
+                perPerson: priceDisplay(tablePerPersonPence(settings.ticket_price_table8)),
+              }}
+            />
           </div>
         </div>
       </main>

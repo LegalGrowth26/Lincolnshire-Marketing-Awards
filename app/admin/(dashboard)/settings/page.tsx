@@ -29,6 +29,20 @@ export default async function SettingsPage() {
             type="number"
             defaultValue={String(s.capacity_seats)}
           />
+          <Field
+            label="Single ticket price, pence ex VAT"
+            name="ticket_price_single"
+            type="number"
+            defaultValue={String(s.ticket_price_single)}
+            hint="9900 = £99. Shown on the homepage, /tickets and /book."
+          />
+          <Field
+            label="Table of 8 price, pence ex VAT"
+            name="ticket_price_table8"
+            type="number"
+            defaultValue={String(s.ticket_price_table8)}
+            hint="69900 = £699. The per-person figure is worked out from this."
+          />
         </div>
 
         <div className="border-t border-neutral-100 pt-6">

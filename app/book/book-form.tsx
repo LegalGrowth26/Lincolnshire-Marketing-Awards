@@ -30,9 +30,11 @@ const inputClass = `mt-2 w-full border border-navy-200 bg-white rounded-sm px-3 
 export default function BookForm({
   initialType,
   options,
+  prices,
 }: {
   initialType: TicketType
   options: Option[]
+  prices: { single: string; table8: string; perPerson: string }
 }) {
   const [step, setStep] = useState<1 | 2>(1)
   const [ticketType, setTicketType] = useState<TicketType>(initialType)
@@ -127,10 +129,16 @@ export default function BookForm({
             <div className="grid sm:grid-cols-2 gap-4">
               {(
                 [
-                  ['single', 'Single ticket', 'One seat at a shared table.'],
-                  ['table8', 'Table of 8', 'Your own table for the team or clients.'],
+                  ['single', 'Single ticket', 'One seat at a shared table.', prices.single, null],
+                  [
+                    'table8',
+                    'Table of 8',
+                    'Your own table for the team or clients.',
+                    prices.table8,
+                    `Eight seats for under the price of seven, ${prices.perPerson} per person.`,
+                  ],
                 ] as const
-              ).map(([value, label, blurb]) => (
+              ).map(([value, label, blurb, price, priceNote]) => (
                 <button
                   key={value}
                   type="button"
@@ -144,7 +152,14 @@ export default function BookForm({
                   }
                 >
                   <span className="font-bold text-navy-900 block">{label}</span>
-                  <span className="text-sm text-gray-500 mt-1 block">{blurb}</span>
+                  <span className="block mt-1.5">
+                    <span className="text-xl font-bold text-navy-900">{price}</span>{' '}
+                    <span className="text-xs font-medium text-gray-500">+ VAT</span>
+                  </span>
+                  {priceNote && (
+                    <span className="text-xs text-gray-500 mt-1 block">{priceNote}</span>
+                  )}
+                  <span className="text-sm text-gray-500 mt-1.5 block">{blurb}</span>
                 </button>
               ))}
             </div>

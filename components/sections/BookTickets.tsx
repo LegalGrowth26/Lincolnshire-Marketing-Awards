@@ -1,8 +1,16 @@
+import { getSettings, priceDisplay, tablePerPersonPence } from '@/lib/config'
+
 /**
- * Closing call to action — book tickets for the awards night.
- * Reuses the deep navy gradient panel treatment used across the site.
+ * Closing call to action — book tickets for the awards night, with prices
+ * from settings. Reuses the deep navy gradient panel treatment used across
+ * the site.
  */
-export default function BookTickets() {
+export default async function BookTickets() {
+  const settings = await getSettings()
+  const single = priceDisplay(settings.ticket_price_single)
+  const table = priceDisplay(settings.ticket_price_table8)
+  const perPerson = priceDisplay(tablePerPersonPence(settings.ticket_price_table8))
+
   return (
     <section
       id="tickets-cta"
@@ -42,9 +50,27 @@ export default function BookTickets() {
               Thursday 10 September 2026 at the DoubleTree by Hilton, Lincoln.
               Arrival from 7:00pm, black tie. Winners revealed on the night.
             </p>
-            <p className="text-gray-500 text-sm max-w-lg mx-auto mb-8">
-              Single tickets and tables of 8 are available now.
-            </p>
+            <div className="flex flex-wrap justify-center gap-x-12 gap-y-5 mb-8">
+              <div>
+                <p className="text-gray-400 text-xs uppercase tracking-widest font-medium">
+                  Single ticket
+                </p>
+                <p className="text-white font-bold text-2xl mt-1">
+                  {single} <span className="text-sm font-medium text-gray-400">+ VAT</span>
+                </p>
+              </div>
+              <div>
+                <p className="text-gray-400 text-xs uppercase tracking-widest font-medium">
+                  Table of 8
+                </p>
+                <p className="text-white font-bold text-2xl mt-1">
+                  {table} <span className="text-sm font-medium text-gray-400">+ VAT</span>
+                </p>
+                <p className="text-gray-500 text-xs mt-1">
+                  Eight seats for under the price of seven, {perPerson} per person.
+                </p>
+              </div>
+            </div>
             <a href="/tickets" className="btn-gold-lg">
               Book Your Tickets
             </a>

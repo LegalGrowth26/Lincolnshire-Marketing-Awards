@@ -1,6 +1,6 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { getSettings, formatEventDate } from '@/lib/config'
+import { getSettings, formatEventDate, priceDisplay, tablePerPersonPence } from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
 export const metadata = {
@@ -63,6 +63,7 @@ export default async function TicketsPage() {
                 blurb="One seat at a shared table with other Lincolnshire businesses."
                 href="/book?type=single"
                 cta="Book a single ticket"
+                price={priceDisplay(settings.ticket_price_single)}
                 points={[
                   'One seat, drinks reception on arrival',
                   'Three course dinner',
@@ -76,6 +77,10 @@ export default async function TicketsPage() {
                 href="/book?type=table8"
                 cta="Book a table of 8"
                 featured
+                price={priceDisplay(settings.ticket_price_table8)}
+                priceNote={`Eight seats for under the price of seven, ${priceDisplay(
+                  tablePerPersonPence(settings.ticket_price_table8),
+                )} per person.`}
                 points={[
                   'Eight seats, your table to fill',
                   'Drinks reception and three course dinner',
@@ -137,6 +142,8 @@ function TicketCard({
   points,
   href,
   cta,
+  price,
+  priceNote,
   featured = false,
 }: {
   title: string
@@ -144,6 +151,8 @@ function TicketCard({
   points: string[]
   href: string
   cta: string
+  price: string
+  priceNote?: string
   featured?: boolean
 }) {
   return (
@@ -158,6 +167,13 @@ function TicketCard({
         </p>
       )}
       <h2 className="text-2xl font-bold text-navy-900 tracking-tight">{title}</h2>
+      <p className="mt-4">
+        <span className="text-3xl md:text-4xl font-bold text-navy-900 tracking-tight">
+          {price}
+        </span>{' '}
+        <span className="text-sm font-medium text-gray-500">+ VAT</span>
+      </p>
+      {priceNote && <p className="mt-1.5 text-xs text-gray-500">{priceNote}</p>}
       <p className="mt-3 text-charcoal-700 leading-7">{blurb}</p>
       <ul className="mt-6 space-y-2.5 text-sm text-charcoal-700">
         {points.map((p) => (

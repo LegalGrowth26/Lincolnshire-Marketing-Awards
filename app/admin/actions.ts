@@ -304,6 +304,8 @@ export async function saveSettings(form: FormData) {
     setSetting('arrival_time', str('arrival_time')),
     setSetting('dress_code', str('dress_code')),
     setSetting('capacity_seats', Number(str('capacity_seats')) || 200),
+    setSetting('ticket_price_single', Number(str('ticket_price_single')) || 9900),
+    setSetting('ticket_price_table8', Number(str('ticket_price_table8')) || 69900),
     setSetting('automation_enabled', form.get('automation_enabled') === 'on'),
     setSetting('invite_reminder_days', nums('invite_reminder_days')),
     setSetting('details_chase_days', nums('details_chase_days')),

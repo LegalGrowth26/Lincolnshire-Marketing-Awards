@@ -3,6 +3,10 @@ import Footer from '@/components/layout/Footer'
 import Shortlist from '@/components/sections/Shortlist'
 import BookTickets from '@/components/sections/BookTickets'
 
+// The tickets CTA shows prices from the settings table; refresh the cached
+// page every 5 minutes so admin changes show without a redeploy.
+export const revalidate = 300
+
 export const metadata = {
   title: 'The 2026 Shortlist | Lincolnshire Marketing Awards',
   description:
