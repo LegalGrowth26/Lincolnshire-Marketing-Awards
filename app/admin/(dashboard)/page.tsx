@@ -61,6 +61,8 @@ export default async function Dashboard() {
     gross_pence: Number(sRaw.gross_pence ?? 0),
     orders_complete: Number(sRaw.orders_complete ?? 0),
     orders_outstanding: Number(sRaw.orders_outstanding ?? 0),
+    // Present once migration 0004 has run; comped seats are inside seats_sold.
+    comped_seats: Number(sRaw.comped_seats ?? 0),
   }
   const cRaw = completion?.[0] ?? {}
   const c = {
@@ -136,7 +138,7 @@ export default async function Dashboard() {
         <Card
           label="Seats sold"
           value={String(s.seats_sold)}
-          sub={`${pct}% of ${capacity}`}
+          sub={`${pct}% of ${capacity}${s.comped_seats > 0 ? `, incl. ${s.comped_seats} comped` : ''}`}
           bar={pct}
         />
         <Card label="Gross revenue" value={poundsFromPence(s.gross_pence)} sub="Stripe, before fees" />

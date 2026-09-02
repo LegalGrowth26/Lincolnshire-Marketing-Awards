@@ -236,10 +236,13 @@ async function sendDetailsChases(s: Settings): Promise<TaskResult> {
   const out = empty()
   const schedule = s.details_chase_days ?? []
 
+  // Comped bookings (amount 0, no Stripe session) are managed by hand on
+  // /admin/guests and never chased — their buyer_email may be a placeholder.
   const orders = await sql`
     select id, buyer_name, buyer_email, seats, created_at, details_chase_count, details_token
     from orders
-    where status = 'paid' and details_completed_at is null`
+    where status = 'paid' and details_completed_at is null
+      and not (coalesce(amount_total, 0) = 0 and stripe_session_id is null)`
 
   for (const order of orders ?? []) {
     const n = order.details_chase_count ?? 0
@@ -298,8 +301,11 @@ async function sendEventPlan(s: Settings): Promise<TaskResult> {
   const left = daysUntil(s.event_date)
   if (left !== s.plan_email_days_before) return out
 
+  // Comped bookings do get the plan when a real email was recorded; the
+  // 'comped+' prefix marks the generated placeholder addresses.
   const orders = await sql`
-    select id, buyer_name, buyer_email from orders where status = 'paid'`
+    select id, buyer_name, buyer_email from orders
+    where status = 'paid' and buyer_email not like 'comped+%'`
 
   for (const order of orders ?? []) {
     const res = await sendTemplate({

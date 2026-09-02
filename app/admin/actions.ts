@@ -285,6 +285,48 @@ export async function setOrderSeats(orderId: string, seats: number) {
   revalidatePath('/admin/guests')
 }
 
+/**
+ * Comped booking: compere, judges, guests of the organisers. Stored as a paid
+ * order with amount_total = 0 and no stripe_session_id — a combination a real
+ * Stripe sale can never produce, so it doubles as the comped marker. Seats
+ * count toward capacity, guest completion and dietary totals (all keyed on
+ * status = 'paid'); revenue sums amount_total, so it gains nothing.
+ */
+export async function createCompedBooking(input: {
+  name: string
+  company?: string
+  email?: string
+  seats: number
+}): Promise<{ ok: true } | { error: string }> {
+  await requireAdmin()
+
+  const name = (input.name ?? '').trim()
+  const seats = Number(input.seats)
+  if (!name) return { error: 'A name is required.' }
+  if (!Number.isInteger(seats) || seats < 1 || seats > 40) {
+    return { error: 'Seats must be between 1 and 40.' }
+  }
+  const company = (input.company ?? '').trim() || null
+  const emailRaw = (input.email ?? '').trim().toLowerCase()
+  if (emailRaw && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(emailRaw)) {
+    return { error: 'That email does not look right.' }
+  }
+  // buyer_email is NOT NULL; a marked placeholder keeps the automation from
+  // ever emailing a comped booking that has no real address.
+  const email =
+    emailRaw || `comped+${crypto.randomUUID().slice(0, 8)}@lincolnshiremarketingawards.co.uk`
+
+  await sql`
+    insert into orders (ticket_type, seats, amount_total, currency, buyer_name,
+                        buyer_company, buyer_email, status, paid_at)
+    values ('single', ${seats}, 0, 'gbp', ${name}, ${company}, ${email}, 'paid',
+            ${new Date().toISOString()})`
+
+  revalidatePath('/admin/guests')
+  revalidatePath('/admin')
+  return { ok: true }
+}
+
 // ---------------------------------------------------------------------------
 // Settings and automation
 // ---------------------------------------------------------------------------

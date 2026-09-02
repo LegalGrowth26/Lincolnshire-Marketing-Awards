@@ -5,13 +5,15 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
 /**
- * The file that goes to the venue.
- * Names and dietary needs only. No category, no score, no result. This is
- * deliberate, do not add columns without checking docs/CONFIDENTIAL.md.
+ * The file that goes to the venue: every attending person (paid bookings,
+ * comped included) with name, company, dietary requirement, access notes and
+ * the booking they sit on. Nothing else — no category, no score, no result,
+ * no email addresses. This is deliberate, do not add columns without checking
+ * docs/CONFIDENTIAL.md.
  */
 export async function GET() {
   const data = await sql`
-    select g.seat_number, g.full_name, g.company, g.dietary_tags, g.dietary_notes,
+    select g.full_name, g.company, g.dietary_tags, g.dietary_notes,
            g.accessibility_notes, o.buyer_name, o.buyer_company, o.status
     from guests g
     inner join orders o on o.id = g.order_id
@@ -19,26 +21,20 @@ export async function GET() {
 
   const rows = data.filter((g) => g.status === 'paid')
 
-  const header = [
-    'Table or booking',
-    'Seat',
-    'Guest name',
-    'Company',
-    'Dietary requirements',
-    'Dietary notes',
-    'Access notes',
-  ]
+  const header = ['Booking', 'Guest name', 'Company', 'Dietary requirement', 'Access notes']
 
   const lines = [header.map(csv).join(',')]
   for (const g of rows) {
+    const dietary = [(g.dietary_tags ?? []).filter((t: string) => t !== 'none').join('; '),
+      g.dietary_notes || '']
+      .filter(Boolean)
+      .join(' | ')
     lines.push(
       [
         g.buyer_company || g.buyer_name || '',
-        String(g.seat_number),
-        g.full_name || '',
+        g.full_name || 'Not yet named',
         g.company || '',
-        (g.dietary_tags ?? []).join('; '),
-        g.dietary_notes || '',
+        dietary,
         g.accessibility_notes || '',
       ]
         .map(csv)
