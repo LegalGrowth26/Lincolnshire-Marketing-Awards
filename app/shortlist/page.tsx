@@ -1,5 +1,6 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import DeadlineNotice from '@/components/sections/DeadlineNotice'
 import Shortlist from '@/components/sections/Shortlist'
 import BookTickets from '@/components/sections/BookTickets'
 
@@ -18,6 +19,7 @@ export default function ShortlistPage() {
     <>
       <Header />
       <main id="main-content" className="pt-16 md:pt-20">
+        <DeadlineNotice />
         <Shortlist />
         <BookTickets />
       </main>

@@ -2,11 +2,12 @@
 // page every 5 minutes so admin changes show without a redeploy.
 export const revalidate = 300
 
-import Header      from '@/components/layout/Header'
-import Footer      from '@/components/layout/Footer'
-import Hero        from '@/components/sections/Hero'
-import Shortlist   from '@/components/sections/Shortlist'
-import BookTickets from '@/components/sections/BookTickets'
+import Header         from '@/components/layout/Header'
+import Footer         from '@/components/layout/Footer'
+import Hero           from '@/components/sections/Hero'
+import DeadlineNotice from '@/components/sections/DeadlineNotice'
+import Shortlist      from '@/components/sections/Shortlist'
+import BookTickets    from '@/components/sections/BookTickets'
 
 export default function HomePage() {
   return (
@@ -24,6 +25,7 @@ export default function HomePage() {
         </a>
 
         <Hero />
+        <DeadlineNotice />
         <Shortlist />
         <BookTickets />
       </main>

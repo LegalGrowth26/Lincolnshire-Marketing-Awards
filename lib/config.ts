@@ -56,6 +56,22 @@ export async function setSetting(key: string, value: unknown) {
       set value = excluded.value, updated_at = excluded.updated_at`
 }
 
+/**
+ * The single switch for the public booking cut-off. BOOKING_DEADLINE is an
+ * ISO datetime; 2026-09-04T11:00:00Z is 12 noon UK time on Friday
+ * 4 September 2026. Nothing needs switching off by hand — the public flow
+ * closes itself the moment this passes. Admin paths ignore it entirely.
+ */
+export function bookingDeadline(): Date {
+  const fallback = '2026-09-04T11:00:00Z'
+  const d = new Date(process.env.BOOKING_DEADLINE || fallback)
+  return Number.isNaN(d.getTime()) ? new Date(fallback) : d
+}
+
+export function bookingClosed(): boolean {
+  return Date.now() >= bookingDeadline().getTime()
+}
+
 export const siteUrl = () =>
   (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000').replace(/\/$/, '')
 

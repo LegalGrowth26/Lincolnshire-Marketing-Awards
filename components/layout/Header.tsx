@@ -6,6 +6,7 @@ import Logo from '@/components/ui/Logo'
 
 const navLinks = [
   { label: 'Shortlist', href: '/#shortlist' },
+  { label: 'Judges',    href: '/judges' },
   { label: 'Tickets',   href: '/tickets' },
 ]
 

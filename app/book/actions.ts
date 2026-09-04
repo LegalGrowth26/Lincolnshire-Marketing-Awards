@@ -3,7 +3,7 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { sql } from '@/lib/db'
-import { ticketUrls } from '@/lib/config'
+import { ticketUrls, bookingClosed } from '@/lib/config'
 import type { TicketType } from '@/lib/orders'
 
 export type BookSeatInput = {
@@ -54,6 +54,15 @@ function clean(v: string | undefined, max: number) {
  * payment, via the redirect and the confirmation email.
  */
 export async function startBooking(input: BookInput): Promise<{ error: string }> {
+  // Hard server-side cut-off: hiding the form is not enough. Admin paths
+  // (comped bookings, added seats) live elsewhere and ignore the deadline.
+  if (bookingClosed()) {
+    return {
+      error:
+        'Ticket sales have now closed. If you still hope to join us on 10 September, email charlotte@lincolnshiremarketing.co.uk and we will do what we can.',
+    }
+  }
+
   const hdrs = await headers()
   const ip = (hdrs.get('x-forwarded-for') ?? 'unknown').split(',')[0].trim()
   if (throttled(ip)) {

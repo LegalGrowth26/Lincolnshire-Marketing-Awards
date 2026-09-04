@@ -211,14 +211,15 @@ export async function upsertOrderFromSession(
       insert into orders (
         stripe_session_id, stripe_payment_intent, ticket_type,
         seats, amount_total, currency, buyer_name, buyer_email, buyer_phone,
-        shortlist_id, status
+        shortlist_id, status, paid_at
       ) values (
         ${session.id},
         ${typeof session.payment_intent === 'string' ? session.payment_intent : null},
         ${ticketType}, ${seats}, ${session.amount_total ?? 0},
         ${session.currency ?? 'gbp'}, ${session.customer_details?.name ?? null},
         ${email.toLowerCase()}, ${session.customer_details?.phone ?? null},
-        ${shortlistId}, 'paid'
+        ${shortlistId}, 'paid',
+        ${session.created ? new Date(session.created * 1000).toISOString() : new Date().toISOString()}
       )
       returning id, details_token, buyer_email, seats, ticket_type, buyer_name, amount_total`
     order = inserted[0]

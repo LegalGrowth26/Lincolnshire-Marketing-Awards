@@ -1,6 +1,13 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import { getSettings, formatEventDate, priceDisplay, tablePerPersonPence } from '@/lib/config'
+import DeadlineNotice, { BookingClosedPanel } from '@/components/sections/DeadlineNotice'
+import {
+  getSettings,
+  formatEventDate,
+  priceDisplay,
+  tablePerPersonPence,
+  bookingClosed,
+} from '@/lib/config'
 
 export const dynamic = 'force-dynamic'
 export const metadata = {
@@ -11,6 +18,7 @@ export const metadata = {
 
 export default async function TicketsPage() {
   const settings = await getSettings()
+  const closed = bookingClosed()
 
   return (
     <>
@@ -52,11 +60,17 @@ export default async function TicketsPage() {
           </div>
         </header>
 
+        {!closed && <DeadlineNotice />}
+
         <section
           className="section-py"
           style={{ background: 'linear-gradient(160deg, #f8faff 0%, #eef3fb 50%, #f5f8ff 100%)' }}
         >
           <div className="container-wide max-w-5xl">
+            {closed ? (
+              <BookingClosedPanel />
+            ) : (
+              <>
             <div className="grid md:grid-cols-2 gap-6">
               <TicketCard
                 title="Single ticket"
@@ -119,6 +133,8 @@ export default async function TicketsPage() {
                 </a>
               </p>
             </div>
+              </>
+            )}
           </div>
         </section>
       </main>

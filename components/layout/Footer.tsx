@@ -3,6 +3,7 @@ import Logo from '@/components/ui/Logo'
 
 const quickLinks = [
   { label: 'The 2026 Shortlist', href: '/#shortlist' },
+  { label: 'The Judging Panel',  href: '/judges' },
   { label: 'Book Your Tickets',  href: '/tickets' },
 ]
 

@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import { sql } from '@/lib/db'
-import { getSettings, poundsFromPence, formatEventDate, daysUntil } from '@/lib/config'
+import {
+  getSettings,
+  poundsFromPence,
+  formatEventDate,
+  daysUntil,
+  bookingDeadline,
+} from '@/lib/config'
 import {
   RunJobsButton,
   SyncStripeButton,
@@ -43,7 +49,7 @@ export default async function Dashboard() {
         order by o.created_at`),
       safe(sql`
         select id, buyer_name, buyer_email, seats, ticket_type, amount_total,
-               created_at, details_completed_at, status
+               created_at, paid_at, details_completed_at, status
         from orders order by created_at desc limit 20`),
       safe(sql`
         select id, template, recipient_email, status, sent_at, error
@@ -396,6 +402,16 @@ export default async function Dashboard() {
                           {o.status}
                         </span>
                       )}
+                      {/* Late flag: real payments only — comped bookings (amount 0)
+                          are the sanctioned admin path after the cut-off. */}
+                      {o.status === 'paid' &&
+                        Number(o.amount_total ?? 0) > 0 &&
+                        new Date(o.paid_at ?? o.created_at).getTime() >
+                          bookingDeadline().getTime() && (
+                          <span className="ml-2 text-xs font-semibold uppercase tracking-wider bg-red-100 text-red-800 px-2 py-0.5 rounded-full">
+                            Paid after deadline
+                          </span>
+                        )}
                     </p>
                     <p className="text-sm text-neutral-500">
                       {o.ticket_type === 'table8' ? 'Table of 8' : 'Single ticket'} &middot;{' '}
