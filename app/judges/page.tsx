@@ -80,15 +80,6 @@ export default function JudgesPage() {
                   <h3 className="font-bold text-navy-900 text-base tracking-tight">
                     {judge.name}
                   </h3>
-                  <p className="text-sm text-gray-500 mt-1.5">
-                    {judge.role && judge.organisation
-                      ? `${judge.role}, ${judge.organisation}`
-                      : judge.role || judge.organisation || (
-                          <span className="italic text-gray-400">
-                            Role and organisation to follow
-                          </span>
-                        )}
-                  </p>
                 </div>
               ))}
             </div>
