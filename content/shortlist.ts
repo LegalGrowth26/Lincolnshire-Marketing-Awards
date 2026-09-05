@@ -135,10 +135,10 @@ export const shortlist: ShortlistCategory[] = [
   {
     category: "Business Recognition Award",
     entries: [
-      { name: "Tommy Findlay", detail: "Surprise Shirts" },
+      { name: "Louis Jones", detail: "Surprise Shirts" },
       { name: "Bobby Copping", detail: "Lincoln City" },
       { name: "Robert Drury" },
-      { name: "Emmalee Cullum" },
+      { name: "Jessica Munn", detail: "Snuggle and Stroll" },
       { name: "Paul Green", detail: "Business Unfinished" },
       { name: "Claire Lockey" },
     ],
