@@ -3,15 +3,13 @@ import { join } from 'node:path'
 import { notFound } from 'next/navigation'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import PhotoGallery from '@/components/sections/PhotoGallery'
 import { AWARD_YEARS, getAwardYear } from '@/content/awards'
 
 /** Logo files are supplied by the organisers; until one exists the grid shows a name plate. */
 function logoExists(logo: string) {
   return existsSync(join(process.cwd(), 'public', logo))
 }
-
-const GALLERY_URL =
-  'https://cvphotos.photoshelter.com/gallery/260910-Lincolnshire-Marketing-Awards/G0000zjUAZHbk5S0'
 
 export const dynamicParams = false
 
@@ -62,6 +60,9 @@ export default function WinnersYearPage({ params }: { params: { year: string } }
             </p>
           </div>
         </header>
+
+        {/* Photographs first — it is what most visitors are here for */}
+        <PhotoGallery />
 
         {/* Results */}
         <section
@@ -129,63 +130,6 @@ export default function WinnersYearPage({ params }: { params: { year: string } }
               winner, and to every shortlisted business — being shortlisted was an achievement
               in itself.
             </p>
-          </div>
-        </section>
-
-        {/* Photographs */}
-        <section
-          aria-labelledby="photos-heading"
-          className="section-py"
-          style={{ background: 'linear-gradient(160deg, #f5f8ff 0%, #eef3fb 100%)' }}
-        >
-          <div className="container-wide">
-            <div
-              className="rounded-sm p-8 md:p-14 text-center relative overflow-hidden"
-              style={{
-                background: 'linear-gradient(145deg, #040f2e 0%, #071d52 40%, #0a2d6e 100%)',
-                boxShadow: '0 0 60px rgba(40,200,255,0.06) inset',
-              }}
-            >
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: 'radial-gradient(ellipse 600px 300px at 50% 0%, rgba(40,200,255,0.07) 0%, transparent 70%)',
-                }}
-              />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(201,168,76,0.08) 1px, transparent 0)',
-                  backgroundSize: '30px 30px',
-                }}
-              />
-              <div className="relative z-10">
-                <span className="section-label">The Night</span>
-                <h2 id="photos-heading" className="section-title-white mb-4">
-                  Photographs from the Night
-                </h2>
-                <p className="text-gray-400 max-w-xl mx-auto mb-8 leading-relaxed">
-                  Photographs from the evening are by Chris Vaughan Photography and are ready
-                  to download.
-                </p>
-                <a
-                  href={GALLERY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-gold-lg"
-                >
-                  View the Gallery
-                </a>
-                <p className="text-gray-400 text-sm mt-5">
-                  Password: <span className="font-semibold text-white">LMA26</span>
-                </p>
-                <p className="text-gray-500 text-xs mt-4">
-                  All photography &copy; Chris Vaughan Photography.
-                </p>
-              </div>
-            </div>
           </div>
         </section>
 

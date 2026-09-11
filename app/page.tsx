@@ -1,8 +1,9 @@
-import Header     from '@/components/layout/Header'
-import Footer     from '@/components/layout/Footer'
-import Hero       from '@/components/sections/Hero'
-import Shortlist  from '@/components/sections/Shortlist'
-import WinnersCta from '@/components/sections/WinnersCta'
+import Header       from '@/components/layout/Header'
+import Footer       from '@/components/layout/Footer'
+import Hero         from '@/components/sections/Hero'
+import PhotoGallery from '@/components/sections/PhotoGallery'
+import Shortlist    from '@/components/sections/Shortlist'
+import WinnersCta   from '@/components/sections/WinnersCta'
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
         </a>
 
         <Hero />
+        <PhotoGallery />
         <Shortlist />
         <WinnersCta />
       </main>
