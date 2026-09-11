@@ -1,6 +1,6 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
-import BookTickets from '@/components/sections/BookTickets'
+import WinnersCta from '@/components/sections/WinnersCta'
 import { judges } from '@/content/judges'
 
 export const metadata = {
@@ -8,10 +8,6 @@ export const metadata = {
   description:
     'The independent judging panel behind the Lincolnshire Marketing Awards 2026. Three judges per entry, scored on merit alone.',
 }
-
-// The tickets CTA shows prices from the settings table; refresh the cached
-// page every 5 minutes so admin changes show without a redeploy.
-export const revalidate = 300
 
 /** "Dr Islam Gouda" -> "IG"; honorifics don't belong in an avatar. */
 function initials(name: string) {
@@ -92,7 +88,7 @@ export default function JudgesPage() {
           </div>
         </section>
 
-        <BookTickets />
+        <WinnersCta />
       </main>
       <Footer />
     </>

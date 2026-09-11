@@ -2,9 +2,9 @@ import Link from 'next/link'
 import Logo from '@/components/ui/Logo'
 
 const quickLinks = [
+  { label: 'The 2026 Winners',   href: '/winners/2026' },
   { label: 'The 2026 Shortlist', href: '/#shortlist' },
   { label: 'The Judging Panel',  href: '/judges' },
-  { label: 'Book Your Tickets',  href: '/tickets' },
 ]
 
 const extraLinks = [
@@ -132,8 +132,8 @@ export default function Footer() {
                 </a>
               </p>
             </address>
-            <a href="/tickets" className="btn-outline-gold text-xs py-2.5 px-5 block text-center">
-              Book Your Tickets
+            <a href="/winners/2026" className="btn-outline-gold text-xs py-2.5 px-5 block text-center">
+              View the 2026 Winners
             </a>
             <div className="mt-3">
               <Link

@@ -191,15 +191,15 @@ export default function Hero() {
           className="text-gray-400 leading-relaxed mb-11"
           style={{ fontSize: 'clamp(0.9rem, 1.2vw, 1rem)', maxWidth: '60ch' }}
         >
-          The shortlist is set and winners are revealed on the night. Join us for
-          the black-tie awards dinner on Thursday 10 September 2026 at the
-          DoubleTree by Hilton, Lincoln. Arrival from 7:00pm.
+          The winners of the 2026 awards were revealed at the black-tie dinner on
+          Thursday 10 September at the DoubleTree by Hilton, Lincoln.
+          Congratulations to every winner, and to every shortlisted business.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <a href="/tickets" className="btn-primary-lg">
-            Book Your Tickets
+          <a href="/winners/2026" className="btn-primary-lg">
+            View the 2026 Winners
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
@@ -215,10 +215,10 @@ export default function Hero() {
           style={{ borderTop: '1px solid rgba(40,200,255,0.1)' }}
         >
           {[
-            ['Thu 10 Sept',           'Awards Night 2026'],
+            ['15',                    'Award Categories'],
+            ['3 Judges',              'Per Entry'],
+            ['10 Sept 2026',          'Awards Night'],
             ['DoubleTree by Hilton',  'Lincoln'],
-            ['From 7:00pm',           'Arrival'],
-            ['Black Tie',             'Dress Code'],
           ].map(([val, label]) => (
             <div key={label}>
               <div

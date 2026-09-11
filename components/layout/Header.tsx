@@ -3,12 +3,98 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/ui/Logo'
+import { AWARD_YEARS } from '@/content/awards'
 
 const navLinks = [
-  { label: 'Shortlist', href: '/#shortlist' },
-  { label: 'Judges',    href: '/judges' },
-  { label: 'Tickets',   href: '/tickets' },
+  { label: 'Judges', href: '/judges' },
 ]
+
+/**
+ * The Winners nav item. Data-driven from content/awards: with one year it
+ * renders as a plain link; the moment a second year is added to the index it
+ * becomes a dropdown listing every year, newest first. No rebuild of this
+ * component needed next September.
+ */
+function WinnersNavItem({
+  mobile = false,
+  onNavigate,
+}: {
+  mobile?: boolean
+  onNavigate?: () => void
+}) {
+  const [open, setOpen] = useState(false)
+  const linkClass = mobile
+    ? `px-4 py-3 text-gray-300 hover:text-white hover:bg-navy-800
+       text-sm font-medium rounded-sm transition-colors`
+    : `px-3.5 py-2 text-white/80 hover:text-white text-sm font-medium
+       transition-colors duration-150 rounded-sm`
+
+  if (AWARD_YEARS.length === 1) {
+    return (
+      <Link href={`/winners/${AWARD_YEARS[0].year}`} onClick={onNavigate} className={linkClass}>
+        Winners
+      </Link>
+    )
+  }
+
+  if (mobile) {
+    return (
+      <>
+        {AWARD_YEARS.map((y) => (
+          <Link
+            key={y.year}
+            href={`/winners/${y.year}`}
+            onClick={onNavigate}
+            className={linkClass}
+          >
+            Winners {y.year}
+          </Link>
+        ))}
+      </>
+    )
+  }
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="menu"
+        onClick={() => setOpen((v) => !v)}
+        className={`${linkClass} inline-flex items-center gap-1`}
+      >
+        Winners
+        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+      {open && (
+        <div
+          role="menu"
+          className="absolute left-0 top-full pt-1 min-w-[9rem] z-50"
+        >
+          <div className="bg-navy-900 border border-navy-800 rounded-sm py-1 shadow-lg">
+            {AWARD_YEARS.map((y) => (
+              <Link
+                key={y.year}
+                href={`/winners/${y.year}`}
+                role="menuitem"
+                onClick={() => setOpen(false)}
+                className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-navy-800"
+              >
+                {y.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -51,6 +137,7 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-1">
+            <WinnersNavItem />
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -72,8 +159,8 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
-            <a href="/tickets" className="btn-gold text-xs py-2.5 px-5">
-              Book Your Tickets
+            <a href="/winners/2026" className="btn-gold text-xs py-2.5 px-5">
+              2026 Winners
             </a>
           </div>
 
@@ -106,6 +193,7 @@ export default function Header() {
         }`}
       >
         <div className="container-wide py-4 flex flex-col gap-1">
+          <WinnersNavItem mobile onNavigate={closeMenu} />
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -126,8 +214,8 @@ export default function Header() {
             Sponsorship
           </Link>
           <div className="pt-3 border-t border-navy-800 mt-2">
-            <a href="/tickets" onClick={closeMenu} className="btn-gold w-full text-center text-xs py-3">
-              Book Your Tickets
+            <a href="/winners/2026" onClick={closeMenu} className="btn-gold w-full text-center text-xs py-3">
+              2026 Winners
             </a>
           </div>
         </div>

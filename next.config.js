@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      // The shortlist link is out in the world; the results page carries the
+      // full shortlist for the year, so send people straight there.
+      { source: '/shortlist', destination: '/winners/2026', statusCode: 301 },
+    ]
+  },
   async headers() {
     return [
       {

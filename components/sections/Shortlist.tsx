@@ -37,7 +37,11 @@ export default function Shortlist() {
           </h2>
           <p className="section-body">
             Independently judged, three judges per entry, scored on merit alone.
-            Winners are revealed at the black-tie awards dinner on 10 September 2026.
+            Winners were revealed at the black-tie awards dinner on 10 September 2026 —{' '}
+            <a href="/winners/2026" className="font-semibold text-navy-900 underline underline-offset-2">
+              see the full results
+            </a>
+            .
           </p>
         </div>
 
@@ -72,8 +76,12 @@ export default function Shortlist() {
         </div>
 
         <p className="text-center text-sm text-gray-400 mt-14">
-          Winners are announced on the night. Nobody knows the results in advance,
-          including the shortlisted businesses.
+          Being shortlisted was an achievement in itself. The winners and highly commended
+          in every category are on the{' '}
+          <a href="/winners/2026" className="underline underline-offset-2 hover:text-gray-600">
+            2026 winners page
+          </a>
+          .
         </p>
       </div>
     </section>
