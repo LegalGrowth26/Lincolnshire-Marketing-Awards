@@ -5,6 +5,7 @@ const quickLinks = [
   { label: 'The 2026 Winners',   href: '/winners/2026' },
   { label: 'The 2026 Shortlist', href: '/#shortlist' },
   { label: 'The Judging Panel',  href: '/judges' },
+  { label: 'Tell Us What You Thought', href: '/feedback' },
 ]
 
 const extraLinks = [

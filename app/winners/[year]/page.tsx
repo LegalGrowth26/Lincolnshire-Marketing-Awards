@@ -187,6 +187,19 @@ export default function WinnersYearPage({ params }: { params: { year: string } }
             <p className="text-center text-sm text-gray-500 mt-12 max-w-xl mx-auto">
               Without all of these moving parts, we could not have run the event.
             </p>
+
+            {/* Feedback — deliberately below the results and photographs */}
+            <div className="text-center mt-16 pt-12 border-t border-navy-100">
+              <p className="text-charcoal-700 font-semibold mb-4">
+                Were you there on the night? Tell us what you thought.
+              </p>
+              <a href="/feedback" className="btn-outline-navy">
+                Give Your Feedback
+              </a>
+              <p className="text-xs text-gray-400 mt-3">
+                Two minutes, and anonymous unless you choose otherwise.
+              </p>
+            </div>
           </div>
         </section>
       </main>
