@@ -15,6 +15,7 @@ export const AWARDS_2026 = {
     { name: 'Allen Signs', role: 'Trophies', logo: '/sponsors/allen-signs.png' },
     { name: 'Impact Employment Law', role: 'Entertainment', logo: '/sponsors/impact-employment-law.png' },
     { name: 'Chris Vaughan Photography', role: 'Photography', logo: '/sponsors/chris-vaughan-photography.png' },
+    { name: 'Picturematic', role: 'Photobooth', logo: '/sponsors/picturematic.png' },
     { name: 'Scott Perry Magic', role: 'Magician', logo: '/sponsors/scott-perry-magic.png' },
     { name: 'Total Audio Solutions', role: 'Audio', logo: '/sponsors/total-audio-solutions.png' },
     { name: 'Robert Drury, Andy Wilson Financial Services', role: 'Our compere', logo: '/sponsors/robert-drury.png' },
